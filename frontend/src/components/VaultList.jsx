@@ -13,16 +13,21 @@ import {
 } from 'react-icons/hi2'
 import { 
   serializeCV,
-  uintCV
+  uintCV,
+  makeUnsignedContractCall,
+  PostConditionMode,
+  makeStandardSTXPostCondition,
+  FungibleConditionCode,
+  AnchorMode,
 } from '@stacks/transactions'
 import toast from 'react-hot-toast'
 import { useVaults, CONTRACT_ADDRESS, CONTRACT_NAME } from '../hooks/useContract'
 import { useWallet } from '../context/WalletContext'
 import { toMicroSTX, blocksToTime, formatNumber } from '../utils/helpers'
-import { wcCallContract } from '../utils/walletconnect'
+import { wcCallContract, wcSignTransaction } from '../utils/walletconnect'
 
 const VaultList = () => {
-  const { isConnected, connectWallet } = useWallet()
+  const { isConnected, connectWallet, address, publicKey, network } = useWallet()
   const [selectedVault, setSelectedVault] = useState(null)
   const [actionType, setActionType] = useState('deposit')
   const [amount, setAmount] = useState('')
@@ -96,7 +101,42 @@ const VaultList = () => {
 
   const cvToWcArg = (cv) => `0x${bytesToHex(serializeCV(cv))}`
 
+  const txToHex = (tx) => `0x${bytesToHex(tx.serialize())}`
+
   const contractId = `${CONTRACT_ADDRESS}.${CONTRACT_NAME}`
+
+  const canBuildAndSign = !!publicKey && !!address
+
+  const signAndBroadcastOrFallback = async ({ functionName, functionArgs, postConditions, postConditionMode }) => {
+    // Preferred (your architecture rules): build unsigned tx in-app then ask wallet to sign/broadcast
+    if (canBuildAndSign) {
+      const unsignedTx = await makeUnsignedContractCall({
+        contractAddress: CONTRACT_ADDRESS,
+        contractName: CONTRACT_NAME,
+        functionName,
+        functionArgs,
+        network,
+        anchorMode: AnchorMode.Any,
+        postConditions,
+        postConditionMode,
+        publicKey,
+      })
+
+      const res = await wcSignTransaction({
+        transaction: txToHex(unsignedTx),
+        broadcast: true,
+        network: 'mainnet',
+      })
+      return res
+    }
+
+    // Fallback: wallet builds tx (works even if wallet doesn't expose publicKey via stx_getAddresses)
+    return wcCallContract({
+      contract: contractId,
+      functionName,
+      functionArgs: functionArgs.map(cvToWcArg),
+    })
+  }
 
   const handleDeposit = async (vault) => {
     if (!isConnected) {
@@ -114,10 +154,15 @@ const VaultList = () => {
     try {
       const amountInMicroSTX = BigInt(toMicroSTX(amount))
 
-      const res = await wcCallContract({
-        contract: contractId,
+      const postConditions = [
+        makeStandardSTXPostCondition(address, FungibleConditionCode.LessEqual, amountInMicroSTX)
+      ]
+
+      const res = await signAndBroadcastOrFallback({
         functionName: 'deposit',
-        functionArgs: [cvToWcArg(uintCV(vault.id)), cvToWcArg(uintCV(amountInMicroSTX))],
+        functionArgs: [uintCV(vault.id), uintCV(amountInMicroSTX)],
+        postConditionMode: PostConditionMode.Deny,
+        postConditions,
       })
 
       toast.success(`Deposit submitted${res?.txid ? `: ${res.txid}` : ''}`)
@@ -148,10 +193,11 @@ const VaultList = () => {
     try {
       const sharesAmount = BigInt(toMicroSTX(amount))
 
-      const res = await wcCallContract({
-        contract: contractId,
+      const res = await signAndBroadcastOrFallback({
         functionName: 'withdraw',
-        functionArgs: [cvToWcArg(uintCV(vault.id)), cvToWcArg(uintCV(sharesAmount))],
+        functionArgs: [uintCV(vault.id), uintCV(sharesAmount)],
+        postConditionMode: PostConditionMode.Allow,
+        postConditions: [],
       })
 
       toast.success(`Withdrawal submitted${res?.txid ? `: ${res.txid}` : ''}`)
@@ -179,10 +225,11 @@ const VaultList = () => {
     setIsLoading(true)
 
     try {
-      const res = await wcCallContract({
-        contract: contractId,
+      const res = await signAndBroadcastOrFallback({
         functionName: 'emergency-withdraw',
-        functionArgs: [cvToWcArg(uintCV(vault.id))],
+        functionArgs: [uintCV(vault.id)],
+        postConditionMode: PostConditionMode.Allow,
+        postConditions: [],
       })
 
       toast.success(`Emergency withdrawal submitted${res?.txid ? `: ${res.txid}` : ''}`)
@@ -205,10 +252,11 @@ const VaultList = () => {
     setIsLoading(true)
 
     try {
-      const res = await wcCallContract({
-        contract: contractId,
+      const res = await signAndBroadcastOrFallback({
         functionName: 'compound',
-        functionArgs: [cvToWcArg(uintCV(vault.id))],
+        functionArgs: [uintCV(vault.id)],
+        postConditionMode: PostConditionMode.Allow,
+        postConditions: [],
       })
 
       toast.success(`Compound submitted${res?.txid ? `: ${res.txid}` : ''}`)

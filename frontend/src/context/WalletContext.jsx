@@ -1,10 +1,10 @@
-import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react'
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react'
 import { StacksMainnet } from '@stacks/network'
 import {
-  getStacksAddressFromSession,
   wcConnect,
   wcDisconnect,
   wcOnDisplayUri,
+  wcGetAddresses,
 } from '../utils/walletconnect'
 
 // Contract configuration
@@ -20,13 +20,13 @@ const WalletContext = createContext(null)
 
 export const WalletProvider = ({ children }) => {
   const [wcSession, setWcSession] = useState(null)
+  const [address, setAddress] = useState(null)
+  const [publicKey, setPublicKey] = useState(null)
   const [isConnecting, setIsConnecting] = useState(false)
   const [isInitialized, setIsInitialized] = useState(false)
   const [stxBalance, setStxBalance] = useState(null)
   const [balanceLoading, setBalanceLoading] = useState(false)
   const [wcUri, setWcUri] = useState(null)
-
-  const address = useMemo(() => getStacksAddressFromSession(wcSession), [wcSession])
 
   // Fetch STX balance from Stacks API
   const fetchBalance = useCallback(async () => {
@@ -76,6 +76,13 @@ export const WalletProvider = ({ children }) => {
       unsubscribe = await wcOnDisplayUri((uri) => setWcUri(uri))
       const { session } = await wcConnect()
       setWcSession(session)
+
+      // Per WalletConnect Stacks spec: request addresses via JSON-RPC
+      const addresses = await wcGetAddresses()
+      const stx = addresses?.find?.((a) => a?.symbol === 'STX') || addresses?.[0]
+      setAddress(stx?.address || null)
+      setPublicKey(stx?.publicKey || null)
+
       setWcUri(null)
       return session
     } catch (error) {
@@ -95,6 +102,8 @@ export const WalletProvider = ({ children }) => {
       console.error('WalletConnect disconnect error:', error)
     } finally {
       setWcSession(null)
+      setAddress(null)
+      setPublicKey(null)
       setStxBalance(null)
       setWcUri(null)
     }
@@ -121,6 +130,7 @@ export const WalletProvider = ({ children }) => {
     
     // Derived values
     address,
+    publicKey,
     
     // Actions
     connectWallet,

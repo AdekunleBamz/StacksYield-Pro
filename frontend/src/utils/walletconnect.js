@@ -11,6 +11,8 @@ const stacksMainnet = {
   rpcUrls: { default: { http: ['https://stacks-node-api.mainnet.stacks.co'] } },
 }
 
+const STACKS_CHAIN = 'stacks:1'
+
 let universalConnectorPromise = null
 
 export async function getUniversalConnector() {
@@ -85,19 +87,24 @@ export async function wcDisconnect() {
 
 export async function wcRequest(method, params = {}) {
   const connector = await getUniversalConnector()
-  if (!connector?.provider?.request) {
+  if (!connector?.request) {
     throw new Error('WalletConnect provider not initialized')
   }
-  return connector.provider.request({ method, params })
+  return connector.request({ method, params }, STACKS_CHAIN)
 }
 
 export async function wcGetAddresses() {
   const res = await wcRequest('stx_getAddresses', {})
+  // Some wallets may include extra fields like publicKey; preserve them.
   return res?.addresses || []
 }
 
 export async function wcCallContract({ contract, functionName, functionArgs }) {
   return wcRequest('stx_callContract', { contract, functionName, functionArgs })
+}
+
+export async function wcSignTransaction({ transaction, broadcast = true, network = 'mainnet' }) {
+  return wcRequest('stx_signTransaction', { transaction, broadcast, network })
 }
 
 export async function wcTransferStx({ sender, recipient, amount, memo = '', network = 'mainnet' }) {
