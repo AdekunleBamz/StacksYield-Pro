@@ -119,8 +119,8 @@ const VaultList = () => {
 
       await openContractCall({
         network,
-        contractAddress,
-        contractName,
+        CONTRACT_ADDRESS,
+        CONTRACT_NAME,
         functionName: 'deposit',
         functionArgs: [
           uintCV(vault.id),
@@ -148,7 +148,7 @@ const VaultList = () => {
 
   const handleWithdraw = async (vault) => {
     if (!userData) {
-      onConnect()
+      connectWallet()
       return
     }
 
@@ -164,8 +164,8 @@ const VaultList = () => {
 
       await openContractCall({
         network,
-        contractAddress,
-        contractName,
+        CONTRACT_ADDRESS,
+        CONTRACT_NAME,
         functionName: 'withdraw',
         functionArgs: [
           uintCV(vault.id),
@@ -192,7 +192,7 @@ const VaultList = () => {
 
   const handleEmergencyWithdraw = async (vault) => {
     if (!userData) {
-      onConnect()
+      connectWallet()
       return
     }
 
@@ -205,8 +205,8 @@ const VaultList = () => {
     try {
       await openContractCall({
         network,
-        contractAddress,
-        contractName,
+        CONTRACT_ADDRESS,
+        CONTRACT_NAME,
         functionName: 'emergency-withdraw',
         functionArgs: [uintCV(vault.id)],
         postConditionMode: PostConditionMode.Allow,
@@ -229,7 +229,7 @@ const VaultList = () => {
 
   const handleCompound = async (vault) => {
     if (!userData) {
-      onConnect()
+      connectWallet()
       return
     }
 
@@ -238,8 +238,8 @@ const VaultList = () => {
     try {
       await openContractCall({
         network,
-        contractAddress,
-        contractName,
+        CONTRACT_ADDRESS,
+        CONTRACT_NAME,
         functionName: 'compound',
         functionArgs: [uintCV(vault.id)],
         postConditionMode: PostConditionMode.Allow,
@@ -466,7 +466,7 @@ const VaultList = () => {
                     <button
                       onClick={() => {
                         if (!userData) {
-                          onConnect()
+                          connectWallet()
                         } else {
                           setSelectedVault(vault.id)
                           setActionType('deposit')
