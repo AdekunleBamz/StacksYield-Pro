@@ -1,0 +1,33 @@
+{
+  "name": "stacksyield-pro",
+  "version": "1.0.0",
+  "description": "Yield Aggregator & Auto-Compounding Vault System with Stacks Connect",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint src --ext .js,.jsx"
+  },
+  "dependencies": {
+    "@stacks/connect": "^7.7.1",
+    "@stacks/connect-react": "^22.0.0",
+    "@stacks/network": "^6.13.0",
+    "@stacks/transactions": "^6.13.0",
+    "@stacks/wallet-sdk": "^7.2.0",
+    "@tanstack/react-query": "^5.17.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-hot-toast": "^2.4.1",
+    "react-icons": "^5.0.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "@vitejs/plugin-react": "^4.2.1",
+    "autoprefixer": "^10.4.17",
+    "postcss": "^8.4.33",
+    "tailwindcss": "^3.4.1",
+    "vite": "^5.0.12"
+  }
+}
