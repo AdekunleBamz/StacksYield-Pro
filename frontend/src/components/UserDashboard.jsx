@@ -9,9 +9,11 @@ import {
   HiUsers
 } from 'react-icons/hi2'
 import { useUserStats, useVaults, useUserDeposit, usePendingRewards } from '../hooks/useContract'
+import { useWallet } from '../context/WalletContext'
 import { formatNumber, blocksToTime, formatDate } from '../utils/helpers'
 
-const UserDashboard = ({ userAddress, network, contractAddress, contractName }) => {
+const UserDashboard = () => {
+  const { userAddress } = useWallet()
   const { stats: userStats, loading: statsLoading } = useUserStats(userAddress)
   const { vaults, loading: vaultsLoading } = useVaults()
   const [deposits, setDeposits] = useState([])
