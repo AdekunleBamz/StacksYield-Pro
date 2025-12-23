@@ -6,8 +6,16 @@ const WalletConnectQRModal = () => {
   const { wcUri, isConnecting, isConnected, disconnectWallet } = useWallet()
   const [qrDataUrl, setQrDataUrl] = useState(null)
   const [copyState, setCopyState] = useState('')
+  const [copyLinkState, setCopyLinkState] = useState('')
 
   const isOpen = useMemo(() => !!wcUri && isConnecting && !isConnected, [wcUri, isConnecting, isConnected])
+
+  // Camera apps often can't open `wc:` URIs directly; this link opens a WC landing page
+  // that can deep-link into an installed wallet.
+  const wcLink = useMemo(() => {
+    if (!wcUri) return null
+    return `https://walletconnect.com/wc?uri=${encodeURIComponent(wcUri)}`
+  }, [wcUri])
 
   useEffect(() => {
     let cancelled = false
@@ -44,12 +52,27 @@ const WalletConnectQRModal = () => {
     }
   }
 
+  const onCopyLink = async () => {
+    if (!wcLink) return
+    try {
+      await navigator.clipboard.writeText(wcLink)
+      setCopyLinkState('Copied')
+      setTimeout(() => setCopyLinkState(''), 1500)
+    } catch {
+      setCopyLinkState('Copy failed')
+      setTimeout(() => setCopyLinkState(''), 1500)
+    }
+  }
+
   return (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-black/60" onClick={disconnectWallet} />
       <div className="relative w-full max-w-sm glass-card rounded-2xl p-6">
         <h3 className="text-lg font-semibold mb-2 text-white">Connect wallet</h3>
-        <p className="text-sm text-gray-400 mb-4">Scan with Xverse (mobile) or another WalletConnect-enabled Stacks wallet.</p>
+        <p className="text-sm text-gray-400 mb-4">
+          Scan with Xverse/Leather (mobile) using the wallet&apos;s WalletConnect scanner.
+          Phone camera apps often can&apos;t open <span className="font-mono">wc:</span> QR codes.
+        </p>
 
         <div className="flex items-center justify-center mb-4">
           {qrDataUrl ? (
@@ -65,10 +88,31 @@ const WalletConnectQRModal = () => {
           {wcUri}
         </div>
 
+        {wcLink && (
+          <a
+            href={wcLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block text-xs text-stacks-orange break-all underline mb-4"
+          >
+            Open on phone: {wcLink}
+          </a>
+        )}
+
         <div className="flex gap-2">
           <button onClick={onCopy} className="flex-1 btn-secondary px-4 py-2 rounded-xl text-sm">
             {copyState ? copyState : 'Copy URI'}
           </button>
+          <button
+            onClick={onCopyLink}
+            disabled={!wcLink}
+            className="flex-1 btn-secondary px-4 py-2 rounded-xl text-sm"
+          >
+            {copyLinkState ? copyLinkState : 'Copy Link'}
+          </button>
+        </div>
+
+        <div className="flex gap-2 mt-2">
           <button onClick={disconnectWallet} className="flex-1 btn-primary px-4 py-2 rounded-xl text-sm">
             Cancel
           </button>

@@ -25,6 +25,12 @@ StacksYield Pro is a DeFi yield aggregator that allows users to deposit STX into
 
 ## 🛠️ Installation & Setup
 
+## 🔌 WalletConnect + Stacks Integration
+
+For a reusable, step-by-step guide to integrating Reown AppKit (WalletConnect) with Stacks JSON-RPC (`stx_getAddresses`, `stx_signTransaction`), see:
+
+- `docs/walletconnect-stacks-reown.md`
+
 ### Prerequisites
 
 - Node.js 18+ 
