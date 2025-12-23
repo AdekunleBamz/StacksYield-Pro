@@ -10,8 +10,7 @@ import Footer from './components/Footer'
 
 // Main App Content (uses wallet context)
 function AppContent() {
-  const { userData } = useWallet()
-  const isConnected = !!userData
+  const { isConnected } = useWallet()
   const [activeTab, setActiveTab] = useState('vaults')
 
   return (

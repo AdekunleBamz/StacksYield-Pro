@@ -3,8 +3,7 @@ import { HiArrowRight, HiShieldCheck, HiCurrencyDollar, HiChartBar } from 'react
 import { useWallet } from '../context/WalletContext'
 
 const Hero = () => {
-  const { userData, connectWallet } = useWallet()
-  const isConnected = !!userData
+  const { isConnected, connectWallet } = useWallet()
 
   return (
     <section className="relative py-20 lg:py-32 overflow-hidden">

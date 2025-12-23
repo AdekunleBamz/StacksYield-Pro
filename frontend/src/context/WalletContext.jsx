@@ -1,6 +1,10 @@
-import React, { createContext, useContext, useState, useEffect, useCallback } from 'react'
-import { AppConfig, UserSession, showConnect } from '@stacks/connect'
+import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react'
 import { StacksMainnet } from '@stacks/network'
+import {
+  getStacksAddressFromSession,
+  wcConnect,
+  wcDisconnect,
+} from '../utils/walletconnect'
 
 // Contract configuration
 export const CONTRACT_ADDRESS = 'SP3FKNEZ86RG5RT7SZ5FBRGH85FZNG94ZH1MCGG6N'
@@ -10,33 +14,17 @@ export const network = new StacksMainnet()
 // Stacks API endpoint for balance queries
 const STACKS_API = 'https://api.mainnet.hiro.so'
 
-// App configuration for Stacks Connect / WalletKit
-const appConfig = new AppConfig(['store_write', 'publish_data'])
-const userSession = new UserSession({ appConfig })
-
 // Create the context
 const WalletContext = createContext(null)
 
-// App details for wallet connection
-const appDetails = {
-  name: 'StacksYield Pro',
-  icon: typeof window !== 'undefined' ? window.location.origin + '/logo.png' : '/logo.png',
-}
-
 export const WalletProvider = ({ children }) => {
-  const [userData, setUserData] = useState(null)
+  const [wcSession, setWcSession] = useState(null)
   const [isConnecting, setIsConnecting] = useState(false)
   const [isInitialized, setIsInitialized] = useState(false)
   const [stxBalance, setStxBalance] = useState(null)
   const [balanceLoading, setBalanceLoading] = useState(false)
 
-  // Get user's STX address (mainnet)
-  const getAddress = useCallback(() => {
-    if (!userData) return null
-    return userData.profile?.stxAddress?.mainnet || null
-  }, [userData])
-
-  const address = getAddress()
+  const address = useMemo(() => getStacksAddressFromSession(wcSession), [wcSession])
 
   // Fetch STX balance from Stacks API
   const fetchBalance = useCallback(async () => {
@@ -63,12 +51,8 @@ export const WalletProvider = ({ children }) => {
     }
   }, [address])
 
-  // Check if user is already signed in on mount (NO auto-connect, just restore session)
+  // Initialize (NO auto-connect)
   useEffect(() => {
-    if (userSession.isUserSignedIn()) {
-      const data = userSession.loadUserData()
-      setUserData(data)
-    }
     setIsInitialized(true)
   }, [])
 
@@ -82,38 +66,40 @@ export const WalletProvider = ({ children }) => {
     }
   }, [address, fetchBalance])
 
-  // Connect wallet using Stacks Connect (WalletKit compatible)
-  const connectWallet = useCallback(() => {
+  // Connect wallet using WalletConnect (Reown)
+  const connectWallet = useCallback(async () => {
     setIsConnecting(true)
-    
-    showConnect({
-      appDetails,
-      redirectTo: '/',
-      onFinish: () => {
-        const data = userSession.loadUserData()
-        setUserData(data)
-        setIsConnecting(false)
-      },
-      onCancel: () => {
-        setIsConnecting(false)
-      },
-      userSession,
-    })
+    try {
+      const { session } = await wcConnect()
+      setWcSession(session)
+      return session
+    } catch (error) {
+      console.error('WalletConnect connect error:', error)
+      return null
+    } finally {
+      setIsConnecting(false)
+    }
   }, [])
 
   // Disconnect wallet
-  const disconnectWallet = useCallback(() => {
-    userSession.signUserOut('/')
-    setUserData(null)
+  const disconnectWallet = useCallback(async () => {
+    try {
+      await wcDisconnect()
+    } catch (error) {
+      console.error('WalletConnect disconnect error:', error)
+    } finally {
+      setWcSession(null)
+      setStxBalance(null)
+    }
   }, [])
 
   // Check if connected
-  const isConnected = !!userData
+  const isConnected = !!address
 
   // Context value
   const value = {
     // State
-    userData,
+    wcSession,
     isConnected,
     isConnecting,
     isInitialized,
@@ -134,9 +120,6 @@ export const WalletProvider = ({ children }) => {
     network,
     contractAddress: CONTRACT_ADDRESS,
     contractName: CONTRACT_NAME,
-    
-    // User session for contract calls
-    userSession,
   }
 
   return (

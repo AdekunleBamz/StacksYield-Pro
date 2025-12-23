@@ -4,7 +4,7 @@ import { HiSparkles, HiCurrencyDollar } from 'react-icons/hi2'
 import { useWallet } from '../context/WalletContext'
 
 const Header = () => {
-  const { userData, address, stxBalance, balanceLoading, isConnecting, connectWallet, disconnectWallet } = useWallet()
+  const { isConnected, address, stxBalance, balanceLoading, isConnecting, connectWallet, disconnectWallet } = useWallet()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   const truncateAddress = (addr) => {
@@ -51,7 +51,7 @@ const Header = () => {
 
           {/* Wallet Connection */}
           <div className="hidden md:flex items-center space-x-4">
-            {userData ? (
+            {isConnected ? (
               <div className="flex items-center space-x-3">
                 {/* STX Balance */}
                 <div className="glass-card px-3 py-2 rounded-xl flex items-center space-x-2">
@@ -126,7 +126,7 @@ const Header = () => {
                 Docs <FiExternalLink className="w-3 h-3" />
               </a>
               
-              {userData ? (
+              {isConnected ? (
                 <div className="pt-4 border-t border-stacks-gray">
                   <div className="flex items-center justify-between mb-2">
                     <p className="text-sm text-gray-400">Balance</p>

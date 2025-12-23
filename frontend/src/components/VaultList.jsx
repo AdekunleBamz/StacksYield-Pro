@@ -11,20 +11,18 @@ import {
   HiCurrencyDollar,
   HiSparkles
 } from 'react-icons/hi2'
-import { openContractCall } from '@stacks/connect'
 import { 
-  uintCV, 
-  PostConditionMode,
-  makeStandardSTXPostCondition,
-  FungibleConditionCode
+  serializeCV,
+  uintCV
 } from '@stacks/transactions'
 import toast from 'react-hot-toast'
 import { useVaults, CONTRACT_ADDRESS, CONTRACT_NAME } from '../hooks/useContract'
 import { useWallet } from '../context/WalletContext'
 import { toMicroSTX, blocksToTime, formatNumber } from '../utils/helpers'
+import { wcCallContract } from '../utils/walletconnect'
 
 const VaultList = () => {
-  const { userData, address, network, connectWallet } = useWallet()
+  const { isConnected, connectWallet } = useWallet()
   const [selectedVault, setSelectedVault] = useState(null)
   const [actionType, setActionType] = useState('deposit')
   const [amount, setAmount] = useState('')
@@ -93,9 +91,16 @@ const VaultList = () => {
 
   const vaults = contractVaults.length > 0 ? contractVaults : defaultVaults
 
+  const bytesToHex = (bytes) =>
+    Array.from(bytes, (b) => b.toString(16).padStart(2, '0')).join('')
+
+  const cvToWcArg = (cv) => `0x${bytesToHex(serializeCV(cv))}`
+
+  const contractId = `${CONTRACT_ADDRESS}.${CONTRACT_NAME}`
+
   const handleDeposit = async (vault) => {
-    if (!userData) {
-      connectWallet()
+    if (!isConnected) {
+      await connectWallet()
       return
     }
 
@@ -107,37 +112,18 @@ const VaultList = () => {
     setIsLoading(true)
 
     try {
-      const amountInMicroSTX = toMicroSTX(amount)
+      const amountInMicroSTX = BigInt(toMicroSTX(amount))
 
-      const postConditions = [
-        makeStandardSTXPostCondition(
-          address,
-          FungibleConditionCode.LessEqual,
-          amountInMicroSTX
-        )
-      ]
-
-      await openContractCall({
-        network,
-        contractAddress: CONTRACT_ADDRESS,
-        contractName: CONTRACT_NAME,
+      const res = await wcCallContract({
+        contract: contractId,
         functionName: 'deposit',
-        functionArgs: [
-          uintCV(vault.id),
-          uintCV(amountInMicroSTX)
-        ],
-        postConditionMode: PostConditionMode.Deny,
-        postConditions,
-        onFinish: (data) => {
-          toast.success('Deposit submitted! Check your wallet for confirmation.')
-          setAmount('')
-          setSelectedVault(null)
-          setTimeout(() => refetch(), 5000)
-        },
-        onCancel: () => {
-          toast.error('Transaction cancelled')
-        }
+        functionArgs: [cvToWcArg(uintCV(vault.id)), cvToWcArg(uintCV(amountInMicroSTX))],
       })
+
+      toast.success(`Deposit submitted${res?.txid ? `: ${res.txid}` : ''}`)
+      setAmount('')
+      setSelectedVault(null)
+      setTimeout(() => refetch(), 5000)
     } catch (error) {
       console.error('Deposit error:', error)
       toast.error('Failed to initiate deposit')
@@ -147,8 +133,8 @@ const VaultList = () => {
   }
 
   const handleWithdraw = async (vault) => {
-    if (!userData) {
-      connectWallet()
+    if (!isConnected) {
+      await connectWallet()
       return
     }
 
@@ -160,28 +146,18 @@ const VaultList = () => {
     setIsLoading(true)
 
     try {
-      const sharesAmount = toMicroSTX(amount)
+      const sharesAmount = BigInt(toMicroSTX(amount))
 
-      await openContractCall({
-        network,
-        contractAddress: CONTRACT_ADDRESS,
-        contractName: CONTRACT_NAME,
+      const res = await wcCallContract({
+        contract: contractId,
         functionName: 'withdraw',
-        functionArgs: [
-          uintCV(vault.id),
-          uintCV(sharesAmount)
-        ],
-        postConditionMode: PostConditionMode.Allow,
-        onFinish: (data) => {
-          toast.success('Withdrawal submitted! Check your wallet for confirmation.')
-          setAmount('')
-          setSelectedVault(null)
-          setTimeout(() => refetch(), 5000)
-        },
-        onCancel: () => {
-          toast.error('Transaction cancelled')
-        }
+        functionArgs: [cvToWcArg(uintCV(vault.id)), cvToWcArg(uintCV(sharesAmount))],
       })
+
+      toast.success(`Withdrawal submitted${res?.txid ? `: ${res.txid}` : ''}`)
+      setAmount('')
+      setSelectedVault(null)
+      setTimeout(() => refetch(), 5000)
     } catch (error) {
       console.error('Withdraw error:', error)
       toast.error('Failed to initiate withdrawal')
@@ -191,8 +167,8 @@ const VaultList = () => {
   }
 
   const handleEmergencyWithdraw = async (vault) => {
-    if (!userData) {
-      connectWallet()
+    if (!isConnected) {
+      await connectWallet()
       return
     }
 
@@ -203,22 +179,15 @@ const VaultList = () => {
     setIsLoading(true)
 
     try {
-      await openContractCall({
-        network,
-        contractAddress: CONTRACT_ADDRESS,
-        contractName: CONTRACT_NAME,
+      const res = await wcCallContract({
+        contract: contractId,
         functionName: 'emergency-withdraw',
-        functionArgs: [uintCV(vault.id)],
-        postConditionMode: PostConditionMode.Allow,
-        onFinish: (data) => {
-          toast.success('Emergency withdrawal submitted!')
-          setSelectedVault(null)
-          setTimeout(() => refetch(), 5000)
-        },
-        onCancel: () => {
-          toast.error('Transaction cancelled')
-        }
+        functionArgs: [cvToWcArg(uintCV(vault.id))],
       })
+
+      toast.success(`Emergency withdrawal submitted${res?.txid ? `: ${res.txid}` : ''}`)
+      setSelectedVault(null)
+      setTimeout(() => refetch(), 5000)
     } catch (error) {
       console.error('Emergency withdraw error:', error)
       toast.error('Failed to initiate emergency withdrawal')
@@ -228,29 +197,22 @@ const VaultList = () => {
   }
 
   const handleCompound = async (vault) => {
-    if (!userData) {
-      connectWallet()
+    if (!isConnected) {
+      await connectWallet()
       return
     }
 
     setIsLoading(true)
 
     try {
-      await openContractCall({
-        network,
-        contractAddress: CONTRACT_ADDRESS,
-        contractName: CONTRACT_NAME,
+      const res = await wcCallContract({
+        contract: contractId,
         functionName: 'compound',
-        functionArgs: [uintCV(vault.id)],
-        postConditionMode: PostConditionMode.Allow,
-        onFinish: (data) => {
-          toast.success('Compound submitted! Your rewards will be reinvested.')
-          setTimeout(() => refetch(), 5000)
-        },
-        onCancel: () => {
-          toast.error('Transaction cancelled')
-        }
+        functionArgs: [cvToWcArg(uintCV(vault.id))],
       })
+
+      toast.success(`Compound submitted${res?.txid ? `: ${res.txid}` : ''}`)
+      setTimeout(() => refetch(), 5000)
     } catch (error) {
       console.error('Compound error:', error)
       toast.error('Failed to initiate compound')
@@ -442,7 +404,7 @@ const VaultList = () => {
                       </div>
 
                       {/* Quick Actions */}
-                      {userData && (
+                      {isConnected && (
                         <div className="flex gap-2 pt-2">
                           <button
                             onClick={() => handleCompound(vault)}
@@ -465,7 +427,7 @@ const VaultList = () => {
                   ) : (
                     <button
                       onClick={() => {
-                        if (!userData) {
+                        if (!isConnected) {
                           connectWallet()
                         } else {
                           setSelectedVault(vault.id)
@@ -475,7 +437,7 @@ const VaultList = () => {
                       disabled={!vault.isActive}
                       className="w-full btn-primary py-3 rounded-xl font-medium disabled:opacity-50"
                     >
-                      {userData ? 'Select Vault' : 'Connect to Deposit'}
+                      {isConnected ? 'Select Vault' : 'Connect to Deposit'}
                     </button>
                   )}
                 </div>
