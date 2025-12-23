@@ -24,7 +24,7 @@ import { useWallet } from '../context/WalletContext'
 import { toMicroSTX, blocksToTime, formatNumber } from '../utils/helpers'
 
 const VaultList = () => {
-  const { userData, userAddress, network, connectWallet } = useWallet()
+  const { userData, address, network, connectWallet } = useWallet()
   const [selectedVault, setSelectedVault] = useState(null)
   const [actionType, setActionType] = useState('deposit')
   const [amount, setAmount] = useState('')
@@ -111,7 +111,7 @@ const VaultList = () => {
 
       const postConditions = [
         makeStandardSTXPostCondition(
-          userAddress,
+          address,
           FungibleConditionCode.LessEqual,
           amountInMicroSTX
         )
@@ -119,8 +119,8 @@ const VaultList = () => {
 
       await openContractCall({
         network,
-        CONTRACT_ADDRESS,
-        CONTRACT_NAME,
+        contractAddress: CONTRACT_ADDRESS,
+        contractName: CONTRACT_NAME,
         functionName: 'deposit',
         functionArgs: [
           uintCV(vault.id),
@@ -164,8 +164,8 @@ const VaultList = () => {
 
       await openContractCall({
         network,
-        CONTRACT_ADDRESS,
-        CONTRACT_NAME,
+        contractAddress: CONTRACT_ADDRESS,
+        contractName: CONTRACT_NAME,
         functionName: 'withdraw',
         functionArgs: [
           uintCV(vault.id),
@@ -205,8 +205,8 @@ const VaultList = () => {
     try {
       await openContractCall({
         network,
-        CONTRACT_ADDRESS,
-        CONTRACT_NAME,
+        contractAddress: CONTRACT_ADDRESS,
+        contractName: CONTRACT_NAME,
         functionName: 'emergency-withdraw',
         functionArgs: [uintCV(vault.id)],
         postConditionMode: PostConditionMode.Allow,
@@ -238,8 +238,8 @@ const VaultList = () => {
     try {
       await openContractCall({
         network,
-        CONTRACT_ADDRESS,
-        CONTRACT_NAME,
+        contractAddress: CONTRACT_ADDRESS,
+        contractName: CONTRACT_NAME,
         functionName: 'compound',
         functionArgs: [uintCV(vault.id)],
         postConditionMode: PostConditionMode.Allow,

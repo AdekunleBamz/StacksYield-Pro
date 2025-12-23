@@ -16,14 +16,14 @@ import { useWallet } from '../context/WalletContext'
 import { generateReferralURL, parseReferralFromURL, formatNumber } from '../utils/helpers'
 
 const ReferralSection = () => {
-  const { userAddress, network } = useWallet()
+  const { address, network } = useWallet()
   const [newCode, setNewCode] = useState('')
   const [isCreating, setIsCreating] = useState(false)
   const [isRegistering, setIsRegistering] = useState(false)
   const [copied, setCopied] = useState(false)
   const [referralFromURL, setReferralFromURL] = useState(null)
   
-  const { stats: userStats, loading, refetch } = useUserStats(userAddress)
+  const { stats: userStats, loading, refetch } = useUserStats(address)
 
   // Check for referral code in URL on mount
   useEffect(() => {
@@ -34,7 +34,7 @@ const ReferralSection = () => {
   }, [])
 
   // Generate a default code based on address
-  const defaultCode = userAddress ? `YIELD${userAddress.slice(-6).toUpperCase()}` : ''
+  const defaultCode = address ? `YIELD${address.slice(-6).toUpperCase()}` : ''
 
   const handleRegister = async () => {
     setIsRegistering(true)

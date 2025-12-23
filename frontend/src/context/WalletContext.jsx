@@ -7,6 +7,9 @@ export const CONTRACT_ADDRESS = 'SP3FKNEZ86RG5RT7SZ5FBRGH85FZNG94ZH1MCGG6N'
 export const CONTRACT_NAME = 'stacksyield-pro'
 export const network = new StacksMainnet()
 
+// Stacks API endpoint for balance queries
+const STACKS_API = 'https://api.mainnet.hiro.so'
+
 // App configuration for Stacks Connect / WalletKit
 const appConfig = new AppConfig(['store_write', 'publish_data'])
 const userSession = new UserSession({ appConfig })
@@ -24,8 +27,43 @@ export const WalletProvider = ({ children }) => {
   const [userData, setUserData] = useState(null)
   const [isConnecting, setIsConnecting] = useState(false)
   const [isInitialized, setIsInitialized] = useState(false)
+  const [stxBalance, setStxBalance] = useState(null)
+  const [balanceLoading, setBalanceLoading] = useState(false)
 
-  // Check if user is already signed in on mount
+  // Get user's STX address (mainnet)
+  const getAddress = useCallback(() => {
+    if (!userData) return null
+    return userData.profile?.stxAddress?.mainnet || null
+  }, [userData])
+
+  const address = getAddress()
+
+  // Fetch STX balance from Stacks API
+  const fetchBalance = useCallback(async () => {
+    if (!address) {
+      setStxBalance(null)
+      return
+    }
+
+    try {
+      setBalanceLoading(true)
+      const response = await fetch(`${STACKS_API}/extended/v1/address/${address}/balances`)
+      const data = await response.json()
+      
+      if (data.stx) {
+        // Convert from micro-STX to STX
+        const balanceInSTX = parseInt(data.stx.balance) / 1000000
+        setStxBalance(balanceInSTX)
+      }
+    } catch (error) {
+      console.error('Error fetching STX balance:', error)
+      setStxBalance(null)
+    } finally {
+      setBalanceLoading(false)
+    }
+  }, [address])
+
+  // Check if user is already signed in on mount (NO auto-connect, just restore session)
   useEffect(() => {
     if (userSession.isUserSignedIn()) {
       const data = userSession.loadUserData()
@@ -34,11 +72,15 @@ export const WalletProvider = ({ children }) => {
     setIsInitialized(true)
   }, [])
 
-  // Get user's STX address (mainnet)
-  const getAddress = useCallback(() => {
-    if (!userData) return null
-    return userData.profile?.stxAddress?.mainnet || null
-  }, [userData])
+  // Fetch balance when address changes
+  useEffect(() => {
+    if (address) {
+      fetchBalance()
+      // Refresh balance every 30 seconds
+      const interval = setInterval(fetchBalance, 30000)
+      return () => clearInterval(interval)
+    }
+  }, [address, fetchBalance])
 
   // Connect wallet using Stacks Connect (WalletKit compatible)
   const connectWallet = useCallback(() => {
@@ -76,8 +118,13 @@ export const WalletProvider = ({ children }) => {
     isConnecting,
     isInitialized,
     
+    // Balance
+    stxBalance,
+    balanceLoading,
+    refetchBalance: fetchBalance,
+    
     // Derived values
-    address: getAddress(),
+    address,
     
     // Actions
     connectWallet,

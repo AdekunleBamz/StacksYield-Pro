@@ -1,15 +1,20 @@
 import React, { useState } from 'react'
 import { FiMenu, FiX, FiExternalLink } from 'react-icons/fi'
-import { HiSparkles } from 'react-icons/hi2'
+import { HiSparkles, HiCurrencyDollar } from 'react-icons/hi2'
 import { useWallet } from '../context/WalletContext'
 
 const Header = () => {
-  const { userData, userAddress, isConnecting, connectWallet, disconnectWallet } = useWallet()
+  const { userData, address, stxBalance, balanceLoading, isConnecting, connectWallet, disconnectWallet } = useWallet()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
-  const truncateAddress = (address) => {
-    if (!address) return ''
-    return `${address.slice(0, 6)}...${address.slice(-4)}`
+  const truncateAddress = (addr) => {
+    if (!addr) return ''
+    return `${addr.slice(0, 6)}...${addr.slice(-4)}`
+  }
+
+  const formatBalance = (balance) => {
+    if (balance === null || balance === undefined) return '...'
+    return balance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
   }
 
   return (
@@ -48,10 +53,21 @@ const Header = () => {
           <div className="hidden md:flex items-center space-x-4">
             {userData ? (
               <div className="flex items-center space-x-3">
-                <div className="glass-card px-4 py-2 rounded-xl">
-                  <p className="text-sm text-gray-400">Connected</p>
+                {/* STX Balance */}
+                <div className="glass-card px-3 py-2 rounded-xl flex items-center space-x-2">
+                  <HiCurrencyDollar className="w-4 h-4 text-stacks-orange" />
+                  <div>
+                    <p className="text-xs text-gray-400">Balance</p>
+                    <p className="text-sm font-medium text-white">
+                      {balanceLoading ? '...' : `${formatBalance(stxBalance)} STX`}
+                    </p>
+                  </div>
+                </div>
+                {/* Address */}
+                <div className="glass-card px-3 py-2 rounded-xl">
+                  <p className="text-xs text-gray-400">Connected</p>
                   <p className="text-sm font-mono font-medium text-white">
-                    {truncateAddress(userAddress)}
+                    {truncateAddress(address)}
                   </p>
                 </div>
                 <button
@@ -112,9 +128,15 @@ const Header = () => {
               
               {userData ? (
                 <div className="pt-4 border-t border-stacks-gray">
-                  <p className="text-sm text-gray-400 mb-2">Connected</p>
+                  <div className="flex items-center justify-between mb-2">
+                    <p className="text-sm text-gray-400">Balance</p>
+                    <p className="text-sm font-medium text-stacks-orange">
+                      {balanceLoading ? '...' : `${formatBalance(stxBalance)} STX`}
+                    </p>
+                  </div>
+                  <p className="text-sm text-gray-400 mb-1">Connected</p>
                   <p className="text-sm font-mono font-medium text-white mb-4">
-                    {truncateAddress(userAddress)}
+                    {truncateAddress(address)}
                   </p>
                   <button
                     onClick={disconnectWallet}

@@ -13,8 +13,8 @@ import { useWallet } from '../context/WalletContext'
 import { formatNumber, blocksToTime, formatDate } from '../utils/helpers'
 
 const UserDashboard = () => {
-  const { userAddress } = useWallet()
-  const { stats: userStats, loading: statsLoading } = useUserStats(userAddress)
+  const { address } = useWallet()
+  const { stats: userStats, loading: statsLoading } = useUserStats(address)
   const { vaults, loading: vaultsLoading } = useVaults()
   const [deposits, setDeposits] = useState([])
   const [isLoading, setIsLoading] = useState(true)
@@ -22,7 +22,7 @@ const UserDashboard = () => {
   // Fetch user deposits for each vault
   useEffect(() => {
     const fetchDeposits = async () => {
-      if (!userAddress || vaultsLoading || vaults.length === 0) {
+      if (!address || vaultsLoading || vaults.length === 0) {
         setIsLoading(false)
         return
       }
@@ -57,7 +57,7 @@ const UserDashboard = () => {
     }
 
     fetchDeposits()
-  }, [userAddress, vaults, vaultsLoading, userStats])
+  }, [address, vaults, vaultsLoading, userStats])
 
   const getTimeUntilUnlock = (unlockTime) => {
     const diff = unlockTime - Date.now()
