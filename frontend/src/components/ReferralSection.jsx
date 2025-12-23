@@ -11,10 +11,12 @@ import {
 import { openContractCall } from '@stacks/connect'
 import { stringAsciiCV, optionalCVOf, noneCV, PostConditionMode } from '@stacks/transactions'
 import toast from 'react-hot-toast'
-import { useUserStats } from '../hooks/useContract'
+import { useUserStats, CONTRACT_ADDRESS, CONTRACT_NAME } from '../hooks/useContract'
+import { useWallet } from '../context/WalletContext'
 import { generateReferralURL, parseReferralFromURL, formatNumber } from '../utils/helpers'
 
-const ReferralSection = ({ userAddress, network, contractAddress, contractName }) => {
+const ReferralSection = () => {
+  const { userAddress, network } = useWallet()
   const [newCode, setNewCode] = useState('')
   const [isCreating, setIsCreating] = useState(false)
   const [isRegistering, setIsRegistering] = useState(false)
@@ -44,8 +46,8 @@ const ReferralSection = ({ userAddress, network, contractAddress, contractName }
 
       await openContractCall({
         network,
-        contractAddress,
-        contractName,
+        contractAddress: CONTRACT_ADDRESS,
+        contractName: CONTRACT_NAME,
         functionName: 'register-user',
         functionArgs: [referralArg],
         postConditionMode: PostConditionMode.Deny,
@@ -76,8 +78,8 @@ const ReferralSection = ({ userAddress, network, contractAddress, contractName }
     try {
       await openContractCall({
         network,
-        contractAddress,
-        contractName,
+        contractAddress: CONTRACT_ADDRESS,
+        contractName: CONTRACT_NAME,
         functionName: 'create-referral-code',
         functionArgs: [stringAsciiCV(newCode.toUpperCase())],
         postConditionMode: PostConditionMode.Deny,
