@@ -1,0 +1,16 @@
+[project]
+name = "stacksyield-pro"
+description = "Yield Aggregator & Auto-Compounding Vault System for Stacks"
+authors = ["Bamzz"]
+telemetry = false
+cache_dir = "./.cache"
+requirements = []
+
+[contracts.stacksyield-pro]
+path = "contracts/stacksyield-pro.clar"
+clarity_version = 2
+epoch = 2.5
+
+[repl.analysis]
+passes = ["check_checker"]
+check_checker = { trusted_sender = false, trusted_caller = false, callee_filter = false }
