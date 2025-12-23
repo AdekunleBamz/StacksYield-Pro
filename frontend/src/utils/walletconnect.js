@@ -60,6 +60,24 @@ export async function wcConnect() {
   return { connector, session }
 }
 
+export async function wcOnDisplayUri(callback) {
+  const connector = await getUniversalConnector()
+
+  const provider = connector?.provider
+  const on = provider?.on?.bind(provider)
+  const off = provider?.off?.bind(provider)
+
+  if (!on) {
+    return () => {}
+  }
+
+  const handler = (uri) => callback(uri)
+  on('display_uri', handler)
+  return () => {
+    if (off) off('display_uri', handler)
+  }
+}
+
 export async function wcDisconnect() {
   const connector = await getUniversalConnector()
   await connector.disconnect()

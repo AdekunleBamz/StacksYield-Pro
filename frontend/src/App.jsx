@@ -7,6 +7,7 @@ import VaultList from './components/VaultList'
 import UserDashboard from './components/UserDashboard'
 import ReferralSection from './components/ReferralSection'
 import Footer from './components/Footer'
+import WalletConnectQRModal from './components/WalletConnectQRModal'
 
 // Main App Content (uses wallet context)
 function AppContent() {
@@ -22,6 +23,7 @@ function AppContent() {
       
       {/* Main content */}
       <div className="relative z-10">
+        <WalletConnectQRModal />
         <Header />
         
         <main>

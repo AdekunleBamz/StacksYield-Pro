@@ -4,6 +4,7 @@ import {
   getStacksAddressFromSession,
   wcConnect,
   wcDisconnect,
+  wcOnDisplayUri,
 } from '../utils/walletconnect'
 
 // Contract configuration
@@ -23,6 +24,7 @@ export const WalletProvider = ({ children }) => {
   const [isInitialized, setIsInitialized] = useState(false)
   const [stxBalance, setStxBalance] = useState(null)
   const [balanceLoading, setBalanceLoading] = useState(false)
+  const [wcUri, setWcUri] = useState(null)
 
   const address = useMemo(() => getStacksAddressFromSession(wcSession), [wcSession])
 
@@ -69,14 +71,18 @@ export const WalletProvider = ({ children }) => {
   // Connect wallet using WalletConnect (Reown)
   const connectWallet = useCallback(async () => {
     setIsConnecting(true)
+    let unsubscribe = () => {}
     try {
+      unsubscribe = await wcOnDisplayUri((uri) => setWcUri(uri))
       const { session } = await wcConnect()
       setWcSession(session)
+      setWcUri(null)
       return session
     } catch (error) {
       console.error('WalletConnect connect error:', error)
       return null
     } finally {
+      unsubscribe()
       setIsConnecting(false)
     }
   }, [])
@@ -90,6 +96,7 @@ export const WalletProvider = ({ children }) => {
     } finally {
       setWcSession(null)
       setStxBalance(null)
+      setWcUri(null)
     }
   }, [])
 
@@ -108,6 +115,9 @@ export const WalletProvider = ({ children }) => {
     stxBalance,
     balanceLoading,
     refetchBalance: fetchBalance,
+
+    // WalletConnect pairing
+    wcUri,
     
     // Derived values
     address,
