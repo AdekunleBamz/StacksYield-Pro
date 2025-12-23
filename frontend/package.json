@@ -1,6 +1,7 @@
 {
   "name": "stacksyield-pro",
   "version": "1.0.0",
+  "type": "module",
   "description": "Yield Aggregator & Auto-Compounding Vault System with Stacks Connect",
   "private": true,
   "scripts": {
