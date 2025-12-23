@@ -77,13 +77,15 @@ export const WalletProvider = ({ children }) => {
       const { session } = await wcConnect()
       setWcSession(session)
 
+      // Close the pairing UI as soon as the session is established.
+      // Address discovery can take a moment, but users shouldn't keep seeing the raw `wc:` URI.
+      setWcUri(null)
+
       // Per WalletConnect Stacks spec: request addresses via JSON-RPC
       const addresses = await wcGetAddresses()
       const stx = addresses?.find?.((a) => a?.symbol === 'STX') || addresses?.[0]
       setAddress(stx?.address || null)
       setPublicKey(stx?.publicKey || null)
-
-      setWcUri(null)
       return session
     } catch (error) {
       console.error('WalletConnect connect error:', error)
