@@ -1,0 +1,45 @@
+# Docker Ignore File for StacksYield Pro
+
+# Dependencies
+node_modules
+npm-debug.log
+
+# Build output
+dist
+build
+
+# Git
+.git
+.gitignore
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+
+# Environment files with secrets
+.env
+.env.local
+.env.production
+
+# Documentation (not needed in container)
+docs/
+*.md
+!README.md
+
+# Tests (not needed in production container)
+tests/
+coverage/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+tmp/
+temp/
