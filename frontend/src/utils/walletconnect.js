@@ -1,6 +1,7 @@
 import { UniversalConnector } from '@reown/appkit-universal-connector'
 
-const PROJECT_ID = import.meta.env.VITE_WALLETCONNECT_PROJECT_ID
+const PROJECT_ID = String(import.meta.env.VITE_WALLETCONNECT_PROJECT_ID || '').trim()
+const WC_DEBUG = String(import.meta.env.VITE_DEBUG || '').toLowerCase() === 'true' || import.meta.env.DEV
 
 const stacksMainnet = {
   id: 'stacks-mainnet',
@@ -13,6 +14,8 @@ const stacksMainnet = {
 
 const STACKS_CHAIN = 'stacks:1'
 
+const REQUIRED_METHODS = ['stx_getAddresses', 'stx_signTransaction']
+
 let universalConnectorPromise = null
 
 export async function getUniversalConnector() {
@@ -21,13 +24,22 @@ export async function getUniversalConnector() {
   }
 
   if (!universalConnectorPromise) {
+    if (WC_DEBUG) {
+      // eslint-disable-next-line no-console
+      console.debug('[WalletConnect] init', {
+        origin: window.location.origin,
+        projectIdPrefix: `${PROJECT_ID.slice(0, 6)}…`,
+        chain: STACKS_CHAIN,
+      })
+    }
+
     universalConnectorPromise = UniversalConnector.init({
       projectId: PROJECT_ID,
       metadata: {
         name: 'StacksYield Pro',
         description: 'Connect to StacksYield Pro with WalletConnect',
         url: window.location.origin,
-        icons: [`${window.location.origin}/logo.svg`],
+        icons: [new URL('/logo.svg', window.location.origin).toString()],
       },
       networks: [
         {
@@ -58,26 +70,68 @@ export function getStacksAddressFromSession(session) {
 
 export async function wcConnect() {
   const connector = await getUniversalConnector()
-  const { session } = await connector.connect()
+  // Stacks wallets commonly require a REQUIRED namespace to be present.
+  const requiredNamespaces = {
+    stacks: {
+      methods: REQUIRED_METHODS,
+      chains: [STACKS_CHAIN],
+      events: [],
+    },
+  }
+
+  const { session } = await connector.connect({ requiredNamespaces })
   return { connector, session }
 }
 
 export async function wcOnDisplayUri(callback) {
   const connector = await getUniversalConnector()
 
-  const provider = connector?.provider
-  const on = provider?.on?.bind(provider)
-  const off = provider?.off?.bind(provider)
+  let stopped = false
+  let unsubscribe = () => {}
 
-  if (!on) {
-    return () => {}
+  const trySubscribe = () => {
+    const provider = connector?.provider
+    const on = provider?.on?.bind(provider)
+    const off = provider?.off?.bind(provider)
+
+    if (!on || stopped) return false
+
+    const handler = (uri) => {
+      if (WC_DEBUG) {
+        // eslint-disable-next-line no-console
+        console.debug('[WalletConnect] display_uri received')
+      }
+      callback(uri)
+    }
+
+    on('display_uri', handler)
+    unsubscribe = () => {
+      stopped = true
+      if (off) off('display_uri', handler)
+    }
+    return true
   }
 
-  const handler = (uri) => callback(uri)
-  on('display_uri', handler)
-  return () => {
-    if (off) off('display_uri', handler)
+  // Provider may not be fully ready at the moment this is called.
+  if (!trySubscribe()) {
+    const startedAt = Date.now()
+    const interval = setInterval(() => {
+      if (stopped) {
+        clearInterval(interval)
+        return
+      }
+      if (trySubscribe() || Date.now() - startedAt > 3000) {
+        clearInterval(interval)
+      }
+    }, 50)
+
+    unsubscribe = () => {
+      stopped = true
+      clearInterval(interval)
+    }
   }
+
+  return () => unsubscribe()
 }
 
 export async function wcDisconnect() {
