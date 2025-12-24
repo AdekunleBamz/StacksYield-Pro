@@ -26,6 +26,9 @@ build/
 .DS_Store
 Thumbs.db
 
+# Local-only docs (do not commit)
+.local/
+
 # Clarinet
 .cache/
 .clarinet/
