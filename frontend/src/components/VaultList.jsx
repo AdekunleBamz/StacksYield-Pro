@@ -250,24 +250,47 @@ const VaultList = () => {
     })
   }
 
-  // WalletConnect fallback for mobile wallets without deep link support
+  /**
+   * Build Xverse deep link URL for contract call
+   * This opens Xverse app directly, bypassing unreliable WalletConnect relay
+   */
+  const buildXverseDeepLink = ({ functionName, functionArgs }) => {
+    // Xverse uses a specific URL scheme for contract calls
+    // Format: xverse://contract-call?...
+    const params = new URLSearchParams({
+      contractAddress: CONTRACT_ADDRESS,
+      contractName: CONTRACT_NAME,
+      functionName,
+      // Arguments need to be hex-encoded Clarity values
+      arguments: JSON.stringify(functionArgs.map(cvToWcArg)),
+      network: 'mainnet',
+      // Return URL for after signing
+      returnUrl: window.location.href,
+    })
+    return `https://app.xverse.app/contract-call?${params.toString()}`
+  }
+
+  /**
+   * Try Xverse deep link first, then fall back to WalletConnect RPC
+   */
   const tryWalletConnect = async ({ functionName, functionArgs, postConditions, postConditionMode }) => {
     const hasSession = await wcHasActiveSession()
     if (!hasSession) {
       throw new Error('WALLET_SESSION_EXPIRED')
     }
 
-    // Show detailed instruction for mobile wallet users
+    // First, try WalletConnect RPC (give it a short timeout)
+    // Show instruction for mobile wallet users
     toast.loading(
-      '📱 Open your Xverse wallet app NOW and wait for the transaction request...',
-      { id: 'wallet-prompt', duration: 120_000 }
+      '📱 Sending request to your wallet...',
+      { id: 'wallet-prompt', duration: 30_000 }
     )
 
-    console.log('[WalletConnect] Sending transaction request via WalletConnect relay...')
+    console.log('[WalletConnect] Attempting WalletConnect RPC first...')
 
-    // Try building and signing if we have the public key
-    if (canBuildAndSign) {
-      try {
+    // Try WalletConnect RPC with a shorter timeout first
+    try {
+      if (canBuildAndSign) {
         console.log('[WalletConnect] Building unsigned transaction...')
         const unsignedTx = await withTimeout(
           makeUnsignedContractCall({
@@ -292,8 +315,8 @@ const VaultList = () => {
             broadcast: false,
             network: 'mainnet',
           }),
-          90_000,
-          'WALLET_TIMEOUT'
+          30_000, // Shorter timeout - if WC works, it should respond quickly
+          'WC_TIMEOUT'
         )
 
         console.log('[WalletConnect] Got response:', res)
@@ -307,36 +330,58 @@ const VaultList = () => {
 
         const txid = await withTimeout(broadcastSignedTx(signedTxHex), 60_000, 'Broadcast timed out')
         return { txid }
-      } catch (e) {
-        toast.dismiss('wallet-prompt')
-        console.error('[WalletConnect] stx_signTransaction error:', e)
-        if (e.message === 'WALLET_TIMEOUT' || e.message === 'WALLET_SESSION_EXPIRED') throw e
-        console.warn('[WalletConnect] Falling back to stx_callContract...')
       }
-    }
 
-    // Last resort: wallet-built contract call
-    toast.loading(
-      '📱 Open your Xverse wallet app NOW and wait for the transaction request...',
-      { id: 'wallet-prompt', duration: 120_000 }
-    )
-    console.log('[WalletConnect] Trying stx_callContract...')
-    try {
+      // Try stx_callContract if we don't have public key
+      console.log('[WalletConnect] Trying stx_callContract...')
       const callRes = await withTimeout(
         wcCallContract({
           contract: contractId,
           functionName,
           functionArgs: functionArgs.map(cvToWcArg),
         }),
-        90_000,
-        'WALLET_TIMEOUT'
+        30_000,
+        'WC_TIMEOUT'
       )
       console.log('[WalletConnect] stx_callContract response:', callRes)
       toast.dismiss('wallet-prompt')
       const txid = normalizeTxId(callRes)
       return txid ? { txid } : callRes
-    } finally {
+
+    } catch (e) {
       toast.dismiss('wallet-prompt')
+      console.warn('[WalletConnect] RPC failed:', e.message)
+
+      // If WalletConnect timed out, offer to open Xverse directly
+      if (e.message === 'WC_TIMEOUT' || e.message?.includes('timed out')) {
+        const shouldOpenXverse = window.confirm(
+          '📱 WalletConnect is not responding.\n\n' +
+          'Would you like to open Xverse wallet directly?\n\n' +
+          '(Make sure Xverse is installed on your device)'
+        )
+
+        if (shouldOpenXverse) {
+          // Open Xverse deep link
+          const deepLink = buildXverseDeepLink({ functionName, functionArgs })
+          console.log('[Xverse] Opening deep link:', deepLink)
+          
+          // For mobile, try to open the app
+          window.location.href = deepLink
+          
+          // Return a pending state - user will complete in wallet
+          return new Promise((resolve, reject) => {
+            toast.success('Opening Xverse wallet...', { duration: 3000 })
+            // Give user time to complete in wallet, then they'll return
+            setTimeout(() => {
+              reject(new Error('Complete the transaction in Xverse and return to this page'))
+            }, 5000)
+          })
+        } else {
+          throw new Error('WALLET_TIMEOUT')
+        }
+      }
+
+      throw e
     }
   }
 
