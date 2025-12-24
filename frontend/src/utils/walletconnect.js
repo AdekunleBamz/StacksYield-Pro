@@ -14,7 +14,10 @@ const stacksMainnet = {
 
 const STACKS_CHAIN = 'stacks:1'
 
-const REQUIRED_METHODS = ['stx_getAddresses', 'stx_signTransaction']
+// WalletConnect v2 sessions can be restrictive: some wallets will only allow
+// requests that were declared in `requiredNamespaces`.
+// Include the methods we might call during normal app usage.
+const REQUIRED_METHODS = ['stx_getAddresses', 'stx_signTransaction', 'stx_callContract', 'stx_transferStx']
 
 let universalConnectorPromise = null
 
