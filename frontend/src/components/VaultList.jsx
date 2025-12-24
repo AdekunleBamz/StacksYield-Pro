@@ -13,21 +13,23 @@ import {
 } from 'react-icons/hi2'
 import { 
   uintCV,
-  serializeCV,
   PostConditionMode,
   makeStandardSTXPostCondition,
   FungibleConditionCode,
 } from '@stacks/transactions'
-import { openContractCall } from '@stacks/connect'
+import { openContractCall, showConnect } from '@stacks/connect'
 import toast from 'react-hot-toast'
 import { useVaults, CONTRACT_ADDRESS, CONTRACT_NAME } from '../hooks/useContract'
 import { useWallet } from '../context/WalletContext'
 import { toMicroSTX, blocksToTime, formatNumber } from '../utils/helpers'
-import { wcCallContract } from '../utils/walletconnect'
 
-// Check if Stacks wallet extension is installed AND user is signed in
+// Check if browser extension is available
+const hasExtension = () => {
+  return !!(window.StacksProvider || window.LeatherProvider || window.HiroWalletProvider)
+}
+
+// Check if user is signed in with extension
 const isExtensionSignedIn = () => {
-  // Check if there's an active Stacks Connect session
   try {
     const userData = localStorage.getItem('blockstack-session')
     if (userData) {
@@ -40,10 +42,22 @@ const isExtensionSignedIn = () => {
   return false
 }
 
-// Helper to convert CV to hex for WalletConnect
-const cvToHex = (cv) => {
-  const serialized = serializeCV(cv)
-  return '0x' + Array.from(serialized, b => b.toString(16).padStart(2, '0')).join('')
+// Prompt user to sign in with browser extension
+const signInWithExtension = () => {
+  return new Promise((resolve, reject) => {
+    showConnect({
+      appDetails: {
+        name: 'StacksYield Pro',
+        icon: new URL('/logo.svg', window.location.origin).toString(),
+      },
+      onFinish: () => {
+        resolve(true)
+      },
+      onCancel: () => {
+        reject(new Error('Sign-in cancelled'))
+      },
+    })
+  })
 }
 
 const VaultList = () => {
@@ -116,57 +130,43 @@ const VaultList = () => {
 
   const vaults = contractVaults.length > 0 ? contractVaults : defaultVaults
 
-  // Check if connected via WalletConnect
-  const isWalletConnectSession = !!wcSession
+  // Track if extension is signed in
+  const [extensionSignedIn, setExtensionSignedIn] = useState(isExtensionSignedIn())
+
+  // Check extension sign-in status on mount
+  useEffect(() => {
+    setExtensionSignedIn(isExtensionSignedIn())
+  }, [])
 
   /**
-   * Sign and broadcast transaction
-   * - If connected via WalletConnect: use wcCallContract (signs via mobile wallet)
-   * - If connected via extension: use openContractCall
+   * Sign and broadcast transaction using browser extension
+   * WalletConnect is only used for getting the address - 
+   * transactions MUST go through the browser extension for reliability
    */
   const signAndBroadcast = async ({ functionName, functionArgs, postConditions, postConditionMode }) => {
     
-    // If connected via WalletConnect, sign through WalletConnect
-    if (isWalletConnectSession) {
-      toast.loading('Sending transaction to your wallet...', { id: 'wallet-prompt' })
-      
-      try {
-        // Format contract call for WalletConnect
-        const contractCall = {
-          contractAddress: CONTRACT_ADDRESS,
-          contractName: CONTRACT_NAME,
-          functionName,
-          functionArgs: functionArgs.map(cvToHex),
-          network: 'mainnet',
-          postConditionMode: postConditionMode === PostConditionMode.Deny ? 'deny' : 'allow',
-        }
-        
-        console.log('[WalletConnect] Calling contract:', contractCall)
-        
-        const result = await wcCallContract(contractCall)
-        
-        toast.dismiss('wallet-prompt')
-        console.log('[WalletConnect] Result:', result)
-        
-        // Extract txid from result
-        const txid = result?.txId || result?.txid || result?.transactionId || result
-        return { txid: typeof txid === 'string' ? txid : JSON.stringify(txid) }
-        
-      } catch (error) {
-        toast.dismiss('wallet-prompt')
-        console.error('[WalletConnect] Transaction failed:', error)
-        throw error
-      }
-    }
-
-    // Otherwise, try Stacks Connect (browser extension)
-    // Check if user has signed in with extension
-    if (!isExtensionSignedIn()) {
+    // Check if browser extension is available
+    if (!hasExtension()) {
       throw new Error(
-        'Please sign in with your wallet extension first, or connect via WalletConnect QR code.'
+        'Please install the Xverse or Leather browser extension to sign transactions.'
       )
     }
 
+    // If not signed in with extension, prompt to sign in
+    if (!isExtensionSignedIn()) {
+      toast.loading('Please sign in with your wallet extension...', { id: 'signin-prompt' })
+      try {
+        await signInWithExtension()
+        setExtensionSignedIn(true)
+        toast.dismiss('signin-prompt')
+        toast.success('Signed in with wallet extension!')
+      } catch (err) {
+        toast.dismiss('signin-prompt')
+        throw new Error('Please sign in with your wallet extension to continue.')
+      }
+    }
+
+    // Now use browser extension for the transaction
     return new Promise((resolve, reject) => {
       let resolved = false
 
@@ -204,7 +204,7 @@ const VaultList = () => {
         if (resolved) return
         resolved = true
         toast.dismiss('wallet-prompt')
-        console.error('Stacks Connect failed:', err)
+        console.error('Transaction failed:', err)
         reject(err)
       })
 
@@ -213,7 +213,7 @@ const VaultList = () => {
         if (!resolved) {
           resolved = true
           toast.dismiss('wallet-prompt')
-          reject(new Error('WALLET_TIMEOUT'))
+          reject(new Error('Transaction timed out. Please try again.'))
         }
       }, 120_000)
     })
