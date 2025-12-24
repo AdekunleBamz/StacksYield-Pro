@@ -1,9 +1,10 @@
 import { UniversalConnector } from '@reown/appkit-universal-connector'
 
 const PROJECT_ID = String(import.meta.env.VITE_WALLETCONNECT_PROJECT_ID || '').trim()
+const RELAY_URL = String(import.meta.env.VITE_WALLETCONNECT_RELAY_URL || '').trim()
 const WC_DEBUG = String(import.meta.env.VITE_DEBUG || '').toLowerCase() === 'true' || import.meta.env.DEV
 
-// CAIP-2 chain ID string (used in requiredNamespaces.chains)
+// CAIP-2 chain ID string (used in namespaces.stacks.chains)
 const STACKS_CHAIN_ID = 'stacks:mainnet'
 
 // CAIP Network OBJECT (used in networks array for init)
@@ -76,6 +77,9 @@ export async function getUniversalConnector() {
     // otherwise you get: "Cannot use 'in' operator to search for 'chainNamespace' in stacks:mainnet".
     universalConnectorInstance = await UniversalConnector.init({
       projectId: PROJECT_ID,
+      providerConfig: {
+        ...(RELAY_URL ? { relayUrl: RELAY_URL } : {}),
+      },
       metadata: {
         name: 'StacksYield Pro',
         description: 'Yield Aggregator & Auto-Compounding Vault System',
@@ -130,8 +134,8 @@ export function isValidStacksSession(session) {
 export async function wcConnect() {
   const connector = await getUniversalConnector()
 
-  // requiredNamespaces uses CAIP chain ID STRINGS (not objects)
-  const requiredNamespaces = {
+  // WalletConnect v2 connect() expects `namespaces` (CAIP chain ID STRINGS, not objects)
+  const namespaces = {
     stacks: {
       methods: STACKS_METHODS,
       chains: [STACKS_CHAIN_ID], // 'stacks:mainnet' - must be STRING
@@ -140,12 +144,31 @@ export async function wcConnect() {
   }
 
   if (WC_DEBUG) {
-    console.debug('[WalletConnect] Connecting with namespaces:', requiredNamespaces)
+    console.debug('[WalletConnect] Connecting with namespaces:', namespaces)
   }
 
-  // CRITICAL: await the connect call
-  const result = await connector.connect({ requiredNamespaces })
-  const { session } = result
+  let session
+  try {
+    // CRITICAL: await the connect call
+    const result = await connector.connect({ namespaces })
+    session = result?.session
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error)
+    const looksLikeRelayBlocked =
+      /Failed to publish custom payload|WebSocket|ECONNRESET|ETIMEDOUT|timed out|timeout/i.test(message)
+
+    if (WC_DEBUG) {
+      console.error('[WalletConnect] Connect error:', error)
+    }
+
+    if (looksLikeRelayBlocked) {
+      throw new Error(
+        'WalletConnect relay connection failed (often caused by network/ISP blocking). Try switching networks, enabling VPN, or setting VITE_WALLETCONNECT_RELAY_URL to a working relay.'
+      )
+    }
+
+    throw error
+  }
 
   // Verify session was actually established
   if (!isValidStacksSession(session)) {
