@@ -105,7 +105,7 @@ const Footer = () => {
 
         <div className="border-t border-stacks-gray mt-12 pt-8 flex flex-col md:flex-row items-center justify-between">
           <p className="text-gray-500 text-sm">
-            © 2024 StacksYield Pro. Built with WalletKit SDK.
+            © 2025 StacksYield Pro. Built with WalletKit SDK.
           </p>
           <p className="text-gray-500 text-sm mt-2 md:mt-0">
             Powered by <span className="text-stacks-purple">Stacks</span> • Secured by <span className="text-stacks-orange">Bitcoin</span>
