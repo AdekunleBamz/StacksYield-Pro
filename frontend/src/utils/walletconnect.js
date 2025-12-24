@@ -176,7 +176,7 @@ export async function wcCallContract({ contract, functionName, functionArgs }) {
   return wcRequestWithTimeout('stx_callContract', { contract, functionName, functionArgs })
 }
 
-export async function wcSignTransaction({ transaction, broadcast = true, network = 'mainnet' }) {
+export async function wcSignTransaction({ transaction, broadcast = false, network = 'mainnet' }) {
   return wcRequestWithTimeout('stx_signTransaction', { transaction, broadcast, network })
 }
 

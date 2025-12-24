@@ -104,6 +104,7 @@ const VaultList = () => {
   const txToHex = (tx) => `0x${bytesToHex(tx.serialize())}`
 
   const contractId = `${CONTRACT_ADDRESS}.${CONTRACT_NAME}`
+  const STACKS_NODE_RPC = 'https://stacks-node-api.mainnet.stacks.co'
 
   const canBuildAndSign = !!publicKey && !!address
 
@@ -119,6 +120,60 @@ const VaultList = () => {
     } finally {
       clearTimeout(timeoutId)
     }
+  }
+
+  const strip0x = (hex) => (typeof hex === 'string' && hex.startsWith('0x') ? hex.slice(2) : hex)
+
+  const hexToBytes = (hex) => {
+    const clean = strip0x(hex)
+    if (!clean || clean.length % 2 !== 0) throw new Error('Invalid hex string')
+    const bytes = new Uint8Array(clean.length / 2)
+    for (let i = 0; i < bytes.length; i++) {
+      bytes[i] = parseInt(clean.slice(i * 2, i * 2 + 2), 16)
+    }
+    return bytes
+  }
+
+  const normalizeSignedTxHex = (result) => {
+    if (!result) return null
+    if (typeof result === 'string') return result
+    return (
+      result.transaction ||
+      result.txHex ||
+      result.signedTx ||
+      result.signedTransaction ||
+      result.result?.transaction ||
+      result.result?.txHex ||
+      null
+    )
+  }
+
+  const normalizeTxId = (result) => {
+    if (!result) return null
+    if (typeof result === 'string') {
+      const clean = strip0x(result)
+      return /^[0-9a-fA-F]{64}$/.test(clean) ? clean : null
+    }
+    return result.txid || result.txId || result.transactionId || null
+  }
+
+  const broadcastSignedTx = async (signedTxHex) => {
+    const body = hexToBytes(signedTxHex)
+    const res = await fetch(`${STACKS_NODE_RPC}/v2/transactions`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/octet-stream' },
+      body,
+    })
+
+    const text = await res.text()
+    if (!res.ok) {
+      throw new Error(text || 'Broadcast failed')
+    }
+
+    // stacks-node typically returns the txid as a quoted or raw string
+    const txid = (text || '').replace(/(^\s*")|("\s*$)/g, '').trim()
+    if (!txid) throw new Error('Broadcast did not return a txid')
+    return txid
   }
 
   const signAndBroadcastOrFallback = async ({ functionName, functionArgs, postConditions, postConditionMode }) => {
@@ -144,14 +199,26 @@ const VaultList = () => {
         const res = await withTimeout(
           wcSignTransaction({
             transaction: txToHex(unsignedTx),
-            broadcast: true,
+            broadcast: false,
             network: 'mainnet',
           }),
           60_000,
           'Waiting for wallet approval timed out'
         )
 
-        return res
+        // Some wallets broadcast when asked, many only sign. Handle both.
+        const maybeTxid = normalizeTxId(res)
+        if (maybeTxid) {
+          return { txid: maybeTxid }
+        }
+
+        const signedTxHex = normalizeSignedTxHex(res)
+        if (!signedTxHex) {
+          throw new Error('Wallet returned an unexpected signing response')
+        }
+
+        const txid = await withTimeout(broadcastSignedTx(signedTxHex), 60_000, 'Broadcast timed out')
+        return { txid }
       } catch (e) {
         // Some wallets are inconsistent with stx_signTransaction. Fall back to wallet-built contract call,
         // which reliably triggers an approval prompt.
@@ -160,7 +227,7 @@ const VaultList = () => {
     }
 
     // Fallback: wallet builds tx (works even if wallet doesn't expose publicKey via stx_getAddresses)
-    return withTimeout(
+    const callRes = await withTimeout(
       wcCallContract({
         contract: contractId,
         functionName,
@@ -169,6 +236,9 @@ const VaultList = () => {
       60_000,
       'Waiting for wallet approval timed out'
     )
+
+    const txid = normalizeTxId(callRes)
+    return txid ? { txid } : callRes
   }
 
   const handleDeposit = async (vault) => {
