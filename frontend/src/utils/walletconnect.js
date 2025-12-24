@@ -52,8 +52,8 @@ export async function getUniversalConnector() {
     const appUrl = window.location.origin
     const iconUrl = `${appUrl}/logo.svg`
 
-    // CRITICAL FIX: Do NOT pass networks here!
-    // Namespaces are negotiated ONLY in connect() to avoid mismatch
+    // CRITICAL: networks is REQUIRED for UniversalConnector bootstrapping
+    // BUT it must use CAIP strings and MATCH connect() namespaces EXACTLY
     universalConnectorInstance = await UniversalConnector.init({
       projectId: PROJECT_ID,
       metadata: {
@@ -62,10 +62,19 @@ export async function getUniversalConnector() {
         url: appUrl,
         icons: [iconUrl],
       },
+      // REQUIRED: Must match requiredNamespaces in connect() EXACTLY
+      networks: [
+        {
+          namespace: 'stacks',
+          chains: [STACKS_CHAIN],    // CAIP string: 'stacks:mainnet'
+          methods: STACKS_METHODS,   // Same methods as connect()
+          events: STACKS_EVENTS,     // Same events as connect()
+        },
+      ],
     })
 
     if (WC_DEBUG) {
-      console.debug('[WalletConnect] Initialized successfully (no networks - will negotiate in connect)')
+      console.debug('[WalletConnect] Initialized successfully')
     }
 
     return universalConnectorInstance
