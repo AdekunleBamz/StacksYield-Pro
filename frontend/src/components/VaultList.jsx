@@ -24,7 +24,7 @@ import toast from 'react-hot-toast'
 import { useVaults, CONTRACT_ADDRESS, CONTRACT_NAME } from '../hooks/useContract'
 import { useWallet } from '../context/WalletContext'
 import { toMicroSTX, blocksToTime, formatNumber } from '../utils/helpers'
-import { wcCallContract, wcSignTransaction } from '../utils/walletconnect'
+import { wcCallContract, wcSignTransaction, wcHasActiveSession } from '../utils/walletconnect'
 
 const VaultList = () => {
   const { isConnected, connectWallet, address, publicKey, network } = useWallet()
@@ -178,6 +178,15 @@ const VaultList = () => {
   }
 
   const signAndBroadcastOrFallback = async ({ functionName, functionArgs, postConditions, postConditionMode }) => {
+    // Verify session is still active before attempting transaction
+    const hasSession = await wcHasActiveSession()
+    if (!hasSession) {
+      throw new Error('WALLET_SESSION_EXPIRED')
+    }
+
+    // Show user hint to check their wallet
+    toast.loading('📱 Please check your wallet app to approve the transaction...', { id: 'wallet-prompt' })
+
     // Preferred (your architecture rules): build unsigned tx in-app then ask wallet to sign/broadcast
     if (canBuildAndSign) {
       try {
@@ -203,9 +212,11 @@ const VaultList = () => {
             broadcast: false,
             network: 'mainnet',
           }),
-          60_000,
-          'Waiting for wallet approval timed out'
+          90_000, // Increased timeout for mobile wallet response
+          'WALLET_TIMEOUT'
         )
+
+        toast.dismiss('wallet-prompt')
 
         // Some wallets broadcast when asked, many only sign. Handle both.
         const maybeTxid = normalizeTxId(res)
@@ -221,6 +232,11 @@ const VaultList = () => {
         const txid = await withTimeout(broadcastSignedTx(signedTxHex), 60_000, 'Broadcast timed out')
         return { txid }
       } catch (e) {
+        toast.dismiss('wallet-prompt')
+        // Re-throw timeout/session errors for special handling
+        if (e.message === 'WALLET_TIMEOUT' || e.message === 'WALLET_SESSION_EXPIRED') {
+          throw e
+        }
         // Some wallets are inconsistent with stx_signTransaction. Fall back to wallet-built contract call,
         // which reliably triggers an approval prompt.
         console.warn('stx_signTransaction flow failed; falling back to stx_callContract', e)
@@ -228,18 +244,25 @@ const VaultList = () => {
     }
 
     // Fallback: wallet builds tx (works even if wallet doesn't expose publicKey via stx_getAddresses)
-    const callRes = await withTimeout(
-      wcCallContract({
-        contract: contractId,
-        functionName,
-        functionArgs: functionArgs.map(cvToWcArg),
-      }),
-      60_000,
-      'Waiting for wallet approval timed out'
-    )
+    toast.loading('📱 Please check your wallet app to approve the transaction...', { id: 'wallet-prompt' })
+    
+    try {
+      const callRes = await withTimeout(
+        wcCallContract({
+          contract: contractId,
+          functionName,
+          functionArgs: functionArgs.map(cvToWcArg),
+        }),
+        90_000, // Increased timeout
+        'WALLET_TIMEOUT'
+      )
 
-    const txid = normalizeTxId(callRes)
-    return txid ? { txid } : callRes
+      toast.dismiss('wallet-prompt')
+      const txid = normalizeTxId(callRes)
+      return txid ? { txid } : callRes
+    } finally {
+      toast.dismiss('wallet-prompt')
+    }
   }
 
   const handleDeposit = async (vault) => {
@@ -275,7 +298,20 @@ const VaultList = () => {
       setTimeout(() => refetch(), 5000)
     } catch (error) {
       console.error('Deposit error:', error)
-      toast.error(error?.message || 'Failed to initiate deposit')
+      
+      // Handle specific error cases with user-friendly messages
+      if (error?.message === 'WALLET_SESSION_EXPIRED') {
+        toast.error('Wallet session expired. Please disconnect and reconnect your wallet.')
+      } else if (error?.message === 'WALLET_TIMEOUT') {
+        toast.error(
+          'Wallet did not respond. Please open your wallet app and try again.',
+          { duration: 5000 }
+        )
+      } else if (error?.message?.includes('session expired')) {
+        toast.error('Session expired. Please reconnect your wallet.')
+      } else {
+        toast.error(error?.message || 'Failed to initiate deposit')
+      }
     } finally {
       setIsLoading(false)
     }
@@ -310,7 +346,14 @@ const VaultList = () => {
       setTimeout(() => refetch(), 5000)
     } catch (error) {
       console.error('Withdraw error:', error)
-      toast.error('Failed to initiate withdrawal')
+      
+      if (error?.message === 'WALLET_SESSION_EXPIRED') {
+        toast.error('Wallet session expired. Please disconnect and reconnect your wallet.')
+      } else if (error?.message === 'WALLET_TIMEOUT') {
+        toast.error('Wallet did not respond. Please open your wallet app and try again.', { duration: 5000 })
+      } else {
+        toast.error(error?.message || 'Failed to initiate withdrawal')
+      }
     } finally {
       setIsLoading(false)
     }
@@ -341,7 +384,14 @@ const VaultList = () => {
       setTimeout(() => refetch(), 5000)
     } catch (error) {
       console.error('Emergency withdraw error:', error)
-      toast.error('Failed to initiate emergency withdrawal')
+      
+      if (error?.message === 'WALLET_SESSION_EXPIRED') {
+        toast.error('Wallet session expired. Please disconnect and reconnect your wallet.')
+      } else if (error?.message === 'WALLET_TIMEOUT') {
+        toast.error('Wallet did not respond. Please open your wallet app and try again.', { duration: 5000 })
+      } else {
+        toast.error(error?.message || 'Failed to initiate emergency withdrawal')
+      }
     } finally {
       setIsLoading(false)
     }

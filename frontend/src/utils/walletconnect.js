@@ -144,11 +144,45 @@ export async function wcDisconnect() {
   await connector.disconnect()
 }
 
+/**
+ * Check if there's an active WalletConnect session
+ */
+export async function wcHasActiveSession() {
+  try {
+    const connector = await getUniversalConnector()
+    // UniversalConnector exposes session info via provider or getSession
+    const session = connector?.provider?.session || connector?.session
+    return !!session?.topic
+  } catch {
+    return false
+  }
+}
+
+/**
+ * Get the current session topic (needed for some operations)
+ */
+export async function wcGetSession() {
+  const connector = await getUniversalConnector()
+  return connector?.provider?.session || connector?.session || null
+}
+
 export async function wcRequest(method, params = {}) {
   const connector = await getUniversalConnector()
   if (!connector?.request) {
     throw new Error('WalletConnect provider not initialized')
   }
+
+  // Check if session is still active before making request
+  const hasSession = await wcHasActiveSession()
+  if (!hasSession) {
+    throw new Error('WalletConnect session expired. Please reconnect your wallet.')
+  }
+
+  if (WC_DEBUG) {
+    // eslint-disable-next-line no-console
+    console.debug(`[WalletConnect] Sending ${method}`, params)
+  }
+
   return connector.request({ method, params }, STACKS_CHAIN)
 }
 
