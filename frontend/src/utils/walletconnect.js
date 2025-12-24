@@ -3,12 +3,31 @@ import { UniversalConnector } from '@reown/appkit-universal-connector'
 const PROJECT_ID = String(import.meta.env.VITE_WALLETCONNECT_PROJECT_ID || '').trim()
 const WC_DEBUG = String(import.meta.env.VITE_DEBUG || '').toLowerCase() === 'true' || import.meta.env.DEV
 
-// CRITICAL: Use CAIP-2 chain ID format - 'stacks:mainnet'
-const STACKS_CHAIN = 'stacks:mainnet'
+// CAIP-2 chain ID string (used in requiredNamespaces.chains)
+const STACKS_CHAIN_ID = 'stacks:mainnet'
+
+// CAIP Network OBJECT (used in networks array for init)
+// This is what UniversalConnector.init() expects - NOT a string!
+const STACKS_MAINNET_NETWORK = {
+  id: 'stacks-mainnet',
+  chainNamespace: 'stacks',
+  caipNetworkId: 'stacks:mainnet',
+  name: 'Stacks Mainnet',
+  nativeCurrency: {
+    name: 'STX',
+    symbol: 'STX',
+    decimals: 6,
+  },
+  rpcUrls: {
+    default: {
+      http: ['https://api.mainnet.hiro.so'],
+    },
+  },
+}
 
 const DEFAULT_REQUEST_TIMEOUT_MS = 60_000
 
-// ALL methods we need - defined ONCE and used ONLY in connect()
+// Methods for Stacks
 const STACKS_METHODS = [
   'stx_getAddresses',
   'stx_signTransaction',
@@ -52,8 +71,9 @@ export async function getUniversalConnector() {
     const appUrl = window.location.origin
     const iconUrl = `${appUrl}/logo.svg`
 
-    // CRITICAL: networks is REQUIRED for UniversalConnector bootstrapping
-    // BUT it must use CAIP strings and MATCH connect() namespaces EXACTLY
+    // CRITICAL FIX: Do NOT pass networks here
+    // UniversalConnector was crashing because it expects CAIP network objects
+    // but we were mixing formats. Keep init minimal and let connect() handle namespaces.
     universalConnectorInstance = await UniversalConnector.init({
       projectId: PROJECT_ID,
       metadata: {
@@ -62,19 +82,10 @@ export async function getUniversalConnector() {
         url: appUrl,
         icons: [iconUrl],
       },
-      // REQUIRED: Must match requiredNamespaces in connect() EXACTLY
-      networks: [
-        {
-          namespace: 'stacks',
-          chains: [STACKS_CHAIN],    // CAIP string: 'stacks:mainnet'
-          methods: STACKS_METHODS,   // Same methods as connect()
-          events: STACKS_EVENTS,     // Same events as connect()
-        },
-      ],
     })
 
     if (WC_DEBUG) {
-      console.debug('[WalletConnect] Initialized successfully')
+      console.debug('[WalletConnect] Initialized successfully (minimal config)')
     }
 
     return universalConnectorInstance
@@ -111,13 +122,12 @@ export function isValidStacksSession(session) {
 export async function wcConnect() {
   const connector = await getUniversalConnector()
 
-  // CRITICAL: This is the ONLY place namespaces are defined
-  // Must use CAIP chain strings, not objects
+  // requiredNamespaces uses CAIP chain ID STRINGS (not objects)
   const requiredNamespaces = {
     stacks: {
       methods: STACKS_METHODS,
-      chains: [STACKS_CHAIN], // 'stacks:mainnet'
-      events: STACKS_EVENTS,  // ['stx_accountsChanged']
+      chains: [STACKS_CHAIN_ID], // 'stacks:mainnet' - must be STRING
+      events: STACKS_EVENTS,
     },
   }
 
@@ -241,7 +251,7 @@ export async function wcRequest(method, params = {}) {
     console.debug(`[WalletConnect] Sending ${method}`, params)
   }
 
-  return connector.request({ method, params }, STACKS_CHAIN)
+  return connector.request({ method, params }, STACKS_CHAIN_ID)
 }
 
 export async function wcRequestWithTimeout(method, params = {}, timeoutMs = DEFAULT_REQUEST_TIMEOUT_MS) {
