@@ -25,6 +25,40 @@ StacksYield Pro is a DeFi yield aggregator that allows users to deposit STX into
 
 ## 🛠️ Installation & Setup
 
+## 🔌 WalletConnect (Reown) + Stacks
+
+This app uses WalletConnect (via Reown AppKit UniversalConnector) to connect **mobile** Stacks wallets and sign transactions using Stacks JSON-RPC.
+
+### What to expect
+
+- Best UX is with **Xverse mobile** or **Leather mobile** (scan from inside the wallet’s WalletConnect scanner).
+- Phone camera apps may not recognize `wc:` QR codes. Use the wallet’s scanner or open the WalletConnect web handoff link shown in the app.
+
+### Setup checklist
+
+1. Create a project in WalletConnect Cloud / Reown and copy the Project ID.
+2. Add Allowed Origins:
+	 - `http://localhost:5173`
+	 - your Vercel origin (e.g. `https://your-app.vercel.app`)
+3. Configure env var (local + Vercel):
+
+```dotenv
+VITE_WALLETCONNECT_PROJECT_ID=YOUR_PROJECT_ID
+```
+
+### Technical notes (Stacks)
+
+- Pairing is scoped to Stacks mainnet: `stacks:1`.
+- Wallets may enforce WalletConnect v2 **required namespaces**. If a method isn’t declared as required, the wallet can refuse to prompt.
+	- This app declares required methods including: `stx_getAddresses`, `stx_signTransaction`, and `stx_callContract`.
+- After pairing, the app requests addresses with `stx_getAddresses` and signs/broadcasts using `stx_signTransaction` (with a safe fallback when needed).
+
+### Quick troubleshooting
+
+- **Blank QR**: usually invalid `VITE_WALLETCONNECT_PROJECT_ID`, missing allowlisted origin, invalid metadata/icons, or missing required namespaces.
+- **Approved in wallet but stuck “Connecting…”**: wallet didn’t respond to `stx_getAddresses` quickly; retry, or check wallet supports the method.
+- **No approval popup on Deposit**: wallet is rejecting an undeclared method; ensure `stx_callContract` is included in required namespace methods.
+
 ### Prerequisites
 
 - Node.js 18+ 
