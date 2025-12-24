@@ -9,7 +9,7 @@ const stacksMainnet = {
   caipNetworkId: 'stacks:1',
   name: 'Stacks Mainnet',
   nativeCurrency: { name: 'STX', symbol: 'STX', decimals: 6 },
-  rpcUrls: { default: { http: ['https://stacks-node-api.mainnet.stacks.co'] } },
+  rpcUrls: { default: { http: ['https://api.mainnet.hiro.so'] } },
 }
 
 const STACKS_CHAIN = 'stacks:1'
