@@ -13,6 +13,7 @@ import {
 } from 'react-icons/hi2'
 import { 
   uintCV,
+  serializeCV,
   PostConditionMode,
   makeStandardSTXPostCondition,
   FungibleConditionCode,
@@ -22,18 +23,27 @@ import toast from 'react-hot-toast'
 import { useVaults, CONTRACT_ADDRESS, CONTRACT_NAME } from '../hooks/useContract'
 import { useWallet } from '../context/WalletContext'
 import { toMicroSTX, blocksToTime, formatNumber } from '../utils/helpers'
+import { wcCallContract } from '../utils/walletconnect'
 
-// Check if Stacks wallet extension is installed (Leather, Xverse, or Hiro Wallet)
-const isExtensionInstalled = () => {
-  // Check multiple possible provider names
-  const hasProvider = !!(
-    window.StacksProvider || 
-    window.LeatherProvider || 
-    window.HiroWalletProvider ||
-    window.XverseProviders?.StacksProvider ||
-    window.btc // Xverse injects this
-  )
-  return hasProvider
+// Check if Stacks wallet extension is installed AND user is signed in
+const isExtensionSignedIn = () => {
+  // Check if there's an active Stacks Connect session
+  try {
+    const userData = localStorage.getItem('blockstack-session')
+    if (userData) {
+      const parsed = JSON.parse(userData)
+      return !!parsed?.userData?.profile
+    }
+  } catch (e) {
+    // ignore
+  }
+  return false
+}
+
+// Helper to convert CV to hex for WalletConnect
+const cvToHex = (cv) => {
+  const serialized = serializeCV(cv)
+  return '0x' + Array.from(serialized, b => b.toString(16).padStart(2, '0')).join('')
 }
 
 const VaultList = () => {
@@ -41,16 +51,6 @@ const VaultList = () => {
   const [selectedVault, setSelectedVault] = useState(null)
   const [actionType, setActionType] = useState('deposit')
   const [amount, setAmount] = useState('')
-  const [hasExtension, setHasExtension] = useState(false)
-  
-  // Check for extension after component mounts (window object available)
-  useEffect(() => {
-    // Small delay to let extensions inject their providers
-    const timer = setTimeout(() => {
-      setHasExtension(isExtensionInstalled())
-    }, 500)
-    return () => clearTimeout(timer)
-  }, [])
   const [isLoading, setIsLoading] = useState(false)
 
   const { vaults: contractVaults, loading: vaultsLoading, refetch } = useVaults()
@@ -116,21 +116,54 @@ const VaultList = () => {
 
   const vaults = contractVaults.length > 0 ? contractVaults : defaultVaults
 
-  // Check if connected via WalletConnect (mobile) vs extension
-  const isWalletConnectOnly = !!wcSession && !isExtensionInstalled()
+  // Check if connected via WalletConnect
+  const isWalletConnectSession = !!wcSession
 
   /**
-   * HYBRID APPROACH:
-   * - WalletConnect is used for wallet connection/identity only
-   * - All transactions are signed via browser extension (openContractCall)
-   * - If no extension is available, show helpful message
+   * Sign and broadcast transaction
+   * - If connected via WalletConnect: use wcCallContract (signs via mobile wallet)
+   * - If connected via extension: use openContractCall
    */
   const signAndBroadcast = async ({ functionName, functionArgs, postConditions, postConditionMode }) => {
-    // Check if extension is available
-    if (!isExtensionInstalled()) {
+    
+    // If connected via WalletConnect, sign through WalletConnect
+    if (isWalletConnectSession) {
+      toast.loading('Sending transaction to your wallet...', { id: 'wallet-prompt' })
+      
+      try {
+        // Format contract call for WalletConnect
+        const contractCall = {
+          contractAddress: CONTRACT_ADDRESS,
+          contractName: CONTRACT_NAME,
+          functionName,
+          functionArgs: functionArgs.map(cvToHex),
+          network: 'mainnet',
+          postConditionMode: postConditionMode === PostConditionMode.Deny ? 'deny' : 'allow',
+        }
+        
+        console.log('[WalletConnect] Calling contract:', contractCall)
+        
+        const result = await wcCallContract(contractCall)
+        
+        toast.dismiss('wallet-prompt')
+        console.log('[WalletConnect] Result:', result)
+        
+        // Extract txid from result
+        const txid = result?.txId || result?.txid || result?.transactionId || result
+        return { txid: typeof txid === 'string' ? txid : JSON.stringify(txid) }
+        
+      } catch (error) {
+        toast.dismiss('wallet-prompt')
+        console.error('[WalletConnect] Transaction failed:', error)
+        throw error
+      }
+    }
+
+    // Otherwise, try Stacks Connect (browser extension)
+    // Check if user has signed in with extension
+    if (!isExtensionSignedIn()) {
       throw new Error(
-        'To sign transactions, please install the Leather or Xverse browser extension. ' +
-        'WalletConnect connection provides your wallet address, but transactions require a browser extension.'
+        'Please sign in with your wallet extension first, or connect via WalletConnect QR code.'
       )
     }
 
@@ -172,12 +205,7 @@ const VaultList = () => {
         resolved = true
         toast.dismiss('wallet-prompt')
         console.error('Stacks Connect failed:', err)
-        // Check if the error is about missing provider
-        if (err?.message?.includes('provider') || err?.message?.includes('install')) {
-          reject(new Error('No wallet extension detected. Please install Leather or Xverse browser extension.'))
-        } else {
-          reject(err)
-        }
+        reject(err)
       })
 
       // Timeout after 120 seconds
@@ -429,19 +457,11 @@ const VaultList = () => {
                   </div>
                 )}
 
-                {/* Extension Required Warning */}
-                {isConnected && isWalletConnectOnly && (
-                  <div className="p-3 bg-amber-500/10 rounded-lg border border-amber-500/20">
-                    <p className="text-xs text-amber-400 text-center">
-                      ⚠️ Browser extension required to sign transactions. 
-                      <a 
-                        href="https://leather.io" 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="underline ml-1"
-                      >
-                        Install Leather
-                      </a>
+                {/* WalletConnect info */}
+                {isConnected && isWalletConnectSession && (
+                  <div className="p-3 bg-green-500/10 rounded-lg border border-green-500/20">
+                    <p className="text-xs text-green-400 text-center">
+                      📱 Connected via WalletConnect - transactions will be signed in your mobile wallet
                     </p>
                   </div>
                 )}
