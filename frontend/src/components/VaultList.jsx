@@ -104,7 +104,8 @@ const VaultList = () => {
   const txToHex = (tx) => `0x${bytesToHex(tx.serialize())}`
 
   const contractId = `${CONTRACT_ADDRESS}.${CONTRACT_NAME}`
-  const STACKS_NODE_RPC = 'https://stacks-node-api.mainnet.stacks.co'
+  // Use Hiro API (browser-compatible with proper CORS and SSL)
+  const STACKS_NODE_RPC = 'https://api.mainnet.hiro.so'
 
   const canBuildAndSign = !!publicKey && !!address
 
