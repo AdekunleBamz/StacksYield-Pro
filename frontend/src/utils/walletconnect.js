@@ -14,6 +14,8 @@ const stacksMainnet = {
 
 const STACKS_CHAIN = 'stacks:1'
 
+const DEFAULT_REQUEST_TIMEOUT_MS = 60_000
+
 // WalletConnect v2 sessions can be restrictive: some wallets will only allow
 // requests that were declared in `requiredNamespaces`.
 // Include the methods we might call during normal app usage.
@@ -150,20 +152,34 @@ export async function wcRequest(method, params = {}) {
   return connector.request({ method, params }, STACKS_CHAIN)
 }
 
+export async function wcRequestWithTimeout(method, params = {}, timeoutMs = DEFAULT_REQUEST_TIMEOUT_MS) {
+  let timeoutId
+  try {
+    return await Promise.race([
+      wcRequest(method, params),
+      new Promise((_, reject) => {
+        timeoutId = setTimeout(() => reject(new Error(`${method} timed out`)), timeoutMs)
+      }),
+    ])
+  } finally {
+    clearTimeout(timeoutId)
+  }
+}
+
 export async function wcGetAddresses() {
-  const res = await wcRequest('stx_getAddresses', {})
+  const res = await wcRequestWithTimeout('stx_getAddresses', {}, 15_000)
   // Some wallets may include extra fields like publicKey; preserve them.
   return res?.addresses || []
 }
 
 export async function wcCallContract({ contract, functionName, functionArgs }) {
-  return wcRequest('stx_callContract', { contract, functionName, functionArgs })
+  return wcRequestWithTimeout('stx_callContract', { contract, functionName, functionArgs })
 }
 
 export async function wcSignTransaction({ transaction, broadcast = true, network = 'mainnet' }) {
-  return wcRequest('stx_signTransaction', { transaction, broadcast, network })
+  return wcRequestWithTimeout('stx_signTransaction', { transaction, broadcast, network })
 }
 
 export async function wcTransferStx({ sender, recipient, amount, memo = '', network = 'mainnet' }) {
-  return wcRequest('stx_transferStx', { sender, recipient, amount, memo, network })
+  return wcRequestWithTimeout('stx_transferStx', { sender, recipient, amount, memo, network })
 }

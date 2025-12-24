@@ -107,35 +107,68 @@ const VaultList = () => {
 
   const canBuildAndSign = !!publicKey && !!address
 
+  const withTimeout = async (promise, ms, message) => {
+    let timeoutId
+    try {
+      return await Promise.race([
+        promise,
+        new Promise((_, reject) => {
+          timeoutId = setTimeout(() => reject(new Error(message || 'Timed out')), ms)
+        }),
+      ])
+    } finally {
+      clearTimeout(timeoutId)
+    }
+  }
+
   const signAndBroadcastOrFallback = async ({ functionName, functionArgs, postConditions, postConditionMode }) => {
     // Preferred (your architecture rules): build unsigned tx in-app then ask wallet to sign/broadcast
     if (canBuildAndSign) {
-      const unsignedTx = await makeUnsignedContractCall({
-        contractAddress: CONTRACT_ADDRESS,
-        contractName: CONTRACT_NAME,
-        functionName,
-        functionArgs,
-        network,
-        anchorMode: AnchorMode.Any,
-        postConditions,
-        postConditionMode,
-        publicKey,
-      })
+      try {
+        const unsignedTx = await withTimeout(
+          makeUnsignedContractCall({
+            contractAddress: CONTRACT_ADDRESS,
+            contractName: CONTRACT_NAME,
+            functionName,
+            functionArgs,
+            network,
+            anchorMode: AnchorMode.Any,
+            postConditions,
+            postConditionMode,
+            publicKey,
+          }),
+          20_000,
+          'Building transaction timed out'
+        )
 
-      const res = await wcSignTransaction({
-        transaction: txToHex(unsignedTx),
-        broadcast: true,
-        network: 'mainnet',
-      })
-      return res
+        const res = await withTimeout(
+          wcSignTransaction({
+            transaction: txToHex(unsignedTx),
+            broadcast: true,
+            network: 'mainnet',
+          }),
+          60_000,
+          'Waiting for wallet approval timed out'
+        )
+
+        return res
+      } catch (e) {
+        // Some wallets are inconsistent with stx_signTransaction. Fall back to wallet-built contract call,
+        // which reliably triggers an approval prompt.
+        console.warn('stx_signTransaction flow failed; falling back to stx_callContract', e)
+      }
     }
 
     // Fallback: wallet builds tx (works even if wallet doesn't expose publicKey via stx_getAddresses)
-    return wcCallContract({
-      contract: contractId,
-      functionName,
-      functionArgs: functionArgs.map(cvToWcArg),
-    })
+    return withTimeout(
+      wcCallContract({
+        contract: contractId,
+        functionName,
+        functionArgs: functionArgs.map(cvToWcArg),
+      }),
+      60_000,
+      'Waiting for wallet approval timed out'
+    )
   }
 
   const handleDeposit = async (vault) => {
@@ -171,7 +204,7 @@ const VaultList = () => {
       setTimeout(() => refetch(), 5000)
     } catch (error) {
       console.error('Deposit error:', error)
-      toast.error('Failed to initiate deposit')
+      toast.error(error?.message || 'Failed to initiate deposit')
     } finally {
       setIsLoading(false)
     }
