@@ -7,6 +7,23 @@ import {
 } from '@stacks/transactions'
 import { CONTRACT_ADDRESS, CONTRACT_NAME, network } from '../context/WalletContext'
 
+const withTimeout = async (promise, ms, message) => {
+  let timeoutId
+  try {
+    return await Promise.race([
+      promise,
+      new Promise((_, reject) => {
+        timeoutId = setTimeout(() => reject(new Error(message || 'Timed out')), ms)
+      }),
+    ])
+  } finally {
+    clearTimeout(timeoutId)
+  }
+}
+
+const callRO = (args, timeoutMs = 15_000) =>
+  withTimeout(callReadOnlyFunction(args), timeoutMs, `${args?.functionName || 'call-read'} timed out`)
+
 // Fetch vault data from contract
 export const useVault = (vaultId) => {
   const [vault, setVault] = useState(null)
@@ -17,7 +34,7 @@ export const useVault = (vaultId) => {
     const fetchVault = async () => {
       try {
         setLoading(true)
-        const result = await callReadOnlyFunction({
+        const result = await callRO({
           network,
           contractAddress: CONTRACT_ADDRESS,
           contractName: CONTRACT_NAME,
@@ -72,7 +89,7 @@ export const useVaults = () => {
       // Fetch vaults 1-3 (default vaults)
       for (let i = 1; i <= 3; i++) {
         try {
-          const result = await callReadOnlyFunction({
+          const result = await callRO({
             network,
             contractAddress: CONTRACT_ADDRESS,
             contractName: CONTRACT_NAME,
@@ -133,7 +150,7 @@ export const useUserDeposit = (userAddress, vaultId) => {
 
       try {
         setLoading(true)
-        const result = await callReadOnlyFunction({
+        const result = await callRO({
           network,
           contractAddress: CONTRACT_ADDRESS,
           contractName: CONTRACT_NAME,
@@ -183,7 +200,7 @@ export const useUserStats = (userAddress) => {
 
     try {
       setLoading(true)
-      const result = await callReadOnlyFunction({
+      const result = await callRO({
         network,
         contractAddress: CONTRACT_ADDRESS,
         contractName: CONTRACT_NAME,
@@ -233,7 +250,7 @@ export const useProtocolStats = () => {
       setLoading(true)
       
       // Fetch TVL
-      const tvlResult = await callReadOnlyFunction({
+      const tvlResult = await callRO({
         network,
         contractAddress: CONTRACT_ADDRESS,
         contractName: CONTRACT_NAME,
@@ -243,7 +260,7 @@ export const useProtocolStats = () => {
       })
       
       // Fetch total users
-      const usersResult = await callReadOnlyFunction({
+      const usersResult = await callRO({
         network,
         contractAddress: CONTRACT_ADDRESS,
         contractName: CONTRACT_NAME,
@@ -253,7 +270,7 @@ export const useProtocolStats = () => {
       })
       
       // Fetch total fees
-      const feesResult = await callReadOnlyFunction({
+      const feesResult = await callRO({
         network,
         contractAddress: CONTRACT_ADDRESS,
         contractName: CONTRACT_NAME,
@@ -300,7 +317,7 @@ export const usePendingRewards = (userAddress, vaultId) => {
 
       try {
         setLoading(true)
-        const result = await callReadOnlyFunction({
+        const result = await callRO({
           network,
           contractAddress: CONTRACT_ADDRESS,
           contractName: CONTRACT_NAME,

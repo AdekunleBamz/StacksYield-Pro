@@ -11,7 +11,9 @@ import {
 // Contract configuration
 export const CONTRACT_ADDRESS = 'SP3FKNEZ86RG5RT7SZ5FBRGH85FZNG94ZH1MCGG6N'
 export const CONTRACT_NAME = 'stacksyield-pro'
+export const STACKS_CORE_API = 'https://stacks-node-api.mainnet.stacks.co'
 export const network = new StacksMainnet()
+network.coreApiUrl = STACKS_CORE_API
 
 // Stacks API endpoint for balance queries
 const STACKS_API = 'https://api.mainnet.hiro.so'
