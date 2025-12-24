@@ -20,6 +20,7 @@ import {
   FungibleConditionCode,
   AnchorMode,
 } from '@stacks/transactions'
+import { openContractCall } from '@stacks/connect'
 import toast from 'react-hot-toast'
 import { useVaults, CONTRACT_ADDRESS, CONTRACT_NAME } from '../hooks/useContract'
 import { useWallet } from '../context/WalletContext'
@@ -177,17 +178,79 @@ const VaultList = () => {
     return txid
   }
 
+  /**
+   * Try Stacks Connect first (reliable for browser extensions & deep links),
+   * then fall back to WalletConnect RPC if needed.
+   */
   const signAndBroadcastOrFallback = async ({ functionName, functionArgs, postConditions, postConditionMode }) => {
-    // Verify session is still active before attempting transaction
+    // Try Stacks Connect first - this works with Leather/Xverse browser extensions
+    // and can deep-link to mobile wallets
+    return new Promise((resolve, reject) => {
+      let resolved = false
+
+      const onFinish = (data) => {
+        if (resolved) return
+        resolved = true
+        toast.dismiss('wallet-prompt')
+        resolve({ txid: data.txId })
+      }
+
+      const onCancel = () => {
+        if (resolved) return
+        resolved = true
+        toast.dismiss('wallet-prompt')
+        reject(new Error('Transaction cancelled by user'))
+      }
+
+      toast.loading('Opening wallet for approval...', { id: 'wallet-prompt' })
+
+      openContractCall({
+        contractAddress: CONTRACT_ADDRESS,
+        contractName: CONTRACT_NAME,
+        functionName,
+        functionArgs,
+        postConditions,
+        postConditionMode,
+        network,
+        appDetails: {
+          name: 'StacksYield Pro',
+          icon: new URL('/logo.svg', window.location.origin).toString(),
+        },
+        onFinish,
+        onCancel,
+      }).catch((err) => {
+        if (resolved) return
+        resolved = true
+        toast.dismiss('wallet-prompt')
+        console.warn('Stacks Connect failed, trying WalletConnect...', err)
+        
+        // Fall back to WalletConnect if Stacks Connect fails (no extension installed)
+        tryWalletConnect({ functionName, functionArgs, postConditions, postConditionMode })
+          .then(resolve)
+          .catch(reject)
+      })
+
+      // Timeout after 120 seconds
+      setTimeout(() => {
+        if (!resolved) {
+          resolved = true
+          toast.dismiss('wallet-prompt')
+          reject(new Error('WALLET_TIMEOUT'))
+        }
+      }, 120_000)
+    })
+  }
+
+  // WalletConnect fallback for mobile wallets without deep link support
+  const tryWalletConnect = async ({ functionName, functionArgs, postConditions, postConditionMode }) => {
     const hasSession = await wcHasActiveSession()
     if (!hasSession) {
       throw new Error('WALLET_SESSION_EXPIRED')
     }
 
-    // Show user hint to check their wallet
-    toast.loading('📱 Please check your wallet app to approve the transaction...', { id: 'wallet-prompt' })
+    toast.loading('📱 Please check your wallet app to approve...', { id: 'wallet-prompt' })
 
-    // Preferred (your architecture rules): build unsigned tx in-app then ask wallet to sign/broadcast
+    // Try building and signing if we have the public key
     if (canBuildAndSign) {
       try {
         const unsignedTx = await withTimeout(
@@ -212,40 +275,29 @@ const VaultList = () => {
             broadcast: false,
             network: 'mainnet',
           }),
-          90_000, // Increased timeout for mobile wallet response
+          90_000,
           'WALLET_TIMEOUT'
         )
 
         toast.dismiss('wallet-prompt')
 
-        // Some wallets broadcast when asked, many only sign. Handle both.
         const maybeTxid = normalizeTxId(res)
-        if (maybeTxid) {
-          return { txid: maybeTxid }
-        }
+        if (maybeTxid) return { txid: maybeTxid }
 
         const signedTxHex = normalizeSignedTxHex(res)
-        if (!signedTxHex) {
-          throw new Error('Wallet returned an unexpected signing response')
-        }
+        if (!signedTxHex) throw new Error('Wallet returned an unexpected signing response')
 
         const txid = await withTimeout(broadcastSignedTx(signedTxHex), 60_000, 'Broadcast timed out')
         return { txid }
       } catch (e) {
         toast.dismiss('wallet-prompt')
-        // Re-throw timeout/session errors for special handling
-        if (e.message === 'WALLET_TIMEOUT' || e.message === 'WALLET_SESSION_EXPIRED') {
-          throw e
-        }
-        // Some wallets are inconsistent with stx_signTransaction. Fall back to wallet-built contract call,
-        // which reliably triggers an approval prompt.
-        console.warn('stx_signTransaction flow failed; falling back to stx_callContract', e)
+        if (e.message === 'WALLET_TIMEOUT' || e.message === 'WALLET_SESSION_EXPIRED') throw e
+        console.warn('stx_signTransaction failed; trying stx_callContract', e)
       }
     }
 
-    // Fallback: wallet builds tx (works even if wallet doesn't expose publicKey via stx_getAddresses)
-    toast.loading('📱 Please check your wallet app to approve the transaction...', { id: 'wallet-prompt' })
-    
+    // Last resort: wallet-built contract call
+    toast.loading('📱 Please check your wallet app to approve...', { id: 'wallet-prompt' })
     try {
       const callRes = await withTimeout(
         wcCallContract({
@@ -253,10 +305,9 @@ const VaultList = () => {
           functionName,
           functionArgs: functionArgs.map(cvToWcArg),
         }),
-        90_000, // Increased timeout
+        90_000,
         'WALLET_TIMEOUT'
       )
-
       toast.dismiss('wallet-prompt')
       const txid = normalizeTxId(callRes)
       return txid ? { txid } : callRes
