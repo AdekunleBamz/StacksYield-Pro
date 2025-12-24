@@ -134,23 +134,23 @@ export function isValidStacksSession(session) {
 export async function wcConnect() {
   const connector = await getUniversalConnector()
 
-  // WalletConnect v2 connect() expects `namespaces` (CAIP chain ID STRINGS, not objects)
-  const namespaces = {
+  // Use optionalNamespaces so wallet can approve what it supports (improves compatibility)
+  const optionalNamespaces = {
     stacks: {
       methods: STACKS_METHODS,
-      chains: [STACKS_CHAIN_ID], // 'stacks:mainnet' - must be STRING
+      chains: [STACKS_CHAIN_ID], // 'stacks:1' - CAIP chain string
       events: STACKS_EVENTS,
     },
   }
 
   if (WC_DEBUG) {
-    console.debug('[WalletConnect] Connecting with namespaces:', namespaces)
+    console.debug('[WalletConnect] Connecting with optionalNamespaces:', optionalNamespaces)
   }
 
   let session
   try {
-    // CRITICAL: await the connect call
-    const result = await connector.connect({ namespaces })
+    // CRITICAL: await the connect call - use optionalNamespaces for better wallet compatibility
+    const result = await connector.connect({ optionalNamespaces })
     session = result?.session
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error)
@@ -265,6 +265,20 @@ export async function wcGetSession() {
   return connector?.provider?.session || connector?.session || null
 }
 
+/**
+ * Detect the approved Stacks chain ID from the active session.
+ * Falls back to the default STACKS_CHAIN_ID if not found.
+ */
+export async function getApprovedStacksChainId() {
+  const session = await wcGetSession()
+  const chains = session?.namespaces?.stacks?.chains
+  if (chains?.length) {
+    return chains[0] // e.g. 'stacks:1' or 'stacks:mainnet'
+  }
+  // Fallback to configured default
+  return STACKS_CHAIN_ID
+}
+
 export async function wcRequest(method, params = {}) {
   const connector = await getUniversalConnector()
   if (!connector?.request) {
@@ -277,12 +291,15 @@ export async function wcRequest(method, params = {}) {
     throw new Error('WalletConnect session expired. Please reconnect your wallet.')
   }
 
+  // Use the chain ID the wallet actually approved (dynamic, not hardcoded)
+  const chainId = await getApprovedStacksChainId()
+
   if (WC_DEBUG) {
     // eslint-disable-next-line no-console
-    console.debug(`[WalletConnect] Sending ${method}`, params)
+    console.debug(`[WalletConnect] Sending ${method} on ${chainId}`, params)
   }
 
-  return connector.request({ method, params }, STACKS_CHAIN_ID)
+  return connector.request({ method, params }, chainId)
 }
 
 export async function wcRequestWithTimeout(method, params = {}, timeoutMs = DEFAULT_REQUEST_TIMEOUT_MS) {
