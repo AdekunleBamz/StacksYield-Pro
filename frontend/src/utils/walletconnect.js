@@ -26,7 +26,7 @@ const STACKS_MAINNET_NETWORK = {
   },
 }
 
-const DEFAULT_REQUEST_TIMEOUT_MS = 60_000
+const DEFAULT_REQUEST_TIMEOUT_MS = 120_000
 
 // Methods for Stacks
 const STACKS_METHODS = [
@@ -300,7 +300,7 @@ export async function wcRequestWithTimeout(method, params = {}, timeoutMs = DEFA
 }
 
 export async function wcGetAddresses() {
-  const res = await wcRequestWithTimeout('stx_getAddresses', {}, 15_000)
+  const res = await wcRequestWithTimeout('stx_getAddresses', {}, 30_000)
   // Some wallets may include extra fields like publicKey; preserve them.
   return res?.addresses || []
 }
