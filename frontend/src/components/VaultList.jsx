@@ -28,12 +28,15 @@ import { toMicroSTX, blocksToTime, formatNumber } from '../utils/helpers'
 import { wcCallContract, wcSignTransaction, wcHasActiveSession } from '../utils/walletconnect'
 
 const VaultList = () => {
-  const { isConnected, connectWallet, address, publicKey, network } = useWallet()
+  const { isConnected, connectWallet, address, publicKey, network, wcSession } = useWallet()
   const [selectedVault, setSelectedVault] = useState(null)
   const [actionType, setActionType] = useState('deposit')
   const [amount, setAmount] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   
+  // Check if connected via WalletConnect (vs browser extension)
+  const isWalletConnectSession = !!wcSession
+
   const { vaults: contractVaults, loading: vaultsLoading, refetch } = useVaults()
 
   // Vault metadata (icons, colors, descriptions)
@@ -179,12 +182,18 @@ const VaultList = () => {
   }
 
   /**
-   * Try Stacks Connect first (reliable for browser extensions & deep links),
-   * then fall back to WalletConnect RPC if needed.
+   * Route transaction based on connection type:
+   * - WalletConnect session: Use WalletConnect RPC directly
+   * - Browser extension: Use Stacks Connect (openContractCall)
    */
   const signAndBroadcastOrFallback = async ({ functionName, functionArgs, postConditions, postConditionMode }) => {
-    // Try Stacks Connect first - this works with Leather/Xverse browser extensions
-    // and can deep-link to mobile wallets
+    // If connected via WalletConnect, skip Stacks Connect entirely
+    // (Stacks Connect requires its own auth and won't work with WC session)
+    if (isWalletConnectSession) {
+      return tryWalletConnect({ functionName, functionArgs, postConditions, postConditionMode })
+    }
+
+    // Try Stacks Connect for browser extension users
     return new Promise((resolve, reject) => {
       let resolved = false
 
@@ -248,11 +257,18 @@ const VaultList = () => {
       throw new Error('WALLET_SESSION_EXPIRED')
     }
 
-    toast.loading('📱 Please check your wallet app to approve...', { id: 'wallet-prompt' })
+    // Show detailed instruction for mobile wallet users
+    toast.loading(
+      '📱 Open your Xverse wallet app NOW and wait for the transaction request...',
+      { id: 'wallet-prompt', duration: 120_000 }
+    )
+
+    console.log('[WalletConnect] Sending transaction request via WalletConnect relay...')
 
     // Try building and signing if we have the public key
     if (canBuildAndSign) {
       try {
+        console.log('[WalletConnect] Building unsigned transaction...')
         const unsignedTx = await withTimeout(
           makeUnsignedContractCall({
             contractAddress: CONTRACT_ADDRESS,
@@ -269,6 +285,7 @@ const VaultList = () => {
           'Building transaction timed out'
         )
 
+        console.log('[WalletConnect] Requesting signature via stx_signTransaction...')
         const res = await withTimeout(
           wcSignTransaction({
             transaction: txToHex(unsignedTx),
@@ -279,6 +296,7 @@ const VaultList = () => {
           'WALLET_TIMEOUT'
         )
 
+        console.log('[WalletConnect] Got response:', res)
         toast.dismiss('wallet-prompt')
 
         const maybeTxid = normalizeTxId(res)
@@ -291,13 +309,18 @@ const VaultList = () => {
         return { txid }
       } catch (e) {
         toast.dismiss('wallet-prompt')
+        console.error('[WalletConnect] stx_signTransaction error:', e)
         if (e.message === 'WALLET_TIMEOUT' || e.message === 'WALLET_SESSION_EXPIRED') throw e
-        console.warn('stx_signTransaction failed; trying stx_callContract', e)
+        console.warn('[WalletConnect] Falling back to stx_callContract...')
       }
     }
 
     // Last resort: wallet-built contract call
-    toast.loading('📱 Please check your wallet app to approve...', { id: 'wallet-prompt' })
+    toast.loading(
+      '📱 Open your Xverse wallet app NOW and wait for the transaction request...',
+      { id: 'wallet-prompt', duration: 120_000 }
+    )
+    console.log('[WalletConnect] Trying stx_callContract...')
     try {
       const callRes = await withTimeout(
         wcCallContract({
@@ -308,6 +331,7 @@ const VaultList = () => {
         90_000,
         'WALLET_TIMEOUT'
       )
+      console.log('[WalletConnect] stx_callContract response:', callRes)
       toast.dismiss('wallet-prompt')
       const txid = normalizeTxId(callRes)
       return txid ? { txid } : callRes
