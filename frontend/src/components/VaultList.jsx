@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { 
   HiShieldCheck, 
   HiScale, 
@@ -23,11 +23,34 @@ import { useVaults, CONTRACT_ADDRESS, CONTRACT_NAME } from '../hooks/useContract
 import { useWallet } from '../context/WalletContext'
 import { toMicroSTX, blocksToTime, formatNumber } from '../utils/helpers'
 
+// Check if Stacks wallet extension is installed (Leather, Xverse, or Hiro Wallet)
+const isExtensionInstalled = () => {
+  // Check multiple possible provider names
+  const hasProvider = !!(
+    window.StacksProvider || 
+    window.LeatherProvider || 
+    window.HiroWalletProvider ||
+    window.XverseProviders?.StacksProvider ||
+    window.btc // Xverse injects this
+  )
+  return hasProvider
+}
+
 const VaultList = () => {
-  const { isConnected, connectWallet, address, network } = useWallet()
+  const { isConnected, connectWallet, address, network, wcSession } = useWallet()
   const [selectedVault, setSelectedVault] = useState(null)
   const [actionType, setActionType] = useState('deposit')
   const [amount, setAmount] = useState('')
+  const [hasExtension, setHasExtension] = useState(false)
+  
+  // Check for extension after component mounts (window object available)
+  useEffect(() => {
+    // Small delay to let extensions inject their providers
+    const timer = setTimeout(() => {
+      setHasExtension(isExtensionInstalled())
+    }, 500)
+    return () => clearTimeout(timer)
+  }, [])
   const [isLoading, setIsLoading] = useState(false)
 
   const { vaults: contractVaults, loading: vaultsLoading, refetch } = useVaults()
@@ -93,13 +116,24 @@ const VaultList = () => {
 
   const vaults = contractVaults.length > 0 ? contractVaults : defaultVaults
 
+  // Check if connected via WalletConnect (mobile) vs extension
+  const isWalletConnectOnly = !!wcSession && !isExtensionInstalled()
+
   /**
    * HYBRID APPROACH:
    * - WalletConnect is used for wallet connection/identity only
    * - All transactions are signed via browser extension (openContractCall)
-   * - This is more reliable than WalletConnect RPC for transaction signing
+   * - If no extension is available, show helpful message
    */
   const signAndBroadcast = async ({ functionName, functionArgs, postConditions, postConditionMode }) => {
+    // Check if extension is available
+    if (!isExtensionInstalled()) {
+      throw new Error(
+        'To sign transactions, please install the Leather or Xverse browser extension. ' +
+        'WalletConnect connection provides your wallet address, but transactions require a browser extension.'
+      )
+    }
+
     return new Promise((resolve, reject) => {
       let resolved = false
 
@@ -117,7 +151,7 @@ const VaultList = () => {
         reject(new Error('Transaction cancelled by user'))
       }
 
-      toast.loading('Opening browser extension for approval...', { id: 'wallet-prompt' })
+      toast.loading('Opening wallet extension for approval...', { id: 'wallet-prompt' })
 
       openContractCall({
         contractAddress: CONTRACT_ADDRESS,
@@ -138,7 +172,12 @@ const VaultList = () => {
         resolved = true
         toast.dismiss('wallet-prompt')
         console.error('Stacks Connect failed:', err)
-        reject(new Error('Please install a Stacks wallet extension (Leather or Xverse) to sign transactions.'))
+        // Check if the error is about missing provider
+        if (err?.message?.includes('provider') || err?.message?.includes('install')) {
+          reject(new Error('No wallet extension detected. Please install Leather or Xverse browser extension.'))
+        } else {
+          reject(err)
+        }
       })
 
       // Timeout after 120 seconds
@@ -387,6 +426,23 @@ const VaultList = () => {
                 {!vault.isActive && (
                   <div className="p-3 bg-red-500/10 rounded-lg border border-red-500/20">
                     <p className="text-sm text-red-400 text-center">Vault is currently paused</p>
+                  </div>
+                )}
+
+                {/* Extension Required Warning */}
+                {isConnected && isWalletConnectOnly && (
+                  <div className="p-3 bg-amber-500/10 rounded-lg border border-amber-500/20">
+                    <p className="text-xs text-amber-400 text-center">
+                      ⚠️ Browser extension required to sign transactions. 
+                      <a 
+                        href="https://leather.io" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="underline ml-1"
+                      >
+                        Install Leather
+                      </a>
+                    </p>
                   </div>
                 )}
 
