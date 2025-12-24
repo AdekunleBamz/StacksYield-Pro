@@ -5,6 +5,7 @@ import {
   wcDisconnect,
   wcOnDisplayUri,
   wcGetAddresses,
+  getStacksAddressFromSession,
 } from '../utils/walletconnect'
 
 // Contract configuration
@@ -27,6 +28,14 @@ export const WalletProvider = ({ children }) => {
   const [stxBalance, setStxBalance] = useState(null)
   const [balanceLoading, setBalanceLoading] = useState(false)
   const [wcUri, setWcUri] = useState(null)
+
+  const withTimeout = useCallback((promise, ms, message) => {
+    let timeoutId
+    const timeout = new Promise((_, reject) => {
+      timeoutId = setTimeout(() => reject(new Error(message || 'Timed out')), ms)
+    })
+    return Promise.race([promise, timeout]).finally(() => clearTimeout(timeoutId))
+  }, [])
 
   // Fetch STX balance from Stacks API
   const fetchBalance = useCallback(async () => {
@@ -82,10 +91,22 @@ export const WalletProvider = ({ children }) => {
       setWcUri(null)
 
       // Per WalletConnect Stacks spec: request addresses via JSON-RPC
-      const addresses = await wcGetAddresses()
-      const stx = addresses?.find?.((a) => a?.symbol === 'STX') || addresses?.[0]
-      setAddress(stx?.address || null)
-      setPublicKey(stx?.publicKey || null)
+      let stxAddress = null
+      let stxPublicKey = null
+      try {
+        const addresses = await withTimeout(wcGetAddresses(), 15000, 'stx_getAddresses timed out')
+        const stx = addresses?.find?.((a) => a?.symbol === 'STX') || addresses?.[0]
+        stxAddress = stx?.address || null
+        stxPublicKey = stx?.publicKey || null
+      } catch (e) {
+        // Some wallets may not respond to stx_getAddresses quickly (or at all).
+        // Fall back to the session account so the UI can still show as connected.
+        console.warn('WalletConnect stx_getAddresses failed:', e)
+        stxAddress = getStacksAddressFromSession(session)
+      }
+
+      setAddress(stxAddress)
+      setPublicKey(stxPublicKey)
       return session
     } catch (error) {
       console.error('WalletConnect connect error:', error)
