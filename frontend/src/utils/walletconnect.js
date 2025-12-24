@@ -3,33 +3,23 @@ import { UniversalConnector } from '@reown/appkit-universal-connector'
 const PROJECT_ID = String(import.meta.env.VITE_WALLETCONNECT_PROJECT_ID || '').trim()
 const WC_DEBUG = String(import.meta.env.VITE_DEBUG || '').toLowerCase() === 'true' || import.meta.env.DEV
 
-// CRITICAL: Use 'stacks:mainnet' format - some wallets reject 'stacks:1'
+// CRITICAL: Use CAIP-2 chain ID format - 'stacks:mainnet'
 const STACKS_CHAIN = 'stacks:mainnet'
-
-const stacksMainnet = {
-  id: 'stacks-mainnet',
-  chainNamespace: 'stacks',
-  caipNetworkId: STACKS_CHAIN,
-  name: 'Stacks Mainnet',
-  nativeCurrency: { name: 'STX', symbol: 'STX', decimals: 6 },
-  rpcUrls: { default: { http: ['https://api.mainnet.hiro.so'] } },
-}
 
 const DEFAULT_REQUEST_TIMEOUT_MS = 60_000
 
-// CRITICAL: These methods MUST be in requiredNamespaces for session to persist
-const REQUIRED_METHODS = [
+// ALL methods we need - defined ONCE and used ONLY in connect()
+const STACKS_METHODS = [
   'stx_getAddresses',
   'stx_signTransaction',
   'stx_signMessage',
-]
-
-// Additional methods for optionalNamespaces
-const OPTIONAL_METHODS = [
   'stx_callContract',
   'stx_transferStx',
   'stx_signStructuredMessage',
 ]
+
+// Events we listen to
+const STACKS_EVENTS = ['stx_accountsChanged']
 
 // Singleton - NEVER recreate on each render
 let universalConnectorInstance = null
@@ -55,7 +45,6 @@ export async function getUniversalConnector() {
       console.debug('[WalletConnect] Initializing...', {
         origin: window.location.origin,
         projectIdPrefix: `${PROJECT_ID.slice(0, 6)}…`,
-        chain: STACKS_CHAIN,
       })
     }
 
@@ -63,6 +52,8 @@ export async function getUniversalConnector() {
     const appUrl = window.location.origin
     const iconUrl = `${appUrl}/logo.svg`
 
+    // CRITICAL FIX: Do NOT pass networks here!
+    // Namespaces are negotiated ONLY in connect() to avoid mismatch
     universalConnectorInstance = await UniversalConnector.init({
       projectId: PROJECT_ID,
       metadata: {
@@ -71,19 +62,10 @@ export async function getUniversalConnector() {
         url: appUrl,
         icons: [iconUrl],
       },
-      // CRITICAL: Only Stacks namespace, NO EVM
-      networks: [
-        {
-          namespace: 'stacks',
-          chains: [stacksMainnet],
-          methods: [...REQUIRED_METHODS, ...OPTIONAL_METHODS],
-          events: ['stx_accountsChanged'],
-        },
-      ],
     })
 
     if (WC_DEBUG) {
-      console.debug('[WalletConnect] Initialized successfully')
+      console.debug('[WalletConnect] Initialized successfully (no networks - will negotiate in connect)')
     }
 
     return universalConnectorInstance
@@ -120,12 +102,13 @@ export function isValidStacksSession(session) {
 export async function wcConnect() {
   const connector = await getUniversalConnector()
 
-  // CRITICAL: requiredNamespaces must match what wallet supports
+  // CRITICAL: This is the ONLY place namespaces are defined
+  // Must use CAIP chain strings, not objects
   const requiredNamespaces = {
     stacks: {
-      methods: REQUIRED_METHODS,
-      chains: [STACKS_CHAIN],
-      events: [],
+      methods: STACKS_METHODS,
+      chains: [STACKS_CHAIN], // 'stacks:mainnet'
+      events: STACKS_EVENTS,  // ['stx_accountsChanged']
     },
   }
 
@@ -137,7 +120,7 @@ export async function wcConnect() {
   const result = await connector.connect({ requiredNamespaces })
   const { session } = result
 
-  // CRITICAL: Verify session was actually established
+  // Verify session was actually established
   if (!isValidStacksSession(session)) {
     console.error('[WalletConnect] Session not valid after connect:', session)
     throw new Error('WalletConnect session was not established. Please try again.')
