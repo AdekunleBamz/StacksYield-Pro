@@ -5,14 +5,14 @@ const RELAY_URL = String(import.meta.env.VITE_WALLETCONNECT_RELAY_URL || '').tri
 const WC_DEBUG = String(import.meta.env.VITE_DEBUG || '').toLowerCase() === 'true' || import.meta.env.DEV
 
 // CAIP-2 chain ID string (used in namespaces.stacks.chains)
-const STACKS_CHAIN_ID = 'stacks:mainnet'
+const STACKS_CHAIN_ID = 'stacks:1'
 
 // CAIP Network OBJECT (used in networks array for init)
 // This is what UniversalConnector.init() expects - NOT a string!
 const STACKS_MAINNET_NETWORK = {
-  id: 'stacks-mainnet',
+  id: 'stacks-1',
   chainNamespace: 'stacks',
-  caipNetworkId: 'stacks:mainnet',
+  caipNetworkId: 'stacks:1',
   name: 'Stacks Mainnet',
   nativeCurrency: {
     name: 'STX',
@@ -108,7 +108,7 @@ export async function getUniversalConnector() {
 
 export function getStacksAddressFromSession(session) {
   const account = session?.namespaces?.stacks?.accounts?.[0]
-  // CAIP-25 format: stacks:mainnet:SP....
+  // CAIP-25 format: stacks:1:SP.... or stacks:mainnet:SP.... (legacy)
   if (!account) return null
   const parts = account.split(':')
   return parts.length >= 3 ? parts[2] : parts[parts.length - 1]
