@@ -26,6 +26,7 @@ import { useVaults, CONTRACT_ADDRESS, CONTRACT_NAME } from '../hooks/useContract
 import { useWallet } from '../context/WalletContext'
 import { toMicroSTX, blocksToTime, formatNumber } from '../utils/helpers'
 import { wcCallContract, wcSignTransaction, wcHasActiveSession } from '../utils/walletconnect'
+import { callContract as satsCallContract, isSatsConnectAvailable } from '../utils/satsconnect'
 
 const VaultList = () => {
   const { isConnected, connectWallet, address, publicKey, network, wcSession } = useWallet()
@@ -183,12 +184,47 @@ const VaultList = () => {
 
   /**
    * Route transaction based on connection type:
-   * - WalletConnect session: Use WalletConnect RPC directly
-   * - Browser extension: Use Stacks Connect (openContractCall)
+   * 1. Try Sats Connect (Xverse's native library) - works with WalletConnect
+   * 2. Fall back to Stacks Connect for browser extensions
+   * 3. Fall back to raw WalletConnect RPC
    */
   const signAndBroadcastOrFallback = async ({ functionName, functionArgs, postConditions, postConditionMode }) => {
-    // If connected via WalletConnect, skip Stacks Connect entirely
-    // (Stacks Connect requires its own auth and won't work with WC session)
+    // First try Sats Connect - this is Xverse's official library
+    // It handles WalletConnect internally and is much more reliable
+    if (isWalletConnectSession || isSatsConnectAvailable()) {
+      try {
+        console.log('[SatsConnect] Attempting contract call via sats-connect...')
+        toast.loading('📱 Opening wallet for approval...', { id: 'wallet-prompt' })
+
+        const result = await satsCallContract({
+          contractAddress: CONTRACT_ADDRESS,
+          contractName: CONTRACT_NAME,
+          functionName,
+          functionArgs: functionArgs.map(cvToWcArg),
+          postConditionMode: postConditionMode === PostConditionMode.Deny ? 'deny' : 'allow',
+        })
+
+        toast.dismiss('wallet-prompt')
+        console.log('[SatsConnect] Contract call result:', result)
+
+        // Result should contain txid
+        const txid = result?.txid || result?.txId || result
+        return { txid: typeof txid === 'string' ? txid : JSON.stringify(txid) }
+      } catch (err) {
+        toast.dismiss('wallet-prompt')
+        console.warn('[SatsConnect] Contract call failed:', err.message)
+
+        // If user cancelled, don't try fallback
+        if (err.message?.includes('cancelled') || err.message?.includes('rejected')) {
+          throw err
+        }
+
+        // Fall through to WalletConnect RPC
+        console.log('[SatsConnect] Falling back to WalletConnect RPC...')
+      }
+    }
+
+    // If connected via WalletConnect, try direct RPC
     if (isWalletConnectSession) {
       return tryWalletConnect({ functionName, functionArgs, postConditions, postConditionMode })
     }
