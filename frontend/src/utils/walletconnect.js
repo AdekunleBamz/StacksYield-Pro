@@ -71,9 +71,9 @@ export async function getUniversalConnector() {
     const appUrl = window.location.origin
     const iconUrl = `${appUrl}/logo.svg`
 
-    // CRITICAL FIX: Do NOT pass networks here
-    // UniversalConnector was crashing because it expects CAIP network objects
-    // but we were mixing formats. Keep init minimal and let connect() handle namespaces.
+    // UniversalConnector requires `networks` for internal bootstrapping.
+    // IMPORTANT: `networks[].chains` must be CAIP NETWORK OBJECTS (not strings),
+    // otherwise you get: "Cannot use 'in' operator to search for 'chainNamespace' in stacks:mainnet".
     universalConnectorInstance = await UniversalConnector.init({
       projectId: PROJECT_ID,
       metadata: {
@@ -82,10 +82,18 @@ export async function getUniversalConnector() {
         url: appUrl,
         icons: [iconUrl],
       },
+      networks: [
+        {
+          namespace: 'stacks',
+          chains: [STACKS_MAINNET_NETWORK],
+          methods: STACKS_METHODS,
+          events: STACKS_EVENTS,
+        },
+      ],
     })
 
     if (WC_DEBUG) {
-      console.debug('[WalletConnect] Initialized successfully (minimal config)')
+      console.debug('[WalletConnect] Initialized successfully')
     }
 
     return universalConnectorInstance

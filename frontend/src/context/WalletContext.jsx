@@ -153,7 +153,7 @@ export const WalletProvider = ({ children }) => {
 
     // WalletConnect pairing
     wcUri,
-    wcSession, // Expose session so components know if connected via WalletConnect
+  // wcSession is already included above
     
     // Derived values
     address,
