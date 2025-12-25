@@ -102,18 +102,20 @@ export async function wcOnDisplayUri(callback) {
 
 /**
  * Connect to a Stacks wallet via WalletConnect
+ * Uses requiredNamespaces as per the guide to ensure QR is not blank
  */
 export async function wcConnect() {
   const p = await getProvider()
 
   if (WC_DEBUG) {
-    console.debug('[WalletConnect] Connecting with namespaces for Stacks...')
+    console.debug('[WalletConnect] Connecting with REQUIRED namespaces for Stacks...')
   }
 
   try {
-    // Connect with Stacks namespace
+    // Connect with REQUIRED Stacks namespace (not optional)
+    // Per guide: optional-only negotiation causes "modal opens, QR blank"
     currentSession = await p.connect({
-      namespaces: {
+      requiredNamespaces: {
         stacks: {
           methods: STACKS_METHODS,
           chains: [STACKS_CHAIN_ID],
