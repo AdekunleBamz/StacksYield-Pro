@@ -17,51 +17,14 @@ import {
   makeStandardSTXPostCondition,
   FungibleConditionCode,
 } from '@stacks/transactions'
-import { openContractCall, showConnect } from '@stacks/connect'
+import { openContractCall } from '@stacks/connect'
 import toast from 'react-hot-toast'
 import { useVaults, CONTRACT_ADDRESS, CONTRACT_NAME } from '../hooks/useContract'
 import { useWallet } from '../context/WalletContext'
 import { toMicroSTX, blocksToTime, formatNumber } from '../utils/helpers'
 
-// Check if browser extension is available
-const hasExtension = () => {
-  return !!(window.StacksProvider || window.LeatherProvider || window.HiroWalletProvider)
-}
-
-// Check if user is signed in with extension
-const isExtensionSignedIn = () => {
-  try {
-    const userData = localStorage.getItem('blockstack-session')
-    if (userData) {
-      const parsed = JSON.parse(userData)
-      return !!parsed?.userData?.profile
-    }
-  } catch (e) {
-    // ignore
-  }
-  return false
-}
-
-// Prompt user to sign in with browser extension
-const signInWithExtension = () => {
-  return new Promise((resolve, reject) => {
-    showConnect({
-      appDetails: {
-        name: 'StacksYield Pro',
-        icon: new URL('/logo.svg', window.location.origin).toString(),
-      },
-      onFinish: () => {
-        resolve(true)
-      },
-      onCancel: () => {
-        reject(new Error('Sign-in cancelled'))
-      },
-    })
-  })
-}
-
 const VaultList = () => {
-  const { isConnected, connectWallet, address, network, wcSession } = useWallet()
+  const { isConnected, connectWallet, address, network } = useWallet()
   const [selectedVault, setSelectedVault] = useState(null)
   const [actionType, setActionType] = useState('deposit')
   const [amount, setAmount] = useState('')
@@ -130,43 +93,10 @@ const VaultList = () => {
 
   const vaults = contractVaults.length > 0 ? contractVaults : defaultVaults
 
-  // Track if extension is signed in
-  const [extensionSignedIn, setExtensionSignedIn] = useState(isExtensionSignedIn())
-
-  // Check extension sign-in status on mount
-  useEffect(() => {
-    setExtensionSignedIn(isExtensionSignedIn())
-  }, [])
-
   /**
    * Sign and broadcast transaction using browser extension
-   * WalletConnect is only used for getting the address - 
-   * transactions MUST go through the browser extension for reliability
    */
   const signAndBroadcast = async ({ functionName, functionArgs, postConditions, postConditionMode }) => {
-    
-    // Check if browser extension is available
-    if (!hasExtension()) {
-      throw new Error(
-        'Please install the Xverse or Leather browser extension to sign transactions.'
-      )
-    }
-
-    // If not signed in with extension, prompt to sign in
-    if (!isExtensionSignedIn()) {
-      toast.loading('Please sign in with your wallet extension...', { id: 'signin-prompt' })
-      try {
-        await signInWithExtension()
-        setExtensionSignedIn(true)
-        toast.dismiss('signin-prompt')
-        toast.success('Signed in with wallet extension!')
-      } catch (err) {
-        toast.dismiss('signin-prompt')
-        throw new Error('Please sign in with your wallet extension to continue.')
-      }
-    }
-
-    // Now use browser extension for the transaction
     return new Promise((resolve, reject) => {
       let resolved = false
 
@@ -184,7 +114,7 @@ const VaultList = () => {
         reject(new Error('Transaction cancelled by user'))
       }
 
-      toast.loading('Opening wallet extension for approval...', { id: 'wallet-prompt' })
+      toast.loading('Opening wallet for approval...', { id: 'wallet-prompt' })
 
       openContractCall({
         contractAddress: CONTRACT_ADDRESS,
