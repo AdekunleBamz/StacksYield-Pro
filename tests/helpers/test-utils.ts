@@ -2,9 +2,10 @@
  * Test Utility Functions for StacksYield Pro
  * 
  * This file contains helper functions used across test files.
+ * Updated for Clarinet SDK (not Deno-based)
  */
 
-import { types } from 'https://deno.land/x/clarinet/index.ts';
+// Clarinet SDK types are available globally in test context
 
 /**
  * Convert STX amount to micro-STX
@@ -25,21 +26,21 @@ export function microStxToStx(amount: number): number {
 }
 
 /**
- * Create a uint Clarity type
+ * Create a uint Clarity type string
  * @param value - Numeric value
- * @returns Clarity uint type
+ * @returns Clarity uint type string
  */
 export function uint(value: number): string {
-    return types.uint(value);
+    return `u${value}`;
 }
 
 /**
- * Create a principal Clarity type
+ * Create a principal Clarity type string
  * @param address - Principal address
- * @returns Clarity principal type
+ * @returns Clarity principal type string
  */
 export function principal(address: string): string {
-    return types.principal(address);
+    return `'${address}`;
 }
 
 /**
