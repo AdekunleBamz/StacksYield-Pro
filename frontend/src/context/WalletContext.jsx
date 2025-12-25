@@ -10,7 +10,7 @@ import {
 
 // Contract configuration
 export const CONTRACT_ADDRESS = 'SP3FKNEZ86RG5RT7SZ5FBRGH85FZNG94ZH1MCGG6N'
-export const CONTRACT_NAME = 'stacksyield-pro'
+export const CONTRACT_NAME = 'stacksyield-pro-v2'
 // Use Hiro API (browser-compatible with proper CORS and SSL)
 export const STACKS_CORE_API = 'https://api.mainnet.hiro.so'
 export const network = new StacksMainnet()

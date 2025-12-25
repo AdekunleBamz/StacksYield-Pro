@@ -310,6 +310,7 @@
 ;; Withdraw from vault
 (define-public (withdraw (vault-id uint) (shares uint))
   (let (
+    (user tx-sender)
     (vault (unwrap! (get-vault vault-id) ERR-VAULT-NOT-FOUND))
     (user-deposit (unwrap! (get-user-deposit tx-sender vault-id) ERR-INSUFFICIENT-BALANCE))
     (user-data (get-user-stats tx-sender))
@@ -329,8 +330,8 @@
         (net-amount (- withdrawal-amount fee))
         (pending (calculate-pending-rewards tx-sender vault-id))
       )
-        ;; Transfer STX to user
-        (try! (as-contract (stx-transfer? (+ net-amount pending) tx-sender tx-sender)))
+        ;; Transfer STX to user (from contract to user)
+        (try! (as-contract (stx-transfer? (+ net-amount pending) tx-sender user)))
         
         ;; Update vault
         (map-set vaults
@@ -374,6 +375,7 @@
 ;; Emergency withdraw (with penalty)
 (define-public (emergency-withdraw (vault-id uint))
   (let (
+    (user tx-sender)
     (vault (unwrap! (get-vault vault-id) ERR-VAULT-NOT-FOUND))
     (user-deposit (unwrap! (get-user-deposit tx-sender vault-id) ERR-INSUFFICIENT-BALANCE))
     (user-data (get-user-stats tx-sender))
@@ -386,8 +388,8 @@
       (fee (/ (* withdrawal-amount EMERGENCY-FEE) u10000))
       (net-amount (- withdrawal-amount fee))
     )
-      ;; Transfer STX to user (no rewards on emergency)
-      (try! (as-contract (stx-transfer? net-amount tx-sender tx-sender)))
+      ;; Transfer STX to user (from contract to user, no rewards on emergency)
+      (try! (as-contract (stx-transfer? net-amount tx-sender user)))
       
       ;; Update vault
       (map-set vaults
