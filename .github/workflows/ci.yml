@@ -15,6 +15,11 @@ jobs:
       - name: Setup Clarinet
         uses: hirosystems/clarinet-action@v1
 
+      - name: Setup settings files for CI
+        run: |
+          cp settings/Simnet.example.toml settings/Simnet.toml
+          cp settings/Simnet.example.toml settings/Devnet.toml
+
       - name: Run contract tests
         run: clarinet test
 
