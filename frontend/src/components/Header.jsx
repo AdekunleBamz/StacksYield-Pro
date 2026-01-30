@@ -6,6 +6,7 @@ import { useWallet } from '../context/WalletContext'
 const Header = () => {
   const { isConnected, address, stxBalance, balanceLoading, isConnecting, connectWallet, disconnectWallet } = useWallet()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [copiedAddress, setCopiedAddress] = useState(false)
 
   const truncateAddress = (addr) => {
     if (!addr) return ''
@@ -15,6 +16,27 @@ const Header = () => {
   const formatBalance = (balance) => {
     if (balance === null || balance === undefined) return '...'
     return balance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+  }
+
+  const handleConnect = async () => {
+    await connectWallet()
+    setMobileMenuOpen(false)
+  }
+
+  const handleDisconnect = async () => {
+    await disconnectWallet()
+    setMobileMenuOpen(false)
+  }
+
+  const handleCopyAddress = async () => {
+    if (!address) return
+    try {
+      await navigator.clipboard.writeText(address)
+      setCopiedAddress(true)
+      setTimeout(() => setCopiedAddress(false), 1500)
+    } catch {
+      setCopiedAddress(false)
+    }
   }
 
   return (
@@ -64,14 +86,22 @@ const Header = () => {
                   </div>
                 </div>
                 {/* Address */}
-                <div className="glass-card px-3 py-2 rounded-xl">
+                <button
+                  type="button"
+                  onClick={handleCopyAddress}
+                  className="glass-card px-3 py-2 rounded-xl text-left hover:bg-stacks-purple/10 transition-colors"
+                  title={address ? 'Copy address' : 'Wallet not connected'}
+                >
                   <p className="text-xs text-gray-400">Connected</p>
                   <p className="text-sm font-mono font-medium text-white">
                     {truncateAddress(address)}
                   </p>
-                </div>
+                  {copiedAddress && (
+                    <p className="text-xs text-stacks-purple mt-1">Copied</p>
+                  )}
+                </button>
                 <button
-                  onClick={disconnectWallet}
+                  onClick={handleDisconnect}
                   className="btn-secondary px-4 py-2 rounded-xl text-sm font-medium"
                 >
                   Disconnect
@@ -79,7 +109,7 @@ const Header = () => {
               </div>
             ) : (
               <button
-                onClick={connectWallet}
+                onClick={handleConnect}
                 disabled={isConnecting}
                 className="btn-primary px-6 py-2.5 rounded-xl font-medium flex items-center gap-2"
               >
@@ -139,7 +169,7 @@ const Header = () => {
                     {truncateAddress(address)}
                   </p>
                   <button
-                    onClick={disconnectWallet}
+                    onClick={handleDisconnect}
                     className="btn-secondary w-full px-4 py-2 rounded-xl text-sm font-medium"
                   >
                     Disconnect
@@ -147,7 +177,7 @@ const Header = () => {
                 </div>
               ) : (
                 <button
-                  onClick={connectWallet}
+                  onClick={handleConnect}
                   disabled={isConnecting}
                   className="btn-primary w-full px-6 py-2.5 rounded-xl font-medium flex items-center justify-center gap-2"
                 >
