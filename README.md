@@ -5,6 +5,7 @@
 Built with **WalletKit SDK** for the Stacks Builder Challenge #3
 
 ![StacksYield Pro](https://img.shields.io/badge/Stacks-WalletKit-5546FF?style=for-the-badge)
+![Stacks Connect](https://img.shields.io/badge/@stacks/connect-7.7.1-orange?style=for-the-badge)
 ![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 
 ## 📋 Overview
