@@ -323,6 +323,10 @@ const VaultList = () => {
         {vaults.map((vault) => {
           const meta = vaultMeta[vault.id] || vaultMeta[1]
           const IconComponent = meta.icon
+          const amountValue = parseFloat(amount)
+          const isDeposit = actionType === 'deposit'
+          const isAmountInvalid =
+            !amount || Number.isNaN(amountValue) || (isDeposit ? amountValue < vault.minDeposit : amountValue <= 0)
           
           return (
             <div
@@ -434,10 +438,23 @@ const VaultList = () => {
                           className="input-field w-full px-4 py-3 rounded-xl text-white placeholder-gray-500"
                           min={actionType === 'deposit' ? vault.minDeposit : 0}
                           step="0.000001"
+                          aria-invalid={selectedVault === vault.id && isAmountInvalid}
+                          aria-describedby={`amount-help-${vault.id}`}
                         />
                         <span className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm">
                           {actionType === 'deposit' ? 'STX' : 'Shares'}
                         </span>
+                      </div>
+                      <div id={`amount-help-${vault.id}`} className="text-xs px-2 text-gray-400">
+                        {selectedVault === vault.id && isAmountInvalid ? (
+                          actionType === 'deposit'
+                            ? `Minimum deposit is ${vault.minDeposit} STX`
+                            : 'Enter a positive share amount'
+                        ) : (
+                          actionType === 'deposit'
+                            ? `Minimum deposit: ${vault.minDeposit} STX`
+                            : 'Enter the number of shares to withdraw'
+                        )}
                       </div>
 
                       {/* Fee Info */}
@@ -458,7 +475,7 @@ const VaultList = () => {
                               handleWithdraw(vault)
                             }
                           }}
-                          disabled={isLoading || !vault.isActive}
+                          disabled={isLoading || !vault.isActive || isAmountInvalid}
                           className="flex-1 btn-primary py-3 rounded-xl font-medium flex items-center justify-center gap-2 disabled:opacity-50"
                         >
                           {isLoading ? (
