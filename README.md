@@ -2,7 +2,7 @@
 
 **Yield Aggregator & Auto-Compounding Vault System on Stacks**
 
-Built with **WalletKit SDK** for the Stacks Builder Challenge #3
+Built with **Stacks.js SDK** & **WalletConnect** for the Stacks Builder Challenge #3
 
 ![StacksYield Pro](https://img.shields.io/badge/Stacks-WalletKit-5546FF?style=for-the-badge)
 ![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
