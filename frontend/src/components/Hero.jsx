@@ -6,7 +6,7 @@ const Hero = () => {
   const { isConnected, connectWallet } = useWallet()
 
   return (
-    <section className="relative py-20 lg:py-32 overflow-hidden">
+    <section className="relative py-20 lg:py-32 overflow-hidden" aria-label="Welcome to StacksYield Pro">
       {/* Animated floating shapes */}
       <div aria-hidden="true" className="floating-shape top-20 left-10 w-20 h-20 bg-stacks-purple rounded-full" style={{ animationDelay: '0s' }} />
       <div aria-hidden="true" className="floating-shape top-40 right-20 w-16 h-16 bg-stacks-orange rounded-lg rotate-45" style={{ animationDelay: '2s' }} />
