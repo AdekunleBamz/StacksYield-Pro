@@ -327,7 +327,7 @@ const VaultList = () => {
           return (
             <div
               key={vault.id}
-              className={`glass-card rounded-2xl overflow-hidden vault-card-${meta.color}`}
+              className={`glass-card rounded-2xl overflow-hidden vault-card transition-transform duration-200 hover:scale-[1.02] focus-within:scale-[1.02] vault-card-${meta.color}`}
             >
               {/* Vault Header */}
               <div className={`p-6 bg-gradient-to-r ${meta.bgGradient}`}>
