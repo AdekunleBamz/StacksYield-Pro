@@ -166,9 +166,17 @@ const Header = () => {
                     </p>
                   </div>
                   <p className="text-sm text-gray-400 mb-1">Connected</p>
-                  <p className="text-sm font-mono font-medium text-white mb-4">
+                  <button
+                    type="button"
+                    onClick={handleCopyAddress}
+                    className="w-full text-left text-sm font-mono font-medium text-white mb-2"
+                    title={address ? 'Copy address' : 'Wallet not connected'}
+                  >
                     {truncateAddress(address)}
-                  </p>
+                  </button>
+                  {copiedAddress && (
+                    <p className="text-xs text-stacks-purple mb-4">Copied</p>
+                  )}
                   <button
                     onClick={handleDisconnect}
                     className="btn-secondary w-full px-4 py-2 rounded-xl text-sm font-medium"
