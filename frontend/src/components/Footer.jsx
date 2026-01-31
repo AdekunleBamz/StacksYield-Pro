@@ -25,7 +25,7 @@ const Footer = () => {
               secured by Bitcoin. Choose your strategy and watch your earnings grow.
             </p>
             <div className="flex space-x-4 mt-6">
-              <a 
+              <a aria-label="GitHub (opens in new tab)" 
                 href="https://github.com/AdekunleBamz" 
                 target="_blank" 
                 rel="noopener noreferrer"
@@ -33,7 +33,7 @@ const Footer = () => {
               >
                 <FiGithub className="w-5 h-5" />
               </a>
-              <a 
+              <a aria-label="Twitter (opens in new tab)" 
                 href="https://twitter.com/hrh_mckay" 
                 target="_blank" 
                 rel="noopener noreferrer"
