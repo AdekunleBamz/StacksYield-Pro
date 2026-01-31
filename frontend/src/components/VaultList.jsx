@@ -24,13 +24,14 @@ import { useWallet } from '../context/WalletContext'
 import { toMicroSTX, blocksToTime, formatNumber } from '../utils/helpers'
 
 const VaultList = () => {
-  const { isConnected, connectWallet, address, network } = useWallet()
+  const { isConnected, connectWallet, address, network, wcSession } = useWallet()
   const [selectedVault, setSelectedVault] = useState(null)
   const [actionType, setActionType] = useState('deposit')
   const [amount, setAmount] = useState('')
   const [isLoading, setIsLoading] = useState(false)
 
   const { vaults: contractVaults, loading: vaultsLoading, refetch } = useVaults()
+  const isWalletConnectSession = !!wcSession
 
   // Vault metadata (icons, colors, descriptions)
   const vaultMeta = {
