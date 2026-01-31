@@ -129,6 +129,7 @@ export const WalletProvider = ({ children }) => {
     } catch (error) {
       console.error('WalletConnect disconnect error:', error)
     } finally {
+      setIsConnecting(false)
       setWcSession(null)
       setAddress(null)
       setPublicKey(null)
