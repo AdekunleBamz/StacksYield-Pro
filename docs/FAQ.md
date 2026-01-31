@@ -54,3 +54,14 @@ StacksYield Pro is built on Stacks, a Layer 2 Bitcoin blockchain.
 
 ### Are the smart contracts audited?
 Our contracts undergo internal reviews and community audits. See SECURITY.md for details.
+
+## WalletConnect
+
+### How do I connect with mobile wallet?
+1. Click "Connect Wallet"
+2. Select "WalletConnect" option
+3. Scan the QR code with Xverse or Leather mobile app
+4. Approve the connection in your wallet
+
+### Why isn't the QR code scanning?
+Use the scanner built into your wallet app, not your phone's camera app. The `wc:` protocol requires the wallet's scanner.
