@@ -93,7 +93,7 @@ const Stats = () => {
   ]
 
   return (
-    <section className="py-12">
+    <section className="py-12" aria-label="Protocol statistics">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
           {statCards.map((stat, index) => (
@@ -101,9 +101,11 @@ const Stats = () => {
               key={stat.label}
               className="stat-card glass-card p-6 rounded-2xl"
               style={{ animationDelay: `${index * 0.1}s` }}
+              role="region"
+              aria-label={stat.label}
             >
               <div className={`w-12 h-12 rounded-xl ${stat.bgColor} flex items-center justify-center mb-4`}>
-                <stat.icon className={`w-6 h-6 ${stat.color}`} />
+                <stat.icon className={`w-6 h-6 ${stat.color}`} aria-hidden="true" />
               </div>
               <p className="text-gray-400 text-sm mb-1">{stat.label}</p>
               <p className={`text-2xl lg:text-3xl font-bold font-display ${stat.color} animate-count`}>
