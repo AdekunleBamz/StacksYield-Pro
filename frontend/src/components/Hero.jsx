@@ -8,9 +8,9 @@ const Hero = () => {
   return (
     <section className="relative py-20 lg:py-32 overflow-hidden">
       {/* Animated floating shapes */}
-      <div className="floating-shape top-20 left-10 w-20 h-20 bg-stacks-purple rounded-full" style={{ animationDelay: '0s' }} />
-      <div className="floating-shape top-40 right-20 w-16 h-16 bg-stacks-orange rounded-lg rotate-45" style={{ animationDelay: '2s' }} />
-      <div className="floating-shape bottom-20 left-1/4 w-12 h-12 bg-stacks-purple rounded-full" style={{ animationDelay: '4s' }} />
+      <div aria-hidden="true" className="floating-shape top-20 left-10 w-20 h-20 bg-stacks-purple rounded-full" style={{ animationDelay: '0s' }} />
+      <div aria-hidden="true" className="floating-shape top-40 right-20 w-16 h-16 bg-stacks-orange rounded-lg rotate-45" style={{ animationDelay: '2s' }} />
+      <div aria-hidden="true" className="floating-shape bottom-20 left-1/4 w-12 h-12 bg-stacks-purple rounded-full" style={{ animationDelay: '4s' }} />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-4xl mx-auto">
