@@ -32,21 +32,29 @@ function AppContent() {
           <Stats />
           
           {/* Tab Navigation */}
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12">
-            <div className="flex space-x-4 border-b border-stacks-gray">
-              <button
-                onClick={() => setActiveTab('vaults')}
-                className={`px-6 py-3 font-medium transition-all ${
-                  activeTab === 'vaults' 
-                    ? 'tab-active text-white' 
-                    : 'text-gray-400 hover:text-white'
-                }`}
-              >
-                Vaults
-              </button>
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12">
+              <div className="flex space-x-4 border-b border-stacks-gray" role="tablist" aria-label="Dashboard tabs">
+                <button
+                  id="tab-vaults"
+                  role="tab"
+                  aria-selected={activeTab === 'vaults'}
+                  aria-controls="panel-vaults"
+                  onClick={() => setActiveTab('vaults')}
+                  className={`px-6 py-3 font-medium transition-all ${
+                    activeTab === 'vaults'
+                      ? 'tab-active text-white'
+                      : 'text-gray-400 hover:text-white'
+                  }`}
+                >
+                  Vaults
+                </button>
               {isConnected && (
                 <>
                   <button
+                      id="tab-dashboard"
+                      role="tab"
+                      aria-selected={activeTab === 'dashboard'}
+                      aria-controls="panel-dashboard"
                     onClick={() => setActiveTab('dashboard')}
                     className={`px-6 py-3 font-medium transition-all ${
                       activeTab === 'dashboard' 
@@ -57,6 +65,10 @@ function AppContent() {
                     My Dashboard
                   </button>
                   <button
+                      id="tab-referrals"
+                      role="tab"
+                      aria-selected={activeTab === 'referrals'}
+                      aria-controls="panel-referrals"
                     onClick={() => setActiveTab('referrals')}
                     className={`px-6 py-3 font-medium transition-all ${
                       activeTab === 'referrals' 
@@ -72,13 +84,23 @@ function AppContent() {
           </div>
           
           {/* Tab Content */}
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            {activeTab === 'vaults' && <VaultList />}
-            
-            {activeTab === 'dashboard' && isConnected && <UserDashboard />}
-            
-            {activeTab === 'referrals' && isConnected && <ReferralSection />}
-          </div>
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                  {activeTab === 'vaults' && (
+                    <div id="panel-vaults" role="tabpanel" aria-labelledby="tab-vaults">
+                      <VaultList />
+                    </div>
+                  )}
+                  {activeTab === 'dashboard' && isConnected && (
+                    <div id="panel-dashboard" role="tabpanel" aria-labelledby="tab-dashboard">
+                      <UserDashboard />
+                    </div>
+                  )}
+                  {activeTab === 'referrals' && isConnected && (
+                    <div id="panel-referrals" role="tabpanel" aria-labelledby="tab-referrals">
+                      <ReferralSection />
+                    </div>
+                  )}
+                </div>
         </main>
         
         <Footer />
