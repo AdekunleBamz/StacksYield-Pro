@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react'
+import toast from "react-hot-toast"
 import { StacksMainnet } from '@stacks/network'
 import {
   wcConnect,
@@ -113,6 +114,7 @@ export const WalletProvider = ({ children }) => {
       return session
     } catch (error) {
       console.error('WalletConnect connect error:', error)
+      toast.error("Connection failed. Please try again.")
       return null
     } finally {
       unsubscribe()
