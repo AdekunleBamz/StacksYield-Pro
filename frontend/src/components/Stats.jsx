@@ -99,6 +99,7 @@ const Stats = () => {
           {statCards.map((stat, index) => (
             <div 
               key={stat.label}
+              aria-label={stat.label}
               className="stat-card glass-card p-6 rounded-2xl"
               style={{ animationDelay: `${index * 0.1}s` }}
               role="region"
