@@ -6,11 +6,12 @@ This directory contains test files for the StacksYield Pro smart contracts.
 
 ```
 tests/
-├── stacksyield-pro_test.ts    # Main contract tests
 ├── helpers/                    # Test helper functions
 │   └── test-utils.ts
 └── README.md                   # This file
 ```
+
+> **Note:** Contract test files have not been added yet. This directory currently contains helpers only.
 
 ## Running Tests
 
@@ -39,7 +40,8 @@ clarinet test --verbose
 ### Test Structure
 
 ```typescript
-import { Clarinet, Tx, Chain, Account, types } from 'https://deno.land/x/clarinet/index.ts';
+// Example import (adjust to your Clarinet SDK setup)
+import { Clarinet, Tx, Chain, Account, types } from '@hirosystems/clarinet-sdk';
 
 Clarinet.test({
     name: "Test name",
