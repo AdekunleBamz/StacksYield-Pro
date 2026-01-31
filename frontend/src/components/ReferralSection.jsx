@@ -238,6 +238,7 @@ const ReferralSection = () => {
                   <button
                     onClick={() => copyToClipboard(defaultCode)}
                     className="p-2 rounded-lg bg-stacks-purple/20 hover:bg-stacks-purple/30 transition-colors"
+                    aria-label="Copy referral code"
                   >
                     {copied ? (
                       <HiCheckCircle className="w-5 h-5 text-vault-conservative" />
@@ -260,6 +261,7 @@ const ReferralSection = () => {
                   <button
                     onClick={() => copyToClipboard(generateReferralURL(defaultCode))}
                     className="p-2 rounded-lg bg-stacks-gray hover:bg-stacks-purple/20 transition-colors"
+                    aria-label="Copy referral link"
                   >
                     <HiClipboardDocument className="w-4 h-4" />
                   </button>
@@ -269,6 +271,7 @@ const ReferralSection = () => {
               <button
                 onClick={shareReferral}
                 className="w-full btn-primary py-3 rounded-xl font-medium flex items-center justify-center gap-2"
+                aria-label="Share referral link"
               >
                 <HiShare className="w-5 h-5" />
                 Share Referral Link
@@ -285,6 +288,7 @@ const ReferralSection = () => {
                     placeholder="MYCODE"
                     maxLength={20}
                     className="input-field flex-1 px-4 py-2 rounded-xl uppercase text-sm"
+                    aria-label="Custom referral code"
                   />
                   <button
                     onClick={handleCreateCode}
