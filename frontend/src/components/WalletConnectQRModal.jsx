@@ -39,6 +39,19 @@ const WalletConnectQRModal = () => {
     }
   }, [wcUri])
 
+  useEffect(() => {
+    if (!isOpen) return undefined
+
+    const onKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        disconnectWallet()
+      }
+    }
+
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [isOpen, disconnectWallet])
+
   if (!isOpen) return null
 
   const onCopy = async () => {
@@ -66,10 +79,16 @@ const WalletConnectQRModal = () => {
 
   return (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
-      <div className="absolute inset-0 bg-black/60" onClick={disconnectWallet} />
-      <div className="relative w-full max-w-sm glass-card rounded-2xl p-6">
-        <h3 className="text-lg font-semibold mb-2 text-white">Connect wallet</h3>
-        <p className="text-sm text-gray-400 mb-4">
+      <div className="absolute inset-0 bg-black/60" onClick={disconnectWallet} aria-hidden="true" />
+      <div
+        className="relative w-full max-w-sm glass-card rounded-2xl p-6"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="walletconnect-title"
+        aria-describedby="walletconnect-description"
+      >
+        <h3 id="walletconnect-title" className="text-lg font-semibold mb-2 text-white">Connect wallet</h3>
+        <p id="walletconnect-description" className="text-sm text-gray-400 mb-4">
           Scan with Xverse/Leather (mobile) using the wallet&apos;s WalletConnect scanner.
           Phone camera apps often can&apos;t open <span className="font-mono">wc:</span> QR codes.
         </p>
@@ -100,20 +119,25 @@ const WalletConnectQRModal = () => {
         )}
 
         <div className="flex gap-2">
-          <button onClick={onCopy} className="flex-1 btn-secondary px-4 py-2 rounded-xl text-sm">
+          <button onClick={onCopy} className="flex-1 btn-secondary px-4 py-2 rounded-xl text-sm" aria-label="Copy WalletConnect URI">
             {copyState ? copyState : 'Copy URI'}
           </button>
           <button
             onClick={onCopyLink}
             disabled={!wcLink}
             className="flex-1 btn-secondary px-4 py-2 rounded-xl text-sm"
+            aria-label="Copy WalletConnect link"
           >
             {copyLinkState ? copyLinkState : 'Copy Link'}
           </button>
         </div>
 
+        <div className="sr-only" aria-live="polite">
+          {copyState || copyLinkState}
+        </div>
+
         <div className="flex gap-2 mt-2">
-          <button onClick={disconnectWallet} className="flex-1 btn-primary px-4 py-2 rounded-xl text-sm">
+          <button onClick={disconnectWallet} className="flex-1 btn-primary px-4 py-2 rounded-xl text-sm" aria-label="Cancel wallet connection">
             Cancel
           </button>
         </div>
