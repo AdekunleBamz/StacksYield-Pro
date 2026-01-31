@@ -94,3 +94,25 @@ export const ERROR_CODES = {
     REFERRAL_SELF: 1008,
     ALREADY_REGISTERED: 1009,
 };
+
+/**
+ * Mock vault data for testing
+ */
+export const MOCK_VAULT = {
+  id: 1,
+  name: 'Conservative',
+  apy: 500,  // 5%
+  minDeposit: stxToMicroStx(1),
+  lockPeriod: 604800, // 1 week in seconds
+};
+
+/**
+ * Create a mock user deposit result
+ */
+export function mockDepositResult(amount: number, vaultId: number = 1) {
+  return {
+    amount: stxToMicroStx(amount),
+    vaultId,
+    timestamp: Date.now(),
+  };
+}
