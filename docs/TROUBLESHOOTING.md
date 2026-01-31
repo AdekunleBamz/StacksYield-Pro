@@ -12,6 +12,13 @@
 4. Clear browser cache and cookies
 5. Check if wallet is on the correct network
 
+#### Problem: WalletConnect QR not showing or not scanning
+**Solutions:**
+1. Verify `VITE_WALLETCONNECT_PROJECT_ID` is set correctly
+2. Make sure the app origin is allowlisted in WalletConnect Cloud
+3. Use your wallet’s built-in scanner (camera apps may not handle `wc:` URIs)
+4. Try the “Open on phone” link from the modal
+
 #### Problem: Wrong network
 **Solution:**
 Switch your wallet to the correct network (mainnet or testnet) that matches the application.
@@ -101,9 +108,12 @@ If you can't resolve your issue:
 
 | Code | Description | Solution |
 |------|-------------|----------|
-| u100 | Vault not found | Verify vault ID |
-| u101 | Insufficient balance | Check your balance |
-| u102 | Invalid amount | Enter valid amount |
-| u103 | Unauthorized | Use correct account |
-| u104 | Vault paused | Wait for vault to resume |
-| u105 | Min deposit not met | Increase deposit amount |
+| u1001 | Not authorized | Use the correct account |
+| u1002 | Invalid amount | Enter a valid amount |
+| u1003 | Insufficient balance | Check your balance |
+| u1004 | Vault not found | Verify vault ID |
+| u1005 | Vault paused | Wait for vault to resume |
+| u1006 | Withdrawal locked | Wait for lock period to end |
+| u1007 | Invalid strategy | Select a valid vault |
+| u1008 | Self-referral | Use a different referral code |
+| u1009 | Already registered | Use existing registration |
