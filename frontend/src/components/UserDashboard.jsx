@@ -176,6 +176,22 @@ const UserDashboard = () => {
           <h3 className="text-xl font-bold">Active Vaults</h3>
         </div>
 
+        {stats.totalDeposited === 0 && (
+          <div className="p-6 border-b border-stacks-gray">
+            <div className="flex items-center justify-between gap-4">
+              <p className="text-sm text-gray-400">
+                You don&apos;t have any active deposits yet. Start by choosing a vault.
+              </p>
+              <a
+                href="#vaults"
+                className="btn-primary px-4 py-2 rounded-xl text-sm font-medium"
+              >
+                Explore Vaults
+              </a>
+            </div>
+          </div>
+        )}
+
         {vaults.length > 0 ? (
           <div className="divide-y divide-stacks-gray">
             {vaults.map((vault) => (
