@@ -46,7 +46,7 @@ const Footer = () => {
 
           {/* Links */}
           <div>
-            <h4 className="font-semibold mb-4">Protocol</h4>
+            <h4 id="footer-protocol" className="font-semibold mb-4">Protocol</h4>
             <ul className="space-y-2">
               <li>
                 <a href="#vaults" className="text-gray-400 hover:text-white transition-colors text-sm">
@@ -67,7 +67,7 @@ const Footer = () => {
           </div>
 
           <div>
-            <h4 className="font-semibold mb-4">Resources</h4>
+            <h4 id="footer-resources" className="font-semibold mb-4">Resources</h4>
             <ul className="space-y-2">
               <li>
                 <a 
