@@ -25,6 +25,20 @@ StacksYield Pro is a DeFi yield aggregator that allows users to deposit STX into
 ✅ Emergency withdrawal option  
 ✅ WalletKit SDK integration  
 
+## 🧩 Stacks SDK Usage
+
+This project relies on the official Stacks.js libraries for wallet connectivity, transaction building, and network configuration:
+
+- `@stacks/connect` — wallet connection and contract call signing
+- `@stacks/transactions` — Clarity value encoding and post-conditions
+- `@stacks/network` — network configuration and API targeting
+
+Key integrations live in:
+
+- Wallet & session setup: `frontend/src/context/WalletContext.jsx`
+- Contract calls: `frontend/src/components/VaultList.jsx`, `frontend/src/components/ReferralSection.jsx`
+- Read-only queries: `frontend/src/hooks/useContract.js`
+
 ## 🛠️ Installation & Setup
 
 ## 🔌 WalletConnect (Reown) + Stacks
