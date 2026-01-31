@@ -32,6 +32,13 @@ cd frontend
 npm install
 ```
 
+### Linting
+
+```bash
+# Run frontend lints
+npm run lint
+```
+
 ## Code Style
 
 - Use meaningful variable and function names
