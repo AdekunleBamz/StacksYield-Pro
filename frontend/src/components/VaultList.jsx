@@ -300,7 +300,7 @@ const VaultList = () => {
       <section id="vaults" className="py-8">
         <div className="flex items-center justify-center py-20">
           <div className="text-center">
-            <div className="spinner mx-auto mb-4" />
+            <div className="spinner mx-auto mb-4" role="status" aria-label="Loading vaults" />
             <p className="text-gray-400">Loading vaults...</p>
           </div>
         </div>
