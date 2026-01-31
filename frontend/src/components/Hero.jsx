@@ -38,7 +38,7 @@ const Hero = () => {
             {!isConnected ? (
               <button
                 onClick={connectWallet}
-                className="btn-primary px-8 py-4 rounded-2xl font-semibold text-lg flex items-center gap-2 w-full sm:w-auto"
+                className="btn-primary px-8 py-4 rounded-2xl font-semibold text-lg flex items-center gap-2 w-full sm:w-auto focus:ring-2 focus:ring-stacks-purple focus:ring-offset-2 focus:ring-offset-stacks-dark"
               >
                 Start Earning Now
                 <HiArrowRight className="w-5 h-5" />
