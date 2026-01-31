@@ -268,7 +268,7 @@ const ReferralSection = () => {
 
               <button
                 onClick={shareReferral}
-                className="w-full btn-primary py-3 rounded-xl font-medium flex items-center justify-center gap-2"
+                className="w-full btn-primary py-3 rounded-xl font-medium flex items-center justify-center gap-2 focus:ring-2 focus:ring-stacks-purple"
               >
                 <HiShare className="w-5 h-5" />
                 Share Referral Link
