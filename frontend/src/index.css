@@ -125,6 +125,17 @@ body {
   transform: translateY(-2px);
 }
 
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-primary:disabled:hover {
+  box-shadow: none;
+  transform: none;
+}
 .btn-secondary {
   background: transparent;
   border: 1px solid rgba(85, 70, 255, 0.5);
