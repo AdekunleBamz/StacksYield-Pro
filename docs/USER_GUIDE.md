@@ -41,6 +41,15 @@ Before using StacksYield Pro, you need a Stacks wallet:
 3. Select your wallet provider
 4. Approve the connection in your wallet
 
+### Mobile Wallets (WalletConnect)
+
+If you connect from a mobile wallet (Leather or Xverse):
+
+1. Click "Connect Wallet" to open the QR modal
+2. Use your wallet’s built-in WalletConnect scanner to scan the QR code
+3. If your phone camera doesn’t recognize the QR, use the "Open on phone" link
+4. Approve the session in your wallet to complete the connection
+
 ## Understanding Vaults
 
 Vaults are smart contracts that manage your deposits and generate yield.
