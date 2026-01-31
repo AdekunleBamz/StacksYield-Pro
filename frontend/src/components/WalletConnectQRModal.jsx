@@ -119,20 +119,25 @@ const WalletConnectQRModal = () => {
         )}
 
         <div className="flex gap-2">
-          <button onClick={onCopy} className="flex-1 btn-secondary px-4 py-2 rounded-xl text-sm">
+          <button onClick={onCopy} className="flex-1 btn-secondary px-4 py-2 rounded-xl text-sm" aria-label="Copy WalletConnect URI">
             {copyState ? copyState : 'Copy URI'}
           </button>
           <button
             onClick={onCopyLink}
             disabled={!wcLink}
             className="flex-1 btn-secondary px-4 py-2 rounded-xl text-sm"
+            aria-label="Copy WalletConnect link"
           >
             {copyLinkState ? copyLinkState : 'Copy Link'}
           </button>
         </div>
 
+        <div className="sr-only" aria-live="polite">
+          {copyState || copyLinkState}
+        </div>
+
         <div className="flex gap-2 mt-2">
-          <button onClick={disconnectWallet} className="flex-1 btn-primary px-4 py-2 rounded-xl text-sm">
+          <button onClick={disconnectWallet} className="flex-1 btn-primary px-4 py-2 rounded-xl text-sm" aria-label="Cancel wallet connection">
             Cancel
           </button>
         </div>
