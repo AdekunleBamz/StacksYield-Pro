@@ -428,6 +428,7 @@ const VaultList = () => {
                       <div className="relative">
                         <input
                           type="number"
+                          inputMode="decimal"
                           value={amount}
                           onChange={(e) => setAmount(e.target.value)}
                           placeholder={`Amount in ${actionType === 'deposit' ? 'STX' : 'shares'}`}
