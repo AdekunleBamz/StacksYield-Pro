@@ -81,6 +81,7 @@ const Header = () => {
               <button
                 onClick={connectWallet}
                 disabled={isConnecting}
+                aria-label="Connect your Stacks wallet"
                 className="btn-primary px-6 py-2.5 rounded-xl font-medium flex items-center gap-2"
               >
                 {isConnecting ? (
