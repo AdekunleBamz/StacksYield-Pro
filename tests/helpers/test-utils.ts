@@ -91,3 +91,21 @@ export const ERROR_CODES = {
     VAULT_PAUSED: 104,
     MIN_DEPOSIT_NOT_MET: 105,
 };
+
+/**
+ * Vault strategy constants
+ */
+export const VAULT_STRATEGIES = {
+  CONSERVATIVE: 1,
+  BALANCED: 2,
+  AGGRESSIVE: 3,
+} as const;
+
+/**
+ * Vault APY values (in percentage)
+ */
+export const VAULT_APY = {
+  CONSERVATIVE: 5,
+  BALANCED: 12,
+  AGGRESSIVE: 25,
+} as const;
