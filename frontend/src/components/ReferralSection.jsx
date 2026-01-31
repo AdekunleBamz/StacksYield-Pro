@@ -139,9 +139,9 @@ const ReferralSection = () => {
   }
 
   return (
-    <section className="py-8">
+    <section className="py-8" aria-labelledby="referral-heading">
       <div className="mb-8">
-        <h2 className="text-3xl font-bold font-display mb-2">
+        <h2 id="referral-heading" className="text-3xl font-bold font-display mb-2">
           <span className="gradient-text">Referral Program</span>
         </h2>
         <p className="text-gray-400">
