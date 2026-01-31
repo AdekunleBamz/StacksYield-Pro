@@ -309,9 +309,9 @@ const VaultList = () => {
   }
 
   return (
-    <section id="vaults" className="py-8">
+    <section id="vaults" className="py-8" aria-labelledby="vaults-heading">
       <div className="mb-8">
-        <h2 className="text-3xl font-bold font-display mb-2">
+        <h2 id="vaults-heading" className="text-3xl font-bold font-display mb-2">
           <span className="gradient-text">Choose Your Vault</span>
         </h2>
         <p className="text-gray-400">
