@@ -431,7 +431,8 @@ const VaultList = () => {
 
                       {/* Amount Input */}
                       <div className="relative">
-                        <input
+                        <label className="sr-only" htmlFor="vault-amount">Amount</label>
+                          <input id="vault-amount"
                           type="number"
                           inputMode="decimal"
                           value={amount}
