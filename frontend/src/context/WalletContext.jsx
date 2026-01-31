@@ -82,6 +82,7 @@ export const WalletProvider = ({ children }) => {
 
   // Connect wallet using WalletConnect (Reown)
   const connectWallet = useCallback(async () => {
+    if (isConnecting) return null
     setIsConnecting(true)
     let unsubscribe = () => {}
     try {
@@ -113,12 +114,13 @@ export const WalletProvider = ({ children }) => {
       return session
     } catch (error) {
       console.error('WalletConnect connect error:', error)
+      setWcUri(null)
       return null
     } finally {
       unsubscribe()
       setIsConnecting(false)
     }
-  }, [])
+  }, [isConnecting])
 
   // Disconnect wallet
   const disconnectWallet = useCallback(async () => {
