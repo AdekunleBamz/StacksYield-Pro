@@ -41,6 +41,19 @@ Key integrations live in:
 
 ## 🛠️ Installation & Setup
 
+```bash
+# Clone repository
+git clone https://github.com/AdekunleBamz/StacksYield-Pro.git
+cd StacksYield-Pro
+
+# Install dependencies
+cd frontend
+npm install
+
+# Start development server
+npm run dev
+```
+
 ## 🔌 WalletConnect (Reown) + Stacks
 
 This app uses WalletConnect (via Reown AppKit UniversalConnector) to connect **mobile** Stacks wallets and sign transactions using Stacks JSON-RPC.
