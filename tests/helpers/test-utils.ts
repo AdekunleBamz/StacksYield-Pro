@@ -91,3 +91,17 @@ export const ERROR_CODES = {
     VAULT_PAUSED: 104,
     MIN_DEPOSIT_NOT_MET: 105,
 };
+
+/**
+ * Format number for display (test utility)
+ */
+export function formatTestNumber(value: number): string {
+  return value.toLocaleString('en-US', { maximumFractionDigits: 2 });
+}
+
+/**
+ * Generate test address
+ */
+export function generateTestAddress(index: number = 1): string {
+  return `ST${index.toString().padStart(38, '0')}`;
+}
