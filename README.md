@@ -1,5 +1,8 @@
 # 🚀 StacksYield Pro
 
+[![Contracts CI](https://github.com/AdekunleBamz/StacksYield-Pro/actions/workflows/contracts.yml/badge.svg)](https://github.com/AdekunleBamz/StacksYield-Pro/actions/workflows/contracts.yml)
+[![Frontend CI](https://github.com/AdekunleBamz/StacksYield-Pro/actions/workflows/frontend.yml/badge.svg)](https://github.com/AdekunleBamz/StacksYield-Pro/actions/workflows/frontend.yml)
+
 **Yield Aggregator & Auto-Compounding Vault System on Stacks**
 
 Built with **Stacks.js SDK** & **WalletConnect** for the Stacks Builder Challenge #3
