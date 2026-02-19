@@ -1,0 +1,22 @@
+{
+    "name": "stacks-yield-pro-root",
+    "version": "1.0.0",
+    "private": true,
+    "scripts": {
+        "prepare": "husky install",
+        "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+        "format": "prettier --write .",
+        "commit": "commitlint --edit"
+    },
+    "devDependencies": {
+        "@commitlint/cli": "^17.6.1",
+        "@commitlint/config-conventional": "^17.6.1",
+        "eslint": "^8.39.0",
+        "eslint-config-prettier": "^8.8.0",
+        "husky": "^8.0.3",
+        "prettier": "^2.8.8"
+    },
+    "engines": {
+        "node": ">=18.0.0"
+    }
+}
