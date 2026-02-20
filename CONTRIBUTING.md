@@ -1,58 +1,28 @@
-# Contributing to StacksYield Pro
+# Contributing to StacksYield-Pro
 
-Thank you for your interest in contributing to StacksYield Pro! This document provides guidelines and instructions for contributing.
+We love your input! We want to make contributing to StacksYield-Pro as easy and transparent as possible, whether it's:
 
-## Getting Started
+- Reporting a bug
+- Discussing the current state of the code
+- Submitting a fix
+- Proposing new features
+- Becoming a maintainer
 
-1. Fork the repository
-2. Clone your fork locally
-3. Create a new branch for your feature or bug fix
-4. Make your changes
-5. Submit a pull request
+## Development Process
 
-## Development Setup
-
-### Prerequisites
-
-- Node.js 18+
-- Clarinet CLI
-- Git
-
-### Installation
-
-```bash
-# Clone the repository
-git clone https://github.com/AdekunleBamz/StacksYield-Pro.git
-
-# Navigate to the project directory
-cd StacksYield-Pro
-
-# Install frontend dependencies
-cd frontend
-npm install
-```
-
-### Linting
-
-```bash
-# Run frontend lints
-npm run lint
-```
-
-## Code Style
-
-- Use meaningful variable and function names
-- Write comments for complex logic
-- Follow existing code patterns
-- Keep functions small and focused
+1.  Fork the repo and create your branch from `main`.
+2.  If you've added code that should be tested, add tests.
+3.  If you've changed APIs, update the documentation.
+4.  Ensure the test suite passes.
+5.  Make sure your code lints.
+6.  Issue that pull request!
 
 ## Pull Request Process
 
-1. Update the README.md with details of changes if applicable
-2. Ensure all tests pass
-3. Update documentation as needed
-4. Request review from maintainers
+1.  Update the README.md with details of changes to the interface, this includes new environment variables, exposed ports, useful file locations and container parameters.
+2.  Increase the version numbers in any examples files and the README.md to the new version that this Pull Request would represent. The versioning scheme we use is [SemVer](http://semver.org/).
+3.  You may merge the Pull Request in once you have the sign-off of two other developers, or if you do not have permission to do that, you may request the second reviewer to merge it for you.
 
-## Questions?
+## Any questions?
 
-Feel free to open an issue for any questions or concerns.
+If you have questions, feel free to ask the maintainers.
