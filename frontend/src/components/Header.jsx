@@ -65,8 +65,8 @@ const Header = () => {
             <a href="#how-it-works" className="text-gray-300 hover:text-white transition-colors">
               How It Works
             </a>
-            <a href="https://docs.stacks.co" target="_blank" rel="noopener noreferrer" 
-               className="text-gray-300 hover:text-white transition-colors flex items-center gap-1">
+            <a href="https://docs.stacks.co" target="_blank" rel="noopener noreferrer"
+              className="text-gray-300 hover:text-white transition-colors flex items-center gap-1">
               Docs <FiExternalLink className="w-3 h-3" />
             </a>
           </nav>
@@ -112,7 +112,7 @@ const Header = () => {
                 onClick={handleConnect}
                 disabled={isConnecting}
                 aria-label="Connect your Stacks wallet"
-                className="btn-primary px-6 py-2.5 rounded-xl font-medium flex items-center gap-2"
+                className="btn-primary px-6 py-2.5 rounded-xl font-medium flex items-center gap-2 transition-transform duration-300 hover:scale-[1.02] active:scale-95 focus:outline-none focus:ring-2 focus:ring-stacks-purple/50"
               >
                 {isConnecting ? (
                   <>
@@ -155,10 +155,10 @@ const Header = () => {
                 How It Works
               </a>
               <a href="https://docs.stacks.co" target="_blank" rel="noopener noreferrer"
-                 className="text-gray-300 hover:text-white transition-colors flex items-center gap-1">
+                className="text-gray-300 hover:text-white transition-colors flex items-center gap-1">
                 Docs <FiExternalLink className="w-3 h-3" />
               </a>
-              
+
               {isConnected ? (
                 <div className="pt-4 border-t border-stacks-gray">
                   <div className="flex items-center justify-between mb-2">
@@ -190,7 +190,7 @@ const Header = () => {
                 <button
                   onClick={handleConnect}
                   disabled={isConnecting}
-                  className="btn-primary w-full px-6 py-2.5 rounded-xl font-medium flex items-center justify-center gap-2"
+                  className="btn-primary w-full px-6 py-2.5 rounded-xl font-medium flex items-center justify-center gap-2 transition-transform duration-300 hover:scale-[1.02] active:scale-95 focus:outline-none focus:ring-2 focus:ring-stacks-purple/50"
                 >
                   {isConnecting ? (
                     <>
