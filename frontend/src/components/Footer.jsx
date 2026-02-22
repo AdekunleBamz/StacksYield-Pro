@@ -21,23 +21,23 @@ const Footer = () => {
               </div>
             </div>
             <p className="text-gray-400 text-sm max-w-md">
-              Maximize your STX yields with auto-compounding vaults. Built on Stacks, 
+              Maximize your STX yields with auto-compounding vaults. Built on Stacks,
               secured by Bitcoin. Choose your strategy and watch your earnings grow.
             </p>
             <div className="flex space-x-4 mt-6">
-              <a aria-label="GitHub (opens in new tab)" 
-                href="https://github.com/AdekunleBamz" 
-                target="_blank" 
+              <a aria-label="GitHub (opens in new tab)"
+                href="https://github.com/AdekunleBamz"
+                target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-lg bg-stacks-gray flex items-center justify-center hover:bg-stacks-purple/20 transition-colors"
+                className="w-10 h-10 rounded-lg bg-stacks-gray flex items-center justify-center hover:bg-stacks-purple/20 transition-colors focus:outline-none focus:ring-2 focus:ring-stacks-purple/50"
               >
                 <FiGithub className="w-5 h-5" />
               </a>
-              <a aria-label="Twitter (opens in new tab)" 
-                href="https://twitter.com/hrh_mckay" 
-                target="_blank" 
+              <a aria-label="Twitter (opens in new tab)"
+                href="https://twitter.com/hrh_mckay"
+                target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-lg bg-stacks-gray flex items-center justify-center hover:bg-stacks-purple/20 transition-colors"
+                className="w-10 h-10 rounded-lg bg-stacks-gray flex items-center justify-center hover:bg-stacks-purple/20 transition-colors focus:outline-none focus:ring-2 focus:ring-stacks-purple/50"
               >
                 <FiTwitter className="w-5 h-5" />
               </a>
@@ -70,9 +70,9 @@ const Footer = () => {
             <h4 id="footer-resources" className="font-semibold mb-4">Resources</h4>
             <ul className="space-y-2">
               <li>
-                <a 
-                  href="https://docs.stacks.co" 
-                  target="_blank" 
+                <a
+                  href="https://docs.stacks.co"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="text-gray-400 hover:text-white transition-colors text-sm flex items-center gap-1"
                 >
@@ -80,9 +80,9 @@ const Footer = () => {
                 </a>
               </li>
               <li>
-                <a 
-                  href="https://explorer.stacks.co" 
-                  target="_blank" 
+                <a
+                  href="https://explorer.stacks.co"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="text-gray-400 hover:text-white transition-colors text-sm flex items-center gap-1"
                 >
@@ -90,9 +90,9 @@ const Footer = () => {
                 </a>
               </li>
               <li>
-                <a 
-                  href="https://github.com/AdekunleBamz/stacksyield-pro" 
-                  target="_blank" 
+                <a
+                  href="https://github.com/AdekunleBamz/stacksyield-pro"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="text-gray-400 hover:text-white transition-colors text-sm flex items-center gap-1"
                 >
