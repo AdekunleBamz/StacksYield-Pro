@@ -62,8 +62,8 @@ const Hero = () => {
 
           {/* Feature highlights */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="glass-card p-6 rounded-2xl">
-              <div className="w-12 h-12 rounded-xl bg-vault-conservative/20 flex items-center justify-center mb-4 mx-auto">
+            <div className="glass-card p-6 rounded-2xl transition-transform duration-300 hover:-translate-y-2" role="region" aria-label="Security Feature">
+              <div className="w-12 h-12 rounded-xl bg-vault-conservative/20 flex items-center justify-center mb-4 mx-auto" role="img" aria-label="Shield icon">
                 <HiShieldCheck className="w-6 h-6 text-vault-conservative" />
               </div>
               <h3 className="text-lg font-semibold mb-2">Secure & Audited</h3>
@@ -72,8 +72,8 @@ const Hero = () => {
               </p>
             </div>
 
-            <div className="glass-card p-6 rounded-2xl">
-              <div className="w-12 h-12 rounded-xl bg-vault-balanced/20 flex items-center justify-center mb-4 mx-auto">
+            <div className="glass-card p-6 rounded-2xl transition-transform duration-300 hover:-translate-y-2" role="region" aria-label="Compounding Feature">
+              <div className="w-12 h-12 rounded-xl bg-vault-balanced/20 flex items-center justify-center mb-4 mx-auto" role="img" aria-label="Dollar icon">
                 <HiCurrencyDollar className="w-6 h-6 text-vault-balanced" />
               </div>
               <h3 className="text-lg font-semibold mb-2">Auto-Compound</h3>
@@ -82,8 +82,8 @@ const Hero = () => {
               </p>
             </div>
 
-            <div className="glass-card p-6 rounded-2xl">
-              <div className="w-12 h-12 rounded-xl bg-vault-aggressive/20 flex items-center justify-center mb-4 mx-auto">
+            <div className="glass-card p-6 rounded-2xl transition-transform duration-300 hover:-translate-y-2" role="region" aria-label="Strategies Feature">
+              <div className="w-12 h-12 rounded-xl bg-vault-aggressive/20 flex items-center justify-center mb-4 mx-auto" role="img" aria-label="Chart icon">
                 <HiChartBar className="w-6 h-6 text-vault-aggressive" />
               </div>
               <h3 className="text-lg font-semibold mb-2">Multiple Strategies</h3>
