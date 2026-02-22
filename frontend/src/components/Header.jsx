@@ -59,14 +59,14 @@ const Header = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
-            <a href="#vaults" className="text-gray-300 hover:text-white transition-colors">
+            <a href="#vaults" className="text-gray-300 hover:text-white transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-stacks-purple/50 rounded-lg px-2 py-1">
               Vaults
             </a>
-            <a href="#how-it-works" className="text-gray-300 hover:text-white transition-colors">
+            <a href="#how-it-works" className="text-gray-300 hover:text-white transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-stacks-purple/50 rounded-lg px-2 py-1">
               How It Works
             </a>
             <a href="https://docs.stacks.co" target="_blank" rel="noopener noreferrer"
-              className="text-gray-300 hover:text-white transition-colors flex items-center gap-1">
+              className="text-gray-300 hover:text-white transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-stacks-purple/50 rounded-lg px-2 py-1 flex items-center gap-1">
               Docs <FiExternalLink className="w-3 h-3" />
             </a>
           </nav>
