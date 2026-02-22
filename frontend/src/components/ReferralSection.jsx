@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { 
-  HiLink, 
-  HiClipboardDocument, 
+import {
+  HiLink,
+  HiClipboardDocument,
   HiCheckCircle,
   HiUserPlus,
   HiGift,
@@ -22,7 +22,7 @@ const ReferralSection = () => {
   const [isRegistering, setIsRegistering] = useState(false)
   const [copied, setCopied] = useState(false)
   const [referralFromURL, setReferralFromURL] = useState(null)
-  
+
   const { stats: userStats, loading, refetch } = useUserStats(address)
 
   // Check for referral code in URL on mount
@@ -40,7 +40,7 @@ const ReferralSection = () => {
     setIsRegistering(true)
 
     try {
-      const referralArg = referralFromURL 
+      const referralArg = referralFromURL
         ? optionalCVOf(stringAsciiCV(referralFromURL))
         : noneCV()
 
@@ -110,7 +110,7 @@ const ReferralSection = () => {
   const shareReferral = () => {
     const code = defaultCode
     const shareText = `Join me on StacksYield Pro and earn up to 25% APY on your STX! Use my referral code: ${code}\n\n${generateReferralURL(code)}`
-    
+
     if (navigator.share) {
       navigator.share({
         title: 'StacksYield Pro Referral',
@@ -159,7 +159,7 @@ const ReferralSection = () => {
             <div className="flex-1">
               <h3 className="font-semibold text-lg mb-2">Register to Unlock Referrals</h3>
               <p className="text-gray-400 text-sm mb-4">
-                Register your account to create referral codes and start earning. 
+                Register your account to create referral codes and start earning.
                 {referralFromURL && (
                   <span className="text-stacks-purple"> Using referral code: <strong>{referralFromURL}</strong></span>
                 )}
@@ -167,7 +167,7 @@ const ReferralSection = () => {
               <button
                 onClick={handleRegister}
                 disabled={isRegistering}
-                className="btn-primary px-6 py-2.5 rounded-xl font-medium flex items-center gap-2"
+                className="btn-primary px-6 py-2.5 rounded-xl font-medium flex items-center gap-2 transition-transform duration-300 hover:scale-[1.02] active:scale-95 focus:outline-none focus:ring-2 focus:ring-stacks-purple/50"
               >
                 {isRegistering ? (
                   <>
@@ -188,7 +188,7 @@ const ReferralSection = () => {
 
       {/* How it works */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-        <div className="glass-card p-6 rounded-2xl text-center">
+        <div className="glass-card p-6 rounded-2xl text-center transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-stacks-purple/5">
           <div className="w-12 h-12 rounded-full bg-stacks-purple/20 flex items-center justify-center mx-auto mb-4">
             <span className="text-xl font-bold text-stacks-purple">1</span>
           </div>
@@ -198,7 +198,7 @@ const ReferralSection = () => {
           </p>
         </div>
 
-        <div className="glass-card p-6 rounded-2xl text-center">
+        <div className="glass-card p-6 rounded-2xl text-center transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-vault-balanced/5">
           <div className="w-12 h-12 rounded-full bg-vault-balanced/20 flex items-center justify-center mx-auto mb-4">
             <span className="text-xl font-bold text-vault-balanced">2</span>
           </div>
@@ -208,7 +208,7 @@ const ReferralSection = () => {
           </p>
         </div>
 
-        <div className="glass-card p-6 rounded-2xl text-center">
+        <div className="glass-card p-6 rounded-2xl text-center transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-vault-conservative/5">
           <div className="w-12 h-12 rounded-full bg-vault-conservative/20 flex items-center justify-center mx-auto mb-4">
             <span className="text-xl font-bold text-vault-conservative">3</span>
           </div>
@@ -270,7 +270,7 @@ const ReferralSection = () => {
 
               <button
                 onClick={shareReferral}
-                className="w-full btn-primary py-3 rounded-xl font-medium flex items-center justify-center gap-2"
+                className="w-full btn-primary py-3 rounded-xl font-medium flex items-center justify-center gap-2 transition-transform duration-300 hover:scale-[1.01] active:scale-95 focus:outline-none focus:ring-2 focus:ring-stacks-purple/50"
                 aria-label="Share referral link"
               >
                 <HiShare className="w-5 h-5" />
@@ -366,7 +366,7 @@ const ReferralSection = () => {
           <div className="mt-6 p-4 bg-gradient-to-r from-stacks-purple/10 to-stacks-orange/10 rounded-xl border border-stacks-purple/20">
             <p className="text-sm font-medium mb-2">💎 Referral Bonus Structure</p>
             <p className="text-xs text-gray-400">
-              Earn 0.25% of the deposit fees paid by anyone who uses your referral code. 
+              Earn 0.25% of the deposit fees paid by anyone who uses your referral code.
               Rewards are automatically credited to your account when your referrals deposit.
             </p>
           </div>
