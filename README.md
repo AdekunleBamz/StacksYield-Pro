@@ -219,3 +219,118 @@ MIT License - see LICENSE file for details.
 ---
 
 Built with ❤️ for Stacks Builder Challenge #3
+
+## 🔌 Stacks.js Integration Guide
+
+This section documents how @stacks/connect and @stacks/transactions are used in StacksYield Pro.
+
+### @stacks/connect - Wallet Connection
+
+@stacks/connect is used for connecting to Stacks wallets (Leather, Xverse, etc.).
+
+```javascript
+import { connect } from '@stacks/connect'
+import { StacksMainnet, StacksTestnet } from '@stacks/network'
+
+const network = new StacksMainnet()
+const appDetails = {
+  name: 'StacksYield Pro',
+  icon: window.location.origin + '/logo.svg'
+}
+
+// Connect wallet
+const { authResponse } = await connect({
+  appDetails,
+  network,
+  onFinish: (data) => {
+    console.log('Wallet connected:', data)
+  },
+  onCancel: () => {
+    console.log('User cancelled')
+  }
+})
+```
+
+### @stacks/transactions - Contract Calls
+
+@stacks/transactions is used for building and signing Clarity smart contract calls.
+
+```javascript
+import { contractCallable, uintCV, stringAsciiCV, standardPrincipalCV } from '@stacks/transactions'
+import { makeContractCall } from '@stacks/transactions'
+
+// Deposit function call
+const depositTx = await makeContractCall({
+  contractAddress: CONTRACT_ADDRESS,
+  contractName: 'stacksyield-pro',
+  functionName: 'deposit',
+  functionArgs: [
+    uintCV(amount),           // amount in microSTX
+    uintCV(strategyId)        // 1=Conservative, 2=Balanced, 3=Aggressive
+  ],
+  senderKey: privateKey,
+  network: new StacksMainnet(),
+  postConditions: []
+})
+```
+
+### Key Files Using Stacks.js
+
+| File | Purpose |
+|------|---------|
+| `frontend/src/context/WalletContext.jsx` | Wallet connection & session management |
+| `frontend/src/components/VaultList.jsx` | Deposit/withdraw contract calls |
+| `frontend/src/components/ReferralSection.jsx` | Referral code operations |
+| `frontend/src/hooks/useContract.js` | Read-only contract queries |
+| `frontend/src/utils/walletconnect.js` | WalletConnect integration |
+
+### Network Configuration
+
+```javascript
+import { StacksMainnet, StacksTestnet, StacksDevnet } from '@stacks/network'
+
+// Mainnet
+const mainnet = new StacksMainnet()
+
+// Testnet  
+const testnet = new StacksTestnet()
+
+// Switch based on environment
+const network = import.meta.env.VITE_NETWORK === 'mainnet' 
+  ? new StacksMainnet() 
+  : new StacksTestnet()
+```
+
+### Transaction Post-Conditions
+
+Post-conditions ensure transactions behave as expected:
+
+```javascript
+import { createAssetInfo, standardPrincipalCV, assetInfoCVFromBools } from '@stacks/transactions'
+
+const postConditions = [
+  // Ensure sender receives at least X STX back
+  makeStandardSTXPostCondition(
+    senderAddress,
+    FungibleConditionCode.GreaterEqual,
+    uintCV(minReturn)
+  )
+]
+```
+
+### Error Handling
+
+```javascript
+try {
+  const tx = await makeContractCall({...})
+  const result = await broadcastTransaction(tx, network)
+  console.log('Transaction submitted:', result.txid)
+} catch (error) {
+  if (error.message.includes('Not enough balance')) {
+    // Handle insufficient funds
+  } else if (error.message.includes('User rejected')) {
+    // Handle user rejection
+  }
+}
+```
+
