@@ -74,7 +74,8 @@ const Footer = () => {
                   href="https://docs.stacks.co"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-gray-400 hover:text-white transition-colors text-sm flex items-center gap-1"
+                  aria-label="Stacks Documentation (opens in new tab)"
+                  className="text-gray-400 hover:text-white transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-stacks-purple/50 rounded px-1 -mx-1 text-sm flex items-center gap-1"
                 >
                   Documentation <FiExternalLink className="w-3 h-3" />
                 </a>
@@ -84,7 +85,8 @@ const Footer = () => {
                   href="https://explorer.stacks.co"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-gray-400 hover:text-white transition-colors text-sm flex items-center gap-1"
+                  aria-label="Stacks Explorer (opens in new tab)"
+                  className="text-gray-400 hover:text-white transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-stacks-purple/50 rounded px-1 -mx-1 text-sm flex items-center gap-1"
                 >
                   Explorer <FiExternalLink className="w-3 h-3" />
                 </a>
@@ -94,7 +96,8 @@ const Footer = () => {
                   href="https://github.com/AdekunleBamz/stacksyield-pro"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-gray-400 hover:text-white transition-colors text-sm flex items-center gap-1"
+                  aria-label="StacksYield Pro GitHub Repository (opens in new tab)"
+                  className="text-gray-400 hover:text-white transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-stacks-purple/50 rounded px-1 -mx-1 text-sm flex items-center gap-1"
                 >
                   GitHub <FiExternalLink className="w-3 h-3" />
                 </a>
