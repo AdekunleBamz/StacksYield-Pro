@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { 
-  HiShieldCheck, 
-  HiScale, 
-  HiFire, 
-  HiArrowDown, 
+import {
+  HiShieldCheck,
+  HiScale,
+  HiFire,
+  HiArrowDown,
   HiArrowUp,
   HiInformationCircle,
   HiLockClosed,
@@ -11,7 +11,7 @@ import {
   HiCurrencyDollar,
   HiSparkles
 } from 'react-icons/hi2'
-import { 
+import {
   uintCV,
   PostConditionMode,
   makeStandardSTXPostCondition,
@@ -183,7 +183,7 @@ const VaultList = () => {
       setTimeout(() => refetch(), 5000)
     } catch (error) {
       console.error('Deposit error:', error)
-      
+
       if (error?.message === 'WALLET_TIMEOUT') {
         toast.error('Wallet did not respond. Please try again.', { duration: 5000 })
       } else {
@@ -223,7 +223,7 @@ const VaultList = () => {
       setTimeout(() => refetch(), 5000)
     } catch (error) {
       console.error('Withdraw error:', error)
-      
+
       if (error?.message === 'WALLET_TIMEOUT') {
         toast.error('Wallet did not respond. Please try again.', { duration: 5000 })
       } else {
@@ -259,7 +259,7 @@ const VaultList = () => {
       setTimeout(() => refetch(), 5000)
     } catch (error) {
       console.error('Emergency withdraw error:', error)
-      
+
       if (error?.message === 'WALLET_TIMEOUT') {
         toast.error('Wallet did not respond. Please try again.', { duration: 5000 })
       } else {
@@ -328,11 +328,11 @@ const VaultList = () => {
           const isDeposit = actionType === 'deposit'
           const isAmountInvalid =
             !amount || Number.isNaN(amountValue) || (isDeposit ? amountValue < vault.minDeposit : amountValue <= 0)
-          
+
           return (
             <div
               key={vault.id}
-              className={`glass-card rounded-2xl overflow-hidden vault-card transition-transform duration-200 hover:scale-[1.02] focus-within:scale-[1.02] vault-card-${meta.color}`}
+              className={`glass-card rounded-2xl overflow-hidden vault-card transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-stacks-purple/10 focus-within:scale-[1.02] focus-within:ring-2 focus-within:ring-stacks-purple/50 vault-card-${meta.color}`}
             >
               {/* Vault Header */}
               <div className={`p-6 bg-gradient-to-r ${meta.bgGradient}`}>
@@ -375,7 +375,7 @@ const VaultList = () => {
                   <p className="text-xs text-gray-500 mb-2">Features</p>
                   <div className="flex flex-wrap gap-2">
                     {meta.features.map((feature, idx) => (
-                      <span 
+                      <span
                         key={idx}
                         className="text-xs px-2 py-1 rounded-full bg-stacks-gray text-gray-300"
                       >
@@ -409,21 +409,19 @@ const VaultList = () => {
                       <div className="flex rounded-xl overflow-hidden border border-stacks-gray">
                         <button
                           onClick={() => setActionType('deposit')}
-                          className={`flex-1 py-2 text-sm font-medium transition-colors ${
-                            actionType === 'deposit' 
-                              ? 'bg-stacks-purple text-white' 
+                          className={`flex-1 py-2 text-sm font-medium transition-colors ${actionType === 'deposit'
+                              ? 'bg-stacks-purple text-white'
                               : 'text-gray-400 hover:text-white'
-                          }`}
+                            }`}
                         >
                           Deposit
                         </button>
                         <button
                           onClick={() => setActionType('withdraw')}
-                          className={`flex-1 py-2 text-sm font-medium transition-colors ${
-                            actionType === 'withdraw' 
-                              ? 'bg-stacks-purple text-white' 
+                          className={`flex-1 py-2 text-sm font-medium transition-colors ${actionType === 'withdraw'
+                              ? 'bg-stacks-purple text-white'
                               : 'text-gray-400 hover:text-white'
-                          }`}
+                            }`}
                         >
                           Withdraw
                         </button>
@@ -432,7 +430,7 @@ const VaultList = () => {
                       {/* Amount Input */}
                       <div className="relative">
                         <label className="sr-only" htmlFor="vault-amount">Amount</label>
-                          <input id="vault-amount"
+                        <input id="vault-amount"
                           type="number"
                           inputMode="decimal"
                           value={amount}
@@ -463,7 +461,7 @@ const VaultList = () => {
                       {/* Fee Info */}
                       {actionType === 'deposit' && amount && parseFloat(amount) > 0 && (
                         <div className="text-xs text-gray-400 px-2">
-                          Fee: {(parseFloat(amount) * 0.005).toFixed(6)} STX (0.5%) • 
+                          Fee: {(parseFloat(amount) * 0.005).toFixed(6)} STX (0.5%) •
                           Net: {(parseFloat(amount) * 0.995).toFixed(6)} STX
                         </div>
                       )}
