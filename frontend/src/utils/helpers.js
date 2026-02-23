@@ -187,3 +187,43 @@ export const debounce = (func, wait) => {
     timeout = setTimeout(later, wait)
   }
 }
+
+// Validation helpers for Stacks addresses
+export const isValidStacksAddress = (address) => {
+  if (!address) return false
+  // Mainnet: SP, Testnet: ST
+  const mainnetRegex = /^SP[0-9A-HJ-NP-Za-km-z]{38}$/
+  const testnetRegex = /^ST[0-9A-HJ-NP-Za-km-z]{38}$/
+  return mainnetRegex.test(address) || testnetRegex.test(address)
+}
+
+// Validate email format
+export const isValidEmail = (email) => {
+  if (!email) return false
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  return emailRegex.test(email)
+}
+
+// Validate referral code format
+export const isValidReferralCode = (code) => {
+  if (!code) return false
+  // Allow alphanumeric, dash, underscore, 3-30 chars
+  const codeRegex = /^[a-zA-Z0-9_-]{3,30}$/
+  return codeRegex.test(code)
+}
+
+// Sanitize input string
+export const sanitizeInput = (input) => {
+  if (!input) return ''
+  return input.replace(/[<>"']/g, '')
+}
+
+// Parse error message from transaction
+export const parseTransactionError = (error) => {
+  if (!error) return 'Unknown error'
+  if (typeof error === 'string') return error
+  if (error.message) return error.message
+  if (error.reason) return error.reason
+  return 'Transaction failed'
+}
+
