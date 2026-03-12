@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { WalletProvider, useWallet } from './context/WalletContext'
+import { HiArrowSmallUp } from 'react-icons/hi2'
 import Header from './components/Header'
 import Hero from './components/Hero'
 import Stats from './components/Stats'
@@ -13,6 +14,19 @@ import WalletConnectQRModal from './components/WalletConnectQRModal'
 function AppContent() {
   const { isConnected } = useWallet()
   const [activeTab, setActiveTab] = useState('vaults')
+  const [showScrollTop, setShowScrollTop] = useState(false)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowScrollTop(window.scrollY > 400)
+    }
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
 
   return (
     <div className="min-h-screen bg-stacks-dark relative">
@@ -104,6 +118,17 @@ function AppContent() {
         </main>
         
         <Footer />
+        
+        {/* Scroll to Top */}
+        <button
+          onClick={scrollToTop}
+          className={`fixed bottom-8 right-8 z-50 p-3 rounded-full bg-stacks-purple text-white shadow-lg shadow-stacks-purple/20 transition-all duration-300 transform ${
+            showScrollTop ? 'translate-y-0 opacity-100 scale-100' : 'translate-y-12 opacity-0 scale-50'
+          } hover:bg-stacks-purple-light hover:shadow-stacks-purple/40 active:scale-90`}
+          aria-label="Scroll to top"
+        >
+          <HiArrowSmallUp className="w-6 h-6" />
+        </button>
       </div>
     </div>
   )
