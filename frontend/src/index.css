@@ -4,7 +4,15 @@
 
 :root {
   --stacks-purple: #5546FF;
+  --stacks-purple-light: #7B6DFF;
   --stacks-orange: #FC6432;
+  --stacks-dark: #0C0C0D;
+  --stacks-gray: rgba(255, 255, 255, 0.1);
+  --stacks-text-main: #FFFFFF;
+  --stacks-text-dim: #9CA3AF;
+  --success: #22C55E;
+  --warning: #F59E0B;
+  --error: #EF4444;
 }
 
 * {
