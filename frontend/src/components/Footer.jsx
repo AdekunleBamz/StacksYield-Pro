@@ -45,7 +45,7 @@ const Footer = () => {
           </div>
 
           {/* Links */}
-          <div>
+          <nav aria-labelledby="footer-protocol">
             <h4 id="footer-protocol" className="font-semibold mb-4">Protocol</h4>
             <ul className="space-y-2">
               <li>
@@ -64,9 +64,9 @@ const Footer = () => {
                 </a>
               </li>
             </ul>
-          </div>
+          </nav>
 
-          <div>
+          <nav aria-labelledby="footer-resources">
             <h4 id="footer-resources" className="font-semibold mb-4">Resources</h4>
             <ul className="space-y-2">
               <li>
@@ -103,7 +103,7 @@ const Footer = () => {
                 </a>
               </li>
             </ul>
-          </div>
+          </nav>
         </div>
 
         <div className="border-t border-stacks-gray mt-12 pt-8 flex flex-col md:flex-row items-center justify-between">

@@ -91,6 +91,7 @@ const Header = () => {
                   onClick={handleCopyAddress}
                   className="glass-card px-3 py-2 rounded-xl text-left hover:bg-stacks-purple/10 transition-colors"
                   title={address ? 'Copy address' : 'Wallet not connected'}
+                  aria-label={address ? `Copy wallet address: ${address}` : 'Copy wallet address'}
                 >
                   <p className="text-xs text-gray-400">Connected</p>
                   <p className="text-sm font-mono font-medium text-white">
@@ -103,6 +104,7 @@ const Header = () => {
                 <button
                   onClick={handleDisconnect}
                   className="btn-secondary px-4 py-2 rounded-xl text-sm font-medium"
+                  aria-label="Disconnect wallet"
                 >
                   Disconnect
                 </button>
@@ -173,6 +175,7 @@ const Header = () => {
                     onClick={handleCopyAddress}
                     className="w-full text-left text-sm font-mono font-medium text-white mb-2"
                     title={address ? 'Copy address' : 'Wallet not connected'}
+                    aria-label={address ? `Copy wallet address: ${address}` : 'Copy wallet address'}
                   >
                     {truncateAddress(address)}
                   </button>
@@ -182,6 +185,7 @@ const Header = () => {
                   <button
                     onClick={handleDisconnect}
                     className="btn-secondary w-full px-4 py-2 rounded-xl text-sm font-medium"
+                    aria-label="Disconnect wallet"
                   >
                     Disconnect
                   </button>
@@ -190,6 +194,7 @@ const Header = () => {
                 <button
                   onClick={handleConnect}
                   disabled={isConnecting}
+                  aria-label="Connect your Stacks wallet"
                   className="btn-primary w-full px-6 py-2.5 rounded-xl font-medium flex items-center justify-center gap-2 transition-transform duration-300 hover:scale-[1.02] active:scale-95 focus:outline-none focus:ring-2 focus:ring-stacks-purple/50"
                 >
                   {isConnecting ? (
