@@ -298,7 +298,7 @@ const VaultList = () => {
 
   if (vaultsLoading) {
     return (
-      <section id="vaults" className="py-8">
+      <section id="vaults" className="py-16">
         <div className="flex items-center justify-center py-20">
           <div className="text-center">
             <div className="spinner mx-auto mb-4" role="status" aria-label="Loading vaults" />
@@ -310,7 +310,7 @@ const VaultList = () => {
   }
 
   return (
-    <section id="vaults" className="py-8" aria-labelledby="vaults-heading">
+    <section id="vaults" className="py-16" aria-labelledby="vaults-heading">
       <div className="mb-8">
         <h2 id="vaults-heading" className="text-3xl font-bold font-display mb-2">
           <span className="gradient-text">Choose Your Vault</span>
