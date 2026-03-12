@@ -24,6 +24,7 @@ import { useVaults, CONTRACT_ADDRESS, CONTRACT_NAME } from '../hooks/useContract
 import { useWallet } from '../context/WalletContext'
 import { toMicroSTX, blocksToTime, formatNumber } from '../utils/helpers'
 import EmptyState from './EmptyState'
+import ConfirmationModal from './ConfirmationModal'
 
 const Description = ({ text }) => {
   const [isExpanded, setIsExpanded] = useState(false)
@@ -52,6 +53,8 @@ const VaultList = () => {
   const [actionType, setActionType] = useState('deposit')
   const [amount, setAmount] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false)
+  const [vaultToEmergency, setVaultToEmergency] = useState(null)
 
   const { vaults: contractVaults, loading: vaultsLoading, refetch } = useVaults()
   const isWalletConnectSession = !!wcSession
@@ -257,28 +260,32 @@ const VaultList = () => {
     }
   }
 
-  const handleEmergencyWithdraw = async (vault) => {
     if (!isConnected) {
       await connectWallet()
       return
     }
 
-    if (!window.confirm('Emergency withdrawal incurs a 5% penalty. Are you sure?')) {
-      return
-    }
+    setVaultToEmergency(vault)
+    setIsConfirmOpen(true)
+  }
 
+  const confirmEmergencyWithdraw = async () => {
+    if (!vaultToEmergency) return
+    
+    setIsConfirmOpen(false)
     setIsLoading(true)
 
     try {
       const res = await signAndBroadcast({
         functionName: 'emergency-withdraw',
-        functionArgs: [uintCV(vault.id)],
+        functionArgs: [uintCV(vaultToEmergency.id)],
         postConditionMode: PostConditionMode.Allow,
         postConditions: [],
       })
 
       toast.success(`Emergency withdrawal submitted${res?.txid ? `: ${res.txid}` : ''}`)
       setSelectedVault(null)
+      setVaultToEmergency(null)
       setTimeout(() => refetch(), 5000)
     } catch (error) {
       console.error('Emergency withdraw error:', error)
@@ -601,6 +608,20 @@ const VaultList = () => {
           </div>
         </div>
       </div>
+
+      <ConfirmationModal 
+        isOpen={isConfirmOpen}
+        onClose={() => {
+          setIsConfirmOpen(false);
+          setVaultToEmergency(null);
+        }}
+        onConfirm={confirmEmergencyWithdraw}
+        title="Emergency Withdrawal"
+        message={`Warning: Emergency withdrawals incur a 5% penalty and bypass the lock period. Are you sure you want to withdraw from ${vaultToEmergency?.name}?`}
+        confirmLabel="Emergency Exit"
+        variant="danger"
+        isLoading={isLoading}
+      />
     </section>
   )
 }
