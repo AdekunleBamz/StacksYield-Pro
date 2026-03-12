@@ -12,8 +12,10 @@ import {
   HiSparkles,
   HiExclamationTriangle,
   HiMagnifyingGlass,
-  HiFunnel
+  HiFunnel,
+  HiArrowPath
 } from 'react-icons/hi2'
+import Skeleton from './Skeleton'
 import {
   uintCV,
   PostConditionMode,
@@ -361,11 +363,33 @@ const VaultList = () => {
   if (vaultsLoading) {
     return (
       <section id="vaults" className="py-16">
-        <div className="flex items-center justify-center py-20">
-          <div className="text-center">
-            <div className="spinner mx-auto mb-4" role="status" aria-label="Loading vaults" />
-            <p className="text-gray-400">Loading vaults...</p>
-          </div>
+        <RefreshIndicator isLoading={vaultsLoading} />
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-8">
+          {[1, 2, 3].map((i) => (
+            <div key={i} className="glass-card rounded-2xl overflow-hidden border border-white/5 bg-white/5">
+              <div className="p-6 space-y-4 bg-white/5">
+                <div className="flex justify-between">
+                  <Skeleton className="h-12 w-12" />
+                  <div className="space-y-2 flex flex-col items-end">
+                    <Skeleton className="h-4 w-8" />
+                    <Skeleton className="h-8 w-16" />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <Skeleton className="h-6 w-3/4" />
+                  <Skeleton className="h-4 w-full" />
+                </div>
+              </div>
+              <div className="p-6 space-y-4">
+                <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-4 w-full" />
+                <div className="pt-4 border-t border-white/5">
+                  <Skeleton className="h-12 w-full" />
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       </section>
     )

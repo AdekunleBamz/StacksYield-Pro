@@ -114,10 +114,16 @@ const Stats = () => {
               style={{ animationDelay: `${index * 0.1}s` }}
             >
               {protocolLoading || vaultsLoading ? (
-                <div className="stat-card glass-card p-6 rounded-2xl">
-                  <Skeleton className="h-6 w-12 rounded-xl mb-4" />
-                  <Skeleton className="h-4 w-24 mb-2" />
-                  <Skeleton className="h-8 w-20" />
+                <div className="glass-card p-6 rounded-2xl flex flex-col gap-4 border border-white/5 bg-white/5">
+                  <div className="flex items-center justify-between">
+                    <Skeleton className="h-12 w-12" />
+                    <Skeleton className="h-4 w-12" />
+                  </div>
+                  <div className="space-y-2">
+                    <Skeleton className="h-3 w-24" />
+                    <Skeleton className="h-8 w-32" />
+                  </div>
+                  <Skeleton className="h-10 w-full" />
                 </div>
               ) : (
                 <StatsCard

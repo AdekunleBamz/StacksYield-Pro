@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
 :root {
   --stacks-purple: #5546FF;
   --stacks-purple-light: #7B6DFF;
