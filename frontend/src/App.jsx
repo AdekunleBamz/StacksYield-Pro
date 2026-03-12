@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { WalletProvider, useWallet } from './context/WalletContext'
-import { HiArrowSmallUp } from 'react-icons/hi2'
+import { HiArrowSmallUp, HiChevronRight, HiHome } from 'react-icons/hi2'
 import Header from './components/Header'
 import Hero from './components/Hero'
 import Stats from './components/Stats'
@@ -44,6 +44,20 @@ function AppContent() {
           <Hero />
           
           <Stats />
+          
+          {/* Breadcrumbs */}
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
+            <nav className="flex items-center space-x-2 text-sm text-gray-500" aria-label="Breadcrumb">
+              <a href="#" onClick={(e) => { e.preventDefault(); setActiveTab('vaults'); }} className="flex items-center hover:text-white transition-colors">
+                <HiHome className="w-4 h-4 mr-1" />
+                Home
+              </a>
+              <HiChevronRight className="w-3 h-3" />
+              <span className="text-stacks-purple font-medium capitalize">
+                {activeTab.replace('-', ' ')}
+              </span>
+            </nav>
+          </div>
           
           {/* Tab Navigation */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16">
