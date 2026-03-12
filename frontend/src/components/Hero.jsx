@@ -41,7 +41,7 @@ const Hero = () => {
                 className="btn-primary px-8 py-4 rounded-2xl font-semibold text-lg flex items-center gap-2 w-full sm:w-auto focus:ring-2 focus:ring-stacks-purple focus:ring-offset-2 focus:ring-offset-stacks-dark"
               >
                 Start Earning Now
-                <HiArrowRight className="w-5 h-5" />
+                <HiArrowRight className="w-5 h-5" aria-hidden="true" />
               </button>
             ) : (
               <a
@@ -49,7 +49,7 @@ const Hero = () => {
                 className="btn-primary px-8 py-4 rounded-2xl font-semibold text-lg flex items-center gap-2 w-full sm:w-auto justify-center"
               >
                 View Vaults
-                <HiArrowRight className="w-5 h-5" />
+                <HiArrowRight className="w-5 h-5" aria-hidden="true" />
               </a>
             )}
             <a

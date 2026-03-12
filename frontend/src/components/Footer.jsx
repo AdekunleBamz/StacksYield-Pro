@@ -4,8 +4,8 @@ import { FiGithub, FiTwitter, FiExternalLink } from 'react-icons/fi'
 
 const Footer = () => {
   return (
-    <footer className="border-t border-stacks-gray mt-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <footer className="border-t border-stacks-gray mt-24">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Logo & Description */}
           <div className="md:col-span-2">
@@ -106,14 +106,14 @@ const Footer = () => {
           </nav>
         </div>
 
-        <div className="border-t border-stacks-gray mt-12 pt-8 flex flex-col md:flex-row items-center justify-between">
+        <section className="border-t border-stacks-gray mt-12 pt-8 flex flex-col md:flex-row items-center justify-between">
           <p className="text-gray-500 text-sm">
             © 2025 StacksYield Pro. Built with WalletKit SDK.
           </p>
           <p className="text-gray-500 text-sm mt-2 md:mt-0">
             Powered by <span className="text-stacks-purple">Stacks</span> • Secured by <span className="text-stacks-orange">Bitcoin</span>
           </p>
-        </div>
+        </section>
       </div>
     </footer>
   )
