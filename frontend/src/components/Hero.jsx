@@ -64,7 +64,7 @@ const Hero = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="glass-card p-6 rounded-2xl">
               <div className="w-12 h-12 rounded-xl bg-vault-conservative/20 flex items-center justify-center mb-4 mx-auto">
-                <HiShieldCheck className="w-6 h-6 text-vault-conservative" />
+                <HiShieldCheck className="w-6 h-6 text-vault-conservative" aria-hidden="true" />
               </div>
               <h3 className="text-lg font-semibold mb-2">Secure & Audited</h3>
               <p className="text-gray-400 text-sm">
@@ -74,7 +74,7 @@ const Hero = () => {
 
             <div className="glass-card p-6 rounded-2xl">
               <div className="w-12 h-12 rounded-xl bg-vault-balanced/20 flex items-center justify-center mb-4 mx-auto">
-                <HiCurrencyDollar className="w-6 h-6 text-vault-balanced" />
+                <HiCurrencyDollar className="w-6 h-6 text-vault-balanced" aria-hidden="true" />
               </div>
               <h3 className="text-lg font-semibold mb-2">Auto-Compound</h3>
               <p className="text-gray-400 text-sm">
@@ -84,7 +84,7 @@ const Hero = () => {
 
             <div className="glass-card p-6 rounded-2xl">
               <div className="w-12 h-12 rounded-xl bg-vault-aggressive/20 flex items-center justify-center mb-4 mx-auto">
-                <HiChartBar className="w-6 h-6 text-vault-aggressive" />
+                <HiChartBar className="w-6 h-6 text-vault-aggressive" aria-hidden="true" />
               </div>
               <h3 className="text-lg font-semibold mb-2">Multiple Strategies</h3>
               <p className="text-gray-400 text-sm">
