@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { FiMenu, FiX, FiExternalLink } from 'react-icons/fi'
-import { HiSparkles, HiCurrencyDollar, HiGlobeAlt } from 'react-icons/hi2'
+import { HiSparkles, HiCurrencyDollar, HiGlobeAlt, HiClipboardDocument, HiCheck } from 'react-icons/hi2'
 import { useWallet } from '../context/WalletContext'
 import NetworkSwitcher from './NetworkSwitcher'
 
@@ -90,21 +90,31 @@ const Header = () => {
                     </p>
                   </div>
                 </div>
-                {/* Address */}
+                {/* Address with Copy Shortcut */}
                 <button
                   type="button"
                   onClick={handleCopyAddress}
-                  className="glass-card px-3 py-2 rounded-xl text-left hover:bg-stacks-purple/10 transition-colors"
-                  title={address ? 'Copy address' : 'Wallet not connected'}
+                  className="glass-card px-4 py-2 rounded-xl text-left hover:bg-stacks-purple/10 transition-all duration-300 group flex items-center gap-3 border border-white/5 active:scale-95 tooltip"
+                  data-tooltip={copiedAddress ? 'Copied!' : 'Click to copy address'}
                   aria-label={address ? `Copy wallet address: ${address}` : 'Copy wallet address'}
                 >
-                  <p className="text-xs text-gray-400">Connected</p>
-                  <p className="text-sm font-mono font-medium text-white">
-                    {truncateAddress(address)}
-                  </p>
-                  {copiedAddress && (
-                    <p className="text-xs text-stacks-purple mt-1">Copied</p>
-                  )}
+                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-colors ${
+                    copiedAddress ? 'bg-green-500/20' : 'bg-stacks-purple/20'
+                  }`}>
+                    {copiedAddress ? (
+                      <HiCheck className="w-4 h-4 text-green-400" />
+                    ) : (
+                      <HiClipboardDocument className="w-4 h-4 text-stacks-purple group-hover:scale-110 transition-transform" />
+                    )}
+                  </div>
+                  <div>
+                    <p className="text-[10px] text-gray-500 uppercase font-bold tracking-widest leading-none mb-1">
+                      {copiedAddress ? 'Address Copied' : 'Wallet Address'}
+                    </p>
+                    <p className="text-sm font-mono font-bold text-white leading-none">
+                      {truncateAddress(address)}
+                    </p>
+                  </div>
                 </button>
                 <button
                   onClick={handleDisconnect}
