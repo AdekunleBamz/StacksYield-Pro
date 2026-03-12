@@ -29,6 +29,18 @@ import EmptyState from './EmptyState'
 import ConfirmationModal from './ConfirmationModal'
 import Sparkline from './Sparkline'
 import TransactionStepper from './TransactionStepper'
+import { HiArrowPath } from 'react-icons/hi2'
+
+const RefreshIndicator = ({ isLoading }) => (
+  <div className={`flex flex-col items-center justify-center transition-all duration-500 overflow-hidden ${
+    isLoading ? 'h-16 opacity-100' : 'h-0 opacity-0'
+  }`}>
+    <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-stacks-purple/10 border border-stacks-purple/20 text-stacks-purple">
+      <HiArrowPath className={`w-4 h-4 ${isLoading ? 'animate-spin' : ''}`} />
+      <span className="text-xs font-bold uppercase tracking-widest">Updating Vaults</span>
+    </div>
+  </div>
+)
 
 const Description = ({ text }) => {
   const [isExpanded, setIsExpanded] = useState(false)
@@ -360,14 +372,27 @@ const VaultList = () => {
   }
 
   return (
-    <section id="vaults" className="py-16" aria-labelledby="vaults-heading">
-      <div className="mb-8">
-        <h2 id="vaults-heading" className="text-3xl font-bold font-display mb-2">
-          <span className="gradient-text">Choose Your Vault</span>
-        </h2>
-        <p className="text-gray-400">
-          Select a strategy that matches your risk tolerance and start earning
-        </p>
+    <section id="vaults" className="py-16 relative" aria-labelledby="vaults-heading">
+      <RefreshIndicator isLoading={vaultsLoading} />
+      
+      <div className="mb-8 flex items-center justify-between">
+        <div>
+          <h2 id="vaults-heading" className="text-3xl font-bold font-display mb-2">
+            <span className="gradient-text">Choose Your Vault</span>
+          </h2>
+          <p className="text-gray-400">
+            Select a strategy that matches your risk tolerance and start earning
+          </p>
+        </div>
+        
+        <button 
+          onClick={() => refetch()}
+          disabled={vaultsLoading}
+          className="p-3 rounded-xl bg-white/5 text-gray-400 hover:text-white active:scale-90 transition-all md:hidden"
+          aria-label="Refresh vaults"
+        >
+          <HiArrowPath className={`w-6 h-6 ${vaultsLoading ? 'animate-spin' : ''}`} />
+        </button>
       </div>
 
       {/* Search and Filter */}
