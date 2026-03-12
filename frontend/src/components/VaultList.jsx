@@ -10,7 +10,9 @@ import {
   HiClock,
   HiCurrencyDollar,
   HiSparkles,
-  HiExclamationTriangle
+  HiExclamationTriangle,
+  HiMagnifyingGlass,
+  HiFunnel
 } from 'react-icons/hi2'
 import {
   uintCV,
@@ -55,6 +57,8 @@ const VaultList = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [isConfirmOpen, setIsConfirmOpen] = useState(false)
   const [vaultToEmergency, setVaultToEmergency] = useState(null)
+  const [searchQuery, setSearchQuery] = useState('')
+  const [filterRisk, setFilterRisk] = useState('all')
 
   const { vaults: contractVaults, loading: vaultsLoading, refetch } = useVaults()
   const isWalletConnectSession = !!wcSession
@@ -260,6 +264,7 @@ const VaultList = () => {
     }
   }
 
+  const handleEmergencyWithdraw = async (vault) => {
     if (!isConnected) {
       await connectWallet()
       return
@@ -326,6 +331,13 @@ const VaultList = () => {
     }
   }
 
+  const filteredVaults = vaults.filter(vault => {
+    const meta = vaultMeta[vault.id] || vaultMeta[1]
+    const matchesSearch = vault.name.toLowerCase().includes(searchQuery.toLowerCase())
+    const matchesRisk = filterRisk === 'all' || meta.color === filterRisk
+    return matchesSearch && matchesRisk
+  })
+
   if (vaultsLoading) {
     return (
       <section id="vaults" className="py-16">
@@ -350,19 +362,56 @@ const VaultList = () => {
         </p>
       </div>
 
-      {vaults.length === 0 && !vaultsLoading ? (
+      {/* Search and Filter */}
+      <div className="flex flex-col md:flex-row gap-4 mb-10">
+        <div className="relative flex-1">
+          <HiMagnifyingGlass className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 w-5 h-5" />
+          <input
+            type="text"
+            placeholder="Search vaults by name..."
+            className="input-field w-full pl-12 pr-4 py-4 rounded-xl border border-white/5 focus:border-stacks-purple/50 bg-[#1A1A1C]"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </div>
+        <div className="flex gap-2 p-1 bg-[#1A1A1C] rounded-xl border border-white/5 overflow-x-auto">
+          {['all', 'conservative', 'balanced', 'aggressive'].map((risk) => (
+            <button
+              key={risk}
+              onClick={() => setFilterRisk(risk)}
+              className={`px-6 py-2 rounded-lg text-sm font-bold capitalize whitespace-nowrap transition-all ${
+                filterRisk === risk 
+                  ? 'bg-stacks-purple text-white shadow-lg shadow-stacks-purple/20' 
+                  : 'text-gray-500 hover:text-white hover:bg-white/5'
+              }`}
+            >
+              {risk}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {filteredVaults.length === 0 && !vaultsLoading ? (
         <EmptyState 
-          title="No Vaults Available"
-          message="We couldn't find any active vaults. Please check back later or connect your wallet."
-          icon={HiExclamationTriangle}
-          action={{
+          title={searchQuery || filterRisk !== 'all' ? "No Vaults Found" : "No Vaults Available"}
+          message={searchQuery || filterRisk !== 'all' 
+            ? "Try adjusting your search or filters to find what you're looking for." 
+            : "We couldn't find any active vaults. Please check back later or connect your wallet."}
+          icon={searchQuery || filterRisk !== 'all' ? HiMagnifyingGlass : HiExclamationTriangle}
+          action={searchQuery || filterRisk !== 'all' ? {
+            label: 'Clear Filters',
+            onClick: () => {
+              setSearchQuery('')
+              setFilterRisk('all')
+            }
+          } : {
             label: 'Try Re-fetching',
             onClick: () => refetch()
           }}
         />
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {vaults.map((vault) => {
+          {filteredVaults.map((vault) => {
             const meta = vaultMeta[vault.id] || vaultMeta[1]
             const IconComponent = meta.icon
             const amountValue = parseFloat(amount)
