@@ -27,6 +27,7 @@ import { useWallet } from '../context/WalletContext'
 import { toMicroSTX, blocksToTime, formatNumber } from '../utils/helpers'
 import EmptyState from './EmptyState'
 import ConfirmationModal from './ConfirmationModal'
+import Sparkline from './Sparkline'
 
 const Description = ({ text }) => {
   const [isExpanded, setIsExpanded] = useState(false)
@@ -70,21 +71,24 @@ const VaultList = () => {
       color: 'conservative',
       bgGradient: 'from-green-500/20 to-green-600/10',
       description: 'Low risk, steady returns. Perfect for long-term holders.',
-      features: ['Low volatility', 'Weekly compounds', 'Early exit allowed']
+      features: ['Low volatility', 'Weekly compounds', 'Early exit allowed'],
+      apyHistory: [4.8, 5.0, 4.9, 5.1, 5.0, 5.2, 5.0]
     },
     2: {
       icon: HiScale,
       color: 'balanced',
       bgGradient: 'from-amber-500/20 to-amber-600/10',
       description: 'Moderate risk with optimized returns. Best for most users.',
-      features: ['Balanced strategy', 'Bi-weekly compounds', 'Referral bonuses']
+      features: ['Balanced strategy', 'Bi-weekly compounds', 'Referral bonuses'],
+      apyHistory: [10.5, 11.2, 12.0, 11.8, 12.5, 12.0, 12.0]
     },
     3: {
       icon: HiFire,
       color: 'aggressive',
       bgGradient: 'from-red-500/20 to-red-600/10',
       description: 'High risk, high reward. For experienced DeFi users.',
-      features: ['Maximum returns', 'Auto-compound', 'Performance fees']
+      features: ['Maximum returns', 'Auto-compound', 'Performance fees'],
+      apyHistory: [20.0, 22.5, 25.0, 24.0, 26.0, 25.0, 25.0]
     }
   }
 
@@ -430,9 +434,17 @@ const VaultList = () => {
                     <div className={`w-12 h-12 rounded-xl bg-vault-${meta.color}/30 flex items-center justify-center`}>
                       <IconComponent className={`w-6 h-6 text-vault-${meta.color}`} />
                     </div>
-                    <div className="text-right">
+                    <div className="text-right flex flex-col items-end">
                       <p className="text-sm text-gray-400">APY</p>
                       <p className={`text-2xl font-bold text-vault-${meta.color}`}>{vault.apy}%</p>
+                      <div className="mt-1 opacity-60">
+                        <Sparkline 
+                          data={meta.apyHistory} 
+                          color={meta.color === 'conservative' ? '#22C55E' : meta.color === 'balanced' ? '#F59E0B' : '#EF4444'} 
+                          width={60} 
+                          height={20} 
+                        />
+                      </div>
                     </div>
                   </div>
                   <div className="flex-1">
