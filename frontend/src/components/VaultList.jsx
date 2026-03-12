@@ -42,7 +42,7 @@ const Description = ({ text }) => {
       {isLong && (
         <button 
           onClick={() => setIsExpanded(!isExpanded)}
-          className="text-stacks-purple text-xs font-bold mt-1 hover:underline"
+          className="text-stacks-purple text-xs font-bold mt-2 py-2 px-1 hover:underline flex items-center gap-1 active:scale-95 transition-transform"
         >
           {isExpanded ? 'Read Less' : 'Read More'}
         </button>
@@ -377,7 +377,7 @@ const VaultList = () => {
           <input
             type="text"
             placeholder="Search vaults by name..."
-            className="input-field w-full pl-12 pr-4 py-4 rounded-xl border border-white/5 focus:border-stacks-purple/50 bg-[#1A1A1C]"
+            className="input-field w-full pl-12 pr-4 py-4 md:py-3 rounded-xl border border-white/5 focus:border-stacks-purple/50 bg-[#1A1A1C] text-base md:text-sm"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -387,7 +387,7 @@ const VaultList = () => {
             <button
               key={risk}
               onClick={() => setFilterRisk(risk)}
-              className={`px-6 py-2 rounded-lg text-sm font-bold capitalize whitespace-nowrap transition-all ${
+              className={`px-8 md:px-6 py-4 md:py-2 rounded-lg text-base md:text-sm font-bold capitalize whitespace-nowrap transition-all active:scale-95 ${
                 filterRisk === risk 
                   ? 'bg-stacks-purple text-white shadow-lg shadow-stacks-purple/20' 
                   : 'text-gray-500 hover:text-white hover:bg-white/5'
@@ -517,7 +517,7 @@ const VaultList = () => {
                         <div className="flex rounded-xl overflow-hidden border border-stacks-gray">
                           <button
                             onClick={() => setActionType('deposit')}
-                            className={`flex-1 py-2 text-sm font-medium transition-colors ${actionType === 'deposit'
+                            className={`flex-1 py-4 md:py-2 text-base md:text-sm font-bold transition-all active:scale-95 ${actionType === 'deposit'
                                 ? 'bg-stacks-purple text-white'
                                 : 'text-gray-400 hover:text-white'
                               }`}
@@ -526,7 +526,7 @@ const VaultList = () => {
                           </button>
                           <button
                             onClick={() => setActionType('withdraw')}
-                            className={`flex-1 py-2 text-sm font-medium transition-colors ${actionType === 'withdraw'
+                            className={`flex-1 py-4 md:py-2 text-base md:text-sm font-bold transition-all active:scale-95 ${actionType === 'withdraw'
                                 ? 'bg-stacks-purple text-white'
                                 : 'text-gray-400 hover:text-white'
                               }`}
@@ -544,13 +544,13 @@ const VaultList = () => {
                             value={amount}
                             onChange={(e) => setAmount(e.target.value)}
                             placeholder={`Amount in ${actionType === 'deposit' ? 'STX' : 'shares'}`}
-                            className="input-field w-full px-4 py-3 rounded-xl text-white placeholder-gray-500"
+                            className="input-field w-full px-4 py-4 md:py-3 rounded-xl text-white placeholder-gray-500 text-base"
                             min={actionType === 'deposit' ? vault.minDeposit : 0}
                             step="0.000001"
                             aria-invalid={selectedVault === vault.id && isAmountInvalid}
                             aria-describedby={`amount-help-${vault.id}`}
                           />
-                          <span className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm">
+                          <span className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 text-xs font-bold uppercase tracking-wider">
                             {actionType === 'deposit' ? 'STX' : 'Shares'}
                           </span>
                         </div>
@@ -627,15 +627,15 @@ const VaultList = () => {
                             <button
                               onClick={() => handleCompound(vault)}
                               disabled={isLoading}
-                              className="flex-1 text-xs py-2 rounded-lg bg-vault-conservative/20 text-vault-conservative hover:bg-vault-conservative/30 transition-colors disabled:opacity-50"
+                              className="flex-1 text-[11px] font-bold uppercase tracking-wider py-4 md:py-2 rounded-xl bg-vault-conservative/20 text-vault-conservative hover:bg-vault-conservative/30 transition-all active:scale-95 disabled:opacity-50"
                             >
-                              <HiSparkles className="w-3 h-3 inline mr-1" />
+                              <HiSparkles className="w-3.5 h-3.5 inline mr-1" />
                               Compound
                             </button>
                             <button
                               onClick={() => handleEmergencyWithdraw(vault)}
                               disabled={isLoading}
-                              className="flex-1 text-xs py-2 rounded-lg bg-vault-aggressive/20 text-vault-aggressive hover:bg-vault-aggressive/30 transition-colors disabled:opacity-50"
+                              className="flex-1 text-[11px] font-bold uppercase tracking-wider py-4 md:py-2 rounded-xl bg-vault-aggressive/20 text-vault-aggressive hover:bg-vault-aggressive/30 transition-all active:scale-95 disabled:opacity-50"
                             >
                               Emergency Exit
                             </button>
@@ -653,7 +653,7 @@ const VaultList = () => {
                           }
                         }}
                         disabled={!vault.isActive}
-                        className="w-full btn-primary py-3 rounded-xl font-medium disabled:opacity-50"
+                        className="w-full btn-primary py-5 md:py-3 rounded-xl font-bold uppercase tracking-widest text-sm transition-all active:scale-[0.98] disabled:opacity-50"
                       >
                         {isConnected ? 'Select Vault' : 'Connect to Deposit'}
                       </button>
