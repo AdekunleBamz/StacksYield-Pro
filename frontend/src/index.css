@@ -32,10 +32,18 @@ html {
 
 body {
   font-family: 'Outfit', system-ui, sans-serif;
-  background: #0C0C0D;
-  color: #ffffff;
+  background: var(--stacks-dark);
+  color: var(--stacks-text-main);
   min-height: 100vh;
   overflow-x: hidden;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Space Grotesk', 'Outfit', sans-serif;
+  line-height: 1.2;
 }
 
 /* Custom scrollbar */
