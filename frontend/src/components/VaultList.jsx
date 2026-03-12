@@ -28,6 +28,7 @@ import { toMicroSTX, blocksToTime, formatNumber } from '../utils/helpers'
 import EmptyState from './EmptyState'
 import ConfirmationModal from './ConfirmationModal'
 import Sparkline from './Sparkline'
+import TransactionStepper from './TransactionStepper'
 
 const Description = ({ text }) => {
   const [isExpanded, setIsExpanded] = useState(false)
@@ -60,6 +61,7 @@ const VaultList = () => {
   const [vaultToEmergency, setVaultToEmergency] = useState(null)
   const [searchQuery, setSearchQuery] = useState('')
   const [filterRisk, setFilterRisk] = useState('all')
+  const [txStep, setTxStep] = useState(0)
 
   const { vaults: contractVaults, loading: vaultsLoading, refetch } = useVaults()
   const isWalletConnectSession = !!wcSession
@@ -139,6 +141,7 @@ const VaultList = () => {
         if (resolved) return
         resolved = true
         toast.dismiss('wallet-prompt')
+        setTxStep(2) // Step 2: Broadcasting
         resolve({ txid: data.txId })
       }
 
@@ -150,6 +153,7 @@ const VaultList = () => {
       }
 
       toast.loading('Opening wallet for approval...', { id: 'wallet-prompt' })
+      setTxStep(1) // Step 1: Wallet Approval
 
       openContractCall({
         contractAddress: CONTRACT_ADDRESS,
@@ -581,10 +585,19 @@ const VaultList = () => {
                               }
                             }}
                             disabled={isLoading || !vault.isActive || isAmountInvalid}
-                            className="flex-1 btn-primary py-3 rounded-xl font-medium flex items-center justify-center gap-2 disabled:opacity-50"
+                            className="flex-1 btn-primary py-3 rounded-xl font-medium flex-col items-center justify-center gap-2 disabled:opacity-50 relative overflow-hidden"
                           >
                             {isLoading ? (
-                              <div className="spinner w-5 h-5" />
+                              <div className="w-full">
+                                <TransactionStepper 
+                                  currentStep={txStep} 
+                                  steps={[
+                                    { label: 'Confirm', description: 'Sign in wallet' },
+                                    { label: 'Broadcast', description: 'Sending to mempool' },
+                                    { label: 'Finalize', description: 'Confirming on-chain' }
+                                  ]} 
+                                />
+                              </div>
                             ) : actionType === 'deposit' ? (
                               <>
                                 <HiArrowDown className="w-4 h-4" />
