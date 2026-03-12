@@ -49,12 +49,12 @@ Key integrations live in:
 git clone https://github.com/AdekunleBamz/StacksYield-Pro.git
 cd StacksYield-Pro
 
-# Install dependencies
-cd frontend
+# Install root tooling and frontend dependencies
 npm install
+npm --prefix frontend install
 
 # Start development server
-npm run dev
+npm run frontend:dev
 ```
 
 ## 🔌 WalletConnect (Reown) + Stacks
@@ -74,8 +74,11 @@ This app uses WalletConnect (via Reown AppKit UniversalConnector) to connect **m
 	 - your Vercel origin (e.g. `https://your-app.vercel.app`)
 3. Configure env var (local + Vercel):
 
+Copy `frontend/.env.example` to `frontend/.env` and set:
+
 ```dotenv
 VITE_WALLETCONNECT_PROJECT_ID=YOUR_PROJECT_ID
+VITE_WALLETCONNECT_RELAY_URL=wss://relay.walletconnect.com
 ```
 
 ### Technical notes (Stacks)
@@ -101,7 +104,7 @@ VITE_WALLETCONNECT_PROJECT_ID=YOUR_PROJECT_ID
 
 ```bash
 # Navigate to the project root
-cd stacksyield-pro
+cd StacksYield-Pro
 
 # Install Clarinet if not already installed
 # macOS
@@ -125,17 +128,15 @@ clarinet deployments apply -p deployments/default.mainnet-plan.yaml
 ### Frontend Setup
 
 ```bash
-# Navigate to frontend directory
-cd frontend
-
 # Install dependencies
 npm install
+npm --prefix frontend install
 
 # Start development server
-npm run dev
+npm run frontend:dev
 
 # Build for production
-npm run build
+npm run frontend:build
 ```
 
 ## 📁 Project Structure
@@ -333,4 +334,3 @@ try {
   }
 }
 ```
-
