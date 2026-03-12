@@ -274,18 +274,24 @@ h1, h2, h3, h4, h5, h6 {
 .tooltip::after {
   content: attr(data-tooltip);
   position: absolute;
-  bottom: 100%;
+  bottom: 120%;
   left: 50%;
   transform: translateX(-50%);
-  padding: 8px 12px;
+  padding: 10px 14px;
   background: #1A1A1C;
-  border: 1px solid rgba(85, 70, 255, 0.3);
-  border-radius: 8px;
-  font-size: 12px;
-  white-space: nowrap;
+  border: 1px solid rgba(85, 70, 255, 0.4);
+  border-radius: 12px;
+  font-size: 11px;
+  line-height: 1.5;
+  color: #E2E8F0;
+  width: 200px;
+  white-space: normal;
+  text-align: center;
   opacity: 0;
   visibility: hidden;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 50;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
 }
 
 .tooltip:hover::after {

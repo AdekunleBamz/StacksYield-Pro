@@ -438,7 +438,7 @@ const VaultList = () => {
                     <div className={`w-12 h-12 rounded-xl bg-vault-${meta.color}/30 flex items-center justify-center`}>
                       <IconComponent className={`w-6 h-6 text-vault-${meta.color}`} />
                     </div>
-                    <div className="text-right flex flex-col items-end">
+                    <div className="text-right flex flex-col items-end tooltip cursor-help" data-tooltip="Annual Percentage Yield: The projected return over one year, including the effect of compounding.">
                       <p className="text-sm text-gray-400">APY</p>
                       <p className={`text-2xl font-bold text-vault-${meta.color}`}>{vault.apy}%</p>
                       <div className="mt-1 opacity-60">
@@ -459,19 +459,19 @@ const VaultList = () => {
 
                 {/* Vault Stats */}
                 <div className="p-6 space-y-4">
-                  <div className="flex items-center justify-between text-sm">
+                  <div className="flex items-center justify-between text-sm tooltip cursor-help" data-tooltip="Total Value Locked: The total amount of STX deposited in this vault by all users.">
                     <span className="text-gray-400 flex items-center gap-1">
                       <HiCurrencyDollar className="w-4 h-4" /> TVL
                     </span>
                     <span className="font-medium">{formatNumber(vault.totalDeposits)} STX</span>
                   </div>
-                  <div className="flex items-center justify-between text-sm">
+                  <div className="flex items-center justify-between text-sm tooltip cursor-help" data-tooltip="The minimum amount of STX required to open a position in this vault.">
                     <span className="text-gray-400 flex items-center gap-1">
                       <HiLockClosed className="w-4 h-4" /> Min Deposit
                     </span>
                     <span className="font-medium">{vault.minDeposit} STX</span>
                   </div>
-                  <div className="flex items-center justify-between text-sm">
+                  <div className="flex items-center justify-between text-sm tooltip cursor-help" data-tooltip="The period during which your deposited STX is locked and cannot be withdrawn without a penalty.">
                     <span className="text-gray-400 flex items-center gap-1">
                       <HiClock className="w-4 h-4" /> Lock Period
                     </span>
