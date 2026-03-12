@@ -23,6 +23,27 @@ import { useVaults, CONTRACT_ADDRESS, CONTRACT_NAME } from '../hooks/useContract
 import { useWallet } from '../context/WalletContext'
 import { toMicroSTX, blocksToTime, formatNumber } from '../utils/helpers'
 
+const Description = ({ text }) => {
+  const [isExpanded, setIsExpanded] = useState(false)
+  const isLong = text.length > 100
+  
+  return (
+    <div>
+      <p className={`text-gray-400 text-sm leading-relaxed ${!isExpanded && isLong ? 'line-clamp-2' : ''}`}>
+        {text}
+      </p>
+      {isLong && (
+        <button 
+          onClick={() => setIsExpanded(!isExpanded)}
+          className="text-stacks-purple text-xs font-bold mt-1 hover:underline"
+        >
+          {isExpanded ? 'Read Less' : 'Read More'}
+        </button>
+      )}
+    </div>
+  )
+}
+
 const VaultList = () => {
   const { isConnected, connectWallet, address, network, wcSession } = useWallet()
   const [selectedVault, setSelectedVault] = useState(null)
@@ -345,8 +366,10 @@ const VaultList = () => {
                     <p className={`text-2xl font-bold text-vault-${meta.color}`}>{vault.apy}%</p>
                   </div>
                 </div>
-                <h3 className="text-xl font-bold mb-1">{vault.name}</h3>
-                <p className="text-sm text-gray-400">{meta.description}</p>
+                <div className="flex-1">
+                  <h3 className="text-xl font-bold font-display text-white mb-2">{vault.name}</h3>
+                  <Description text={vault.description} />
+                </div>
               </div>
 
               {/* Vault Stats */}
