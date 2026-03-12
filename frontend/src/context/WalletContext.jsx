@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react'
-import { StacksMainnet } from '@stacks/network'
+import { StacksMainnet, StacksTestnet } from '@stacks/network'
 import {
   wcConnect,
   wcDisconnect,
@@ -11,10 +11,9 @@ import {
 // Contract configuration
 export const CONTRACT_ADDRESS = 'SP3FKNEZ86RG5RT7SZ5FBRGH85FZNG94ZH1MCGG6N'
 export const CONTRACT_NAME = 'stacksyield-pro-v2'
-// Use Hiro API (browser-compatible with proper CORS and SSL)
-export const STACKS_CORE_API = 'https://api.mainnet.hiro.so'
-export const network = new StacksMainnet()
-network.coreApiUrl = STACKS_CORE_API
+// Initial network settings
+const MAINNET_API = 'https://api.mainnet.hiro.so'
+const TESTNET_API = 'https://api.testnet.hiro.so'
 
 // Stacks API endpoint for balance queries (same endpoint)
 const STACKS_API = 'https://api.mainnet.hiro.so'
@@ -31,6 +30,12 @@ export const WalletProvider = ({ children }) => {
   const [stxBalance, setStxBalance] = useState(null)
   const [balanceLoading, setBalanceLoading] = useState(false)
   const [wcUri, setWcUri] = useState(null)
+  const [networkType, setNetworkType] = useState('mainnet')
+  const [network, setNetwork] = useState(() => {
+    const net = new StacksMainnet()
+    net.coreApiUrl = MAINNET_API
+    return net
+  })
 
   const withTimeout = useCallback((promise, ms, message) => {
     let timeoutId
@@ -138,6 +143,20 @@ export const WalletProvider = ({ children }) => {
     }
   }, [])
 
+  // Switch Network
+  const switchNetwork = useCallback((type) => {
+    if (type === networkType) return
+    
+    setNetworkType(type)
+    const isMain = type === 'mainnet'
+    const newNetwork = isMain ? new StacksMainnet() : new StacksTestnet()
+    newNetwork.coreApiUrl = isMain ? MAINNET_API : TESTNET_API
+    setNetwork(newNetwork)
+    
+    // Refresh balance for the new network
+    setTimeout(fetchBalance, 100)
+  }, [networkType, fetchBalance])
+
   // Check if connected
   const isConnected = !!address
 
@@ -168,6 +187,8 @@ export const WalletProvider = ({ children }) => {
     
     // Network & Contract info
     network,
+    networkType,
+    switchNetwork,
     contractAddress: CONTRACT_ADDRESS,
     contractName: CONTRACT_NAME,
   }

@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import { FiMenu, FiX, FiExternalLink } from 'react-icons/fi'
-import { HiSparkles, HiCurrencyDollar } from 'react-icons/hi2'
+import { HiSparkles, HiCurrencyDollar, HiGlobeAlt } from 'react-icons/hi2'
 import { useWallet } from '../context/WalletContext'
+import NetworkSwitcher from './NetworkSwitcher'
 
 const Header = () => {
-  const { isConnected, address, stxBalance, balanceLoading, isConnecting, connectWallet, disconnectWallet } = useWallet()
+  const { isConnected, address, stxBalance, balanceLoading, isConnecting, connectWallet, disconnectWallet, networkType, switchNetwork } = useWallet()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [copiedAddress, setCopiedAddress] = useState(false)
 
@@ -71,8 +72,12 @@ const Header = () => {
             </a>
           </nav>
 
-          {/* Wallet Connection */}
-          <div className="hidden md:flex items-center space-x-4">
+          {/* Wallet Connection & Network */}
+          <div className="hidden md:flex items-center space-x-6">
+            <NetworkSwitcher currentNetwork={networkType} onSwitch={switchNetwork} />
+            
+            <div className="h-8 w-px bg-white/5" />
+
             {isConnected ? (
               <div className="flex items-center space-x-3">
                 {/* STX Balance */}
@@ -160,6 +165,10 @@ const Header = () => {
                 className="text-gray-300 hover:text-white transition-colors flex items-center gap-1">
                 Docs <FiExternalLink className="w-3 h-3" />
               </a>
+
+              <div className="pt-4 border-t border-stacks-gray">
+                <NetworkSwitcher currentNetwork={networkType} onSwitch={switchNetwork} />
+              </div>
 
               {isConnected ? (
                 <div className="pt-4 border-t border-stacks-gray">
