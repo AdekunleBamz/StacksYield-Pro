@@ -483,15 +483,15 @@ const VaultList = () => {
                 style={{ animationDelay: `${(vault.id - 1) * 150}ms` }}
               >
                 {/* Vault Header */}
-                <div className={`p-6 bg-gradient-to-r ${meta.bgGradient}`}>
+                <div className={`p-5 md:p-6 bg-gradient-to-r ${meta.bgGradient}`}>
                   <div className="flex items-center justify-between mb-4">
-                    <div className={`w-12 h-12 rounded-xl bg-vault-${meta.color}/30 flex items-center justify-center`}>
-                      <IconComponent className={`w-6 h-6 text-vault-${meta.color}`} />
+                    <div className={`w-10 h-10 md:w-12 md:h-12 rounded-xl bg-vault-${meta.color}/30 flex items-center justify-center`}>
+                      <IconComponent className={`w-5 h-5 md:w-6 md:h-6 text-vault-${meta.color}`} />
                     </div>
                     <div className="text-right flex flex-col items-end tooltip cursor-help" data-tooltip="Annual Percentage Yield: The projected return over one year, including the effect of compounding.">
-                      <p className="text-sm text-gray-400">APY</p>
-                      <p className={`text-2xl font-bold text-vault-${meta.color}`}>{vault.apy}%</p>
-                      <div className="mt-1 opacity-60">
+                      <p className="text-[10px] md:text-sm text-gray-400 font-bold uppercase tracking-wider">APY</p>
+                      <p className={`text-xl md:text-2xl font-bold text-vault-${meta.color}`}>{vault.apy}%</p>
+                      <div className="mt-1 opacity-60 scale-90 md:scale-100 origin-right">
                         <Sparkline 
                           data={meta.apyHistory} 
                           color={meta.color === 'conservative' ? '#22C55E' : meta.color === 'balanced' ? '#F59E0B' : '#EF4444'} 
@@ -502,30 +502,33 @@ const VaultList = () => {
                     </div>
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-xl font-bold font-display text-white mb-2">{vault.name}</h3>
+                    <h3 className="text-lg md:text-xl font-bold font-display text-white mb-2">{vault.name}</h3>
                     <Description text={vault.description} />
                   </div>
                 </div>
 
                 {/* Vault Stats */}
-                <div className="p-6 space-y-4">
-                  <div className="flex items-center justify-between text-sm tooltip cursor-help" data-tooltip="Total Value Locked: The total amount of STX deposited in this vault by all users.">
-                    <span className="text-gray-400 flex items-center gap-1">
-                      <HiCurrencyDollar className="w-4 h-4" /> TVL
-                    </span>
-                    <span className="font-medium">{formatNumber(vault.totalDeposits)} STX</span>
+                <div className="p-5 md:p-6 space-y-4">
+                  <div className="grid grid-cols-2 md:block gap-4 md:space-y-4">
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-1 md:gap-0 text-sm tooltip cursor-help" data-tooltip="Total Value Locked: The total amount of STX deposited in this vault by all users.">
+                      <span className="text-gray-500 md:text-gray-400 flex items-center gap-1 text-[10px] md:text-sm font-bold md:font-normal uppercase md:capitalize">
+                        <HiCurrencyDollar className="w-3.5 h-3.5 md:w-4 md:h-4" /> TVL
+                      </span>
+                      <span className="font-bold md:font-medium text-xs md:text-sm">{formatNumber(vault.totalDeposits)} STX</span>
+                    </div>
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-1 md:gap-0 text-sm tooltip cursor-help" data-tooltip="The minimum amount of STX required to open a position in this vault.">
+                      <span className="text-gray-500 md:text-gray-400 flex items-center gap-1 text-[10px] md:text-sm font-bold md:font-normal uppercase md:capitalize">
+                        <HiLockClosed className="w-3.5 h-3.5 md:w-4 md:h-4" /> Min Deposit
+                      </span>
+                      <span className="font-bold md:font-medium text-xs md:text-sm">{vault.minDeposit} STX</span>
+                    </div>
                   </div>
-                  <div className="flex items-center justify-between text-sm tooltip cursor-help" data-tooltip="The minimum amount of STX required to open a position in this vault.">
-                    <span className="text-gray-400 flex items-center gap-1">
-                      <HiLockClosed className="w-4 h-4" /> Min Deposit
-                    </span>
-                    <span className="font-medium">{vault.minDeposit} STX</span>
-                  </div>
+                  
                   <div className="flex items-center justify-between text-sm tooltip cursor-help" data-tooltip="The period during which your deposited STX is locked and cannot be withdrawn without a penalty.">
                     <span className="text-gray-400 flex items-center gap-1">
                       <HiClock className="w-4 h-4" /> Lock Period
                     </span>
-                    <span className="font-medium">{blocksToTime(vault.lockPeriod)}</span>
+                    <span className="font-medium text-xs md:text-sm">{blocksToTime(vault.lockPeriod)}</span>
                   </div>
 
                   {/* Features */}
