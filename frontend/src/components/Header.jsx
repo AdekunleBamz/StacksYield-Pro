@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { FiMenu, FiX, FiExternalLink } from 'react-icons/fi'
 import { HiSparkles, HiCurrencyDollar, HiGlobeAlt, HiClipboardDocument, HiCheck, HiChevronRight } from 'react-icons/hi2'
 import { useWallet } from '../context/WalletContext'
@@ -8,6 +8,23 @@ const Header = () => {
   const { isConnected, address, stxBalance, balanceLoading, isConnecting, connectWallet, disconnectWallet, networkType, switchNetwork } = useWallet()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [copiedAddress, setCopiedAddress] = useState(false)
+  const [isVisible, setIsVisible] = useState(true)
+  const [lastScrollY, setLastScrollY] = useState(0)
+
+  useEffect(() => {
+    const controlHeader = () => {
+      const currentScrollY = window.scrollY
+      if (currentScrollY > lastScrollY && currentScrollY > 80) {
+        setIsVisible(false)
+      } else {
+        setIsVisible(true)
+      }
+      setLastScrollY(currentScrollY)
+    }
+
+    window.addEventListener('scroll', controlHeader)
+    return () => window.removeEventListener('scroll', controlHeader)
+  }, [lastScrollY])
 
   const truncateAddress = (addr) => {
     if (!addr) return ''
@@ -41,7 +58,9 @@ const Header = () => {
   }
 
   return (
-    <header className="glass sticky top-0 z-50">
+    <header className={`glass sticky top-0 z-50 transition-transform duration-300 ${
+      isVisible ? 'translate-y-0' : '-translate-y-full'
+    }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
