@@ -479,7 +479,8 @@ const VaultList = () => {
             return (
               <div
                 key={vault.id}
-                className={`glass-card rounded-2xl overflow-hidden vault-card transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-stacks-purple/10 focus-within:scale-[1.02] focus-within:ring-2 focus-within:ring-stacks-purple/50 vault-card-${meta.color}`}
+                className={`glass-card rounded-2xl overflow-hidden vault-card transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-stacks-purple/10 focus-within:scale-[1.02] focus-within:ring-2 focus-within:ring-stacks-purple/50 vault-card-${meta.color} animate-fade-in-up`}
+                style={{ animationDelay: `${(vault.id - 1) * 150}ms` }}
               >
                 {/* Vault Header */}
                 <div className={`p-6 bg-gradient-to-r ${meta.bgGradient}`}>

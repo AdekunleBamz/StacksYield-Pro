@@ -109,9 +109,9 @@ const Stats = () => {
           {statCards.map((stat, index) => (
             <div 
               key={stat.label}
-              className="tooltip cursor-help"
+              className="tooltip cursor-help animate-fade-in-up"
               data-tooltip={stat.tooltip}
-              style={{ animationDelay: `${index * 0.1}s` }}
+              style={{ animationDelay: `${index * 100}ms` }}
             >
               {protocolLoading || vaultsLoading ? (
                 <div className="glass-card p-6 rounded-2xl flex flex-col gap-4 border border-white/5 bg-white/5">

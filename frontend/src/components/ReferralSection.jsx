@@ -139,7 +139,7 @@ const ReferralSection = () => {
   }
 
   return (
-    <section className="py-8" aria-labelledby="referral-heading">
+    <section className="py-8 animate-fade-in-up" aria-labelledby="referral-heading">
       <div className="mb-8">
         <h2 id="referral-heading" className="text-3xl font-bold font-display mb-2">
           <span className="gradient-text">Referral Program</span>
@@ -188,7 +188,7 @@ const ReferralSection = () => {
 
       {/* How it works */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-        <div className="glass-card p-6 rounded-2xl text-center">
+        <div className="glass-card p-6 rounded-2xl text-center animate-fade-in-up delay-100">
           <div className="w-12 h-12 rounded-full bg-stacks-purple/20 flex items-center justify-center mx-auto mb-4">
             <span className="text-xl font-bold text-stacks-purple">1</span>
           </div>
@@ -198,7 +198,7 @@ const ReferralSection = () => {
           </p>
         </div>
 
-        <div className="glass-card p-6 rounded-2xl text-center">
+        <div className="glass-card p-6 rounded-2xl text-center animate-fade-in-up delay-200">
           <div className="w-12 h-12 rounded-full bg-vault-balanced/20 flex items-center justify-center mx-auto mb-4">
             <span className="text-xl font-bold text-vault-balanced">2</span>
           </div>
@@ -208,7 +208,7 @@ const ReferralSection = () => {
           </p>
         </div>
 
-        <div className="glass-card p-6 rounded-2xl text-center">
+        <div className="glass-card p-6 rounded-2xl text-center animate-fade-in-up delay-300">
           <div className="w-12 h-12 rounded-full bg-vault-conservative/20 flex items-center justify-center mx-auto mb-4">
             <span className="text-xl font-bold text-vault-conservative">3</span>
           </div>
