@@ -1,6 +1,7 @@
 import React from 'react'
+import Sparkline from './Sparkline'
 
-const StatsCard = ({ title, value, subtitle, icon, trend }) => {
+const StatsCard = ({ title, value, subtitle, icon, trend, sparklineData, color = '#5546FF' }) => {
   return (
     <div className="stat-card glass-card rounded-2xl p-6 relative overflow-hidden group">
       {/* Background Gradient Glow */}
@@ -19,16 +20,23 @@ const StatsCard = ({ title, value, subtitle, icon, trend }) => {
         )}
       </div>
       
-      {trend && (
-        <div className="flex items-center gap-1 mt-4 relative z-10">
-          <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${
-            trend > 0 ? 'bg-green-500/10 text-green-400' : 'bg-red-500/10 text-red-400'
-          }`}>
-            {trend > 0 ? '↑' : '↓'} {Math.abs(trend)}%
-          </span>
-          <span className="text-xs text-gray-500 font-medium">vs last month</span>
-        </div>
-      )}
+      <div className="mt-4 flex items-end justify-between relative z-10">
+        {trend && (
+          <div className="flex items-center gap-1">
+            <span className={`text-[10px] uppercase tracking-wider font-bold px-2 py-0.5 rounded-full ${
+              trend > 0 ? 'bg-green-500/10 text-green-400' : 'bg-red-500/10 text-red-400'
+            }`}>
+              {trend > 0 ? '↑' : '↓'} {Math.abs(trend)}%
+            </span>
+          </div>
+        )}
+        
+        {sparklineData && (
+          <div className="opacity-50 group-hover:opacity-100 transition-opacity duration-500">
+            <Sparkline data={sparklineData} color={color} width={80} height={30} />
+          </div>
+        )}
+      </div>
     </div>
   )
 }

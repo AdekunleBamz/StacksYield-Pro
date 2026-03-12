@@ -3,6 +3,7 @@ import { HiCurrencyDollar, HiUsers, HiArrowTrendingUp, HiLockClosed } from 'reac
 import { useProtocolStats, useVaults } from '../hooks/useContract'
 import { formatNumber } from '../utils/helpers'
 import Skeleton from './Skeleton'
+import StatsCard from './StatsCard'
 
 const Stats = () => {
   const { stats: protocolStats, loading: protocolLoading } = useProtocolStats()
@@ -64,35 +65,39 @@ const Stats = () => {
 
   const statCards = [
     {
-      icon: HiCurrencyDollar,
+      icon: <HiCurrencyDollar className="w-6 h-6 text-stacks-purple" />,
       label: 'Total Value Locked',
       value: `${formatNumber(displayStats.tvl)} STX`,
-      color: 'text-stacks-purple',
-      bgColor: 'bg-stacks-purple/20',
+      color: '#5546FF',
+      trend: 12.5,
+      sparklineData: [450000, 480000, 460000, 510000, 530000, 520000, 535000],
       tooltip: 'The total value of all assets currently deposited in StacksYield Pro vaults.'
     },
     {
-      icon: HiUsers,
+      icon: <HiUsers className="w-6 h-6 text-stacks-orange" />,
       label: 'Active Users',
       value: formatNumber(displayStats.users),
-      color: 'text-stacks-orange',
-      bgColor: 'bg-stacks-orange/20',
+      color: '#F48E2F',
+      trend: 8.2,
+      sparklineData: [120, 150, 180, 210, 240, 280, 310],
       tooltip: 'Individual wallets that have interacted with the protocol.'
     },
     {
-      icon: HiArrowTrendingUp,
+      icon: <HiArrowTrendingUp className="w-6 h-6 text-vault-aggressive" />,
       label: 'Max APY',
       value: `${displayStats.apy}%`,
-      color: 'text-vault-aggressive',
-      bgColor: 'bg-vault-aggressive/20',
+      color: '#EF4444',
+      trend: 2.1,
+      sparklineData: [18, 20, 19, 22, 25, 24, 25],
       tooltip: 'The highest annual percentage yield currently offered across all vaults.'
     },
     {
-      icon: HiLockClosed,
+      icon: <HiLockClosed className="w-6 h-6 text-vault-conservative" />,
       label: 'Active Vaults',
       value: displayStats.vaults,
-      color: 'text-vault-conservative',
-      bgColor: 'bg-vault-conservative/20',
+      color: '#22C55E',
+      trend: 0,
+      sparklineData: [3, 3, 3, 3, 3, 3, 3],
       tooltip: 'The number of smart contract vaults currently accepting deposits.'
     }
   ]
@@ -100,26 +105,29 @@ const Stats = () => {
   return (
     <section className="py-12" aria-label="Protocol statistics">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
           {statCards.map((stat, index) => (
             <div 
               key={stat.label}
-              className="stat-card glass-card p-6 rounded-2xl tooltip cursor-help"
+              className="tooltip cursor-help"
               data-tooltip={stat.tooltip}
               style={{ animationDelay: `${index * 0.1}s` }}
-              role="region"
-              aria-label={stat.label}
             >
-              <div className={`w-12 h-12 rounded-xl ${stat.bgColor} flex items-center justify-center mb-4`}>
-                <stat.icon className={`w-6 h-6 ${stat.color}`} aria-hidden="true" />
-              </div>
-              <p className="text-gray-400 text-sm mb-1">{stat.label}</p>
               {protocolLoading || vaultsLoading ? (
-                <Skeleton className="h-8 w-24 mb-1" />
+                <div className="stat-card glass-card p-6 rounded-2xl">
+                  <Skeleton className="h-6 w-12 rounded-xl mb-4" />
+                  <Skeleton className="h-4 w-24 mb-2" />
+                  <Skeleton className="h-8 w-20" />
+                </div>
               ) : (
-                <p className={`text-2xl lg:text-3xl font-bold font-display ${stat.color} animate-count`}>
-                  {stat.value}
-                </p>
+                <StatsCard
+                  title={stat.label}
+                  value={stat.value}
+                  icon={stat.icon}
+                  trend={stat.trend}
+                  sparklineData={stat.sparklineData}
+                  color={stat.color}
+                />
               )}
             </div>
           ))}
