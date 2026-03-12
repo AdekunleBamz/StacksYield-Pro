@@ -12,6 +12,7 @@ import { useUserStats, useVaults, useUserDeposit, usePendingRewards } from '../h
 import { useWallet } from '../context/WalletContext'
 import { formatNumber, blocksToTime, formatDate } from '../utils/helpers'
 import EmptyState from './EmptyState'
+import AreaChart from './AreaChart'
 
 const UserDashboard = () => {
   const { address } = useWallet()
@@ -150,6 +151,29 @@ const UserDashboard = () => {
           </p>
         </div>
       </div>
+
+      {/* Performance Chart */}
+      {stats.totalDeposited > 0 && (
+        <div className="glass-card p-6 rounded-2xl mb-8 overflow-hidden relative group">
+          <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
+            <HiArrowTrendingUp className="w-24 h-24 text-stacks-purple" />
+          </div>
+          <AreaChart 
+            label="Portfolio TVL"
+            color="#5546FF"
+            height={200}
+            data={[
+              { label: 'Jan', value: 1200 },
+              { label: 'Feb', value: 1500 },
+              { label: 'Mar', value: 2200 },
+              { label: 'Apr', value: 1800 },
+              { label: 'May', value: 2500 },
+              { label: 'Jun', value: 3200 },
+              { label: 'Jul', value: stats.totalDeposited }
+            ]}
+          />
+        </div>
+      )}
 
       {/* Portfolio Summary */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-8">
