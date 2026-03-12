@@ -167,7 +167,7 @@ const ReferralSection = () => {
               <button
                 onClick={handleRegister}
                 disabled={isRegistering}
-                className="btn-primary px-6 py-2.5 rounded-xl font-medium flex items-center gap-2"
+                className="btn-primary px-6 py-2.5 rounded-xl font-medium flex items-center gap-2 active:scale-95 transition-all"
               >
                 {isRegistering ? (
                   <>
@@ -237,7 +237,7 @@ const ReferralSection = () => {
                   </p>
                   <button
                     onClick={() => copyToClipboard(defaultCode)}
-                    className="p-2 rounded-lg bg-stacks-purple/20 hover:bg-stacks-purple/30 transition-colors"
+                    className="p-2 rounded-lg bg-stacks-purple/20 hover:bg-stacks-purple/30 transition-all active:scale-90"
                     aria-label="Copy referral code"
                   >
                     {copied ? (
@@ -260,7 +260,7 @@ const ReferralSection = () => {
                   />
                   <button
                     onClick={() => copyToClipboard(generateReferralURL(defaultCode))}
-                    className="p-2 rounded-lg bg-stacks-gray hover:bg-stacks-purple/20 transition-colors"
+                    className="p-2 rounded-lg bg-stacks-gray hover:bg-stacks-purple/20 transition-all active:scale-90"
                     aria-label="Copy referral link"
                   >
                     <HiClipboardDocument className="w-4 h-4" />
@@ -270,7 +270,7 @@ const ReferralSection = () => {
 
               <button
                 onClick={shareReferral}
-                className="w-full btn-primary py-3 rounded-xl font-medium flex items-center justify-center gap-2"
+                className="w-full btn-primary py-3 rounded-xl font-medium flex items-center justify-center gap-2 active:scale-[0.98] transition-all"
                 aria-label="Share referral link"
               >
                 <HiShare className="w-5 h-5" />
@@ -293,7 +293,7 @@ const ReferralSection = () => {
                   <button
                     onClick={handleCreateCode}
                     disabled={isCreating || !newCode || newCode.length < 3}
-                    className="btn-secondary px-4 py-2 rounded-xl text-sm disabled:opacity-50"
+                    className="btn-secondary px-4 py-2 rounded-xl text-sm disabled:opacity-50 active:scale-95 transition-all"
                   >
                     {isCreating ? (
                       <div className="spinner w-4 h-4" />
