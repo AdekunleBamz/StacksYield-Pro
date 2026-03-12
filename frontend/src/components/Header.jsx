@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { FiMenu, FiX, FiExternalLink } from 'react-icons/fi'
-import { HiSparkles, HiCurrencyDollar, HiGlobeAlt, HiClipboardDocument, HiCheck } from 'react-icons/hi2'
+import { HiSparkles, HiCurrencyDollar, HiGlobeAlt, HiClipboardDocument, HiCheck, HiChevronRight } from 'react-icons/hi2'
 import { useWallet } from '../context/WalletContext'
 import NetworkSwitcher from './NetworkSwitcher'
 
@@ -162,76 +162,119 @@ const Header = () => {
         </div>
 
         {/* Mobile menu */}
-        {mobileMenuOpen && (
-          <div className="md:hidden py-4 border-t border-stacks-gray">
-            <nav className="flex flex-col space-y-4">
-              <a href="#vaults" className="text-gray-300 hover:text-white transition-colors">
-                Vaults
-              </a>
-              <a href="#how-it-works" className="text-gray-300 hover:text-white transition-colors">
-                How It Works
-              </a>
-              <a href="https://docs.stacks.co" target="_blank" rel="noopener noreferrer"
-                className="text-gray-300 hover:text-white transition-colors flex items-center gap-1">
-                Docs <FiExternalLink className="w-3 h-3" />
+        <div className={`md:hidden fixed inset-0 z-50 transition-all duration-300 ${
+          mobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+        }`}>
+          {/* Backdrop Blur */}
+          <div 
+            className="absolute inset-0 bg-black/60 backdrop-blur-md"
+            onClick={() => setMobileMenuOpen(false)}
+          />
+          
+          <div className={`absolute right-0 top-0 bottom-0 w-4/5 max-w-sm bg-[#1A1A1C] border-l border-white/10 p-6 flex flex-col shadow-2xl transition-transform duration-500 ease-out ${
+            mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
+          }`}>
+            <div className="flex items-center justify-between mb-8">
+              <span className="text-sm font-bold uppercase tracking-widest text-gray-500">Menu</span>
+              <button 
+                onClick={() => setMobileMenuOpen(false)}
+                className="p-3 rounded-xl bg-white/5 text-gray-400 active:scale-95 transition-all"
+              >
+                <FiX className="w-6 h-6" />
+              </button>
+            </div>
+
+            <nav className="flex flex-col space-y-2">
+              {[
+                { label: 'Vaults', href: '#vaults' },
+                { label: 'How It Works', href: '#how-it-works' },
+              ].map((link) => (
+                <a 
+                  key={link.label}
+                  href={link.href} 
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center justify-between p-4 rounded-xl hover:bg-white/5 text-gray-300 hover:text-white transition-all active:bg-stacks-purple/20 active:translate-x-1"
+                >
+                  <span className="font-bold">{link.label}</span>
+                  <HiChevronRight className="w-5 h-5 opacity-30" />
+                </a>
+              ))}
+              <a 
+                href="https://docs.stacks.co" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="flex items-center justify-between p-4 rounded-xl hover:bg-white/5 text-gray-300 hover:text-white transition-all"
+              >
+                <div className="flex items-center gap-2 font-bold">
+                  Docs <FiExternalLink className="w-4 h-4" />
+                </div>
+                <HiChevronRight className="w-5 h-5 opacity-30" />
               </a>
 
-              <div className="pt-4 border-t border-stacks-gray">
+              <div className="my-4 h-px bg-white/5" />
+
+              <div className="p-4 bg-white/5 rounded-2xl border border-white/5">
                 <NetworkSwitcher currentNetwork={networkType} onSwitch={switchNetwork} />
               </div>
 
               {isConnected ? (
-                <div className="pt-4 border-t border-stacks-gray">
-                  <div className="flex items-center justify-between mb-2">
-                    <p className="text-sm text-gray-400">Balance</p>
-                    <p className="text-sm font-medium text-stacks-orange">
-                      {balanceLoading ? '...' : `${formatBalance(stxBalance)} STX`}
-                    </p>
+                <div className="space-y-4 pt-4">
+                  <div className="flex flex-col gap-1 p-4 rounded-xl bg-white/5">
+                    <div className="flex items-center justify-between">
+                      <p className="text-[10px] text-gray-500 uppercase font-bold tracking-widest leading-none">Balance</p>
+                      <p className="text-sm font-bold text-stacks-orange">
+                        {balanceLoading ? '...' : `${formatBalance(stxBalance)} STX`}
+                      </p>
+                    </div>
                   </div>
-                  <p className="text-sm text-gray-400 mb-1">Connected</p>
+                  
                   <button
                     type="button"
-                    onClick={handleCopyAddress}
-                    className="w-full text-left text-sm font-mono font-medium text-white mb-2"
-                    title={address ? 'Copy address' : 'Wallet not connected'}
-                    aria-label={address ? `Copy wallet address: ${address}` : 'Copy wallet address'}
+                    onClick={() => {
+                      handleCopyAddress()
+                      setMobileMenuOpen(false)
+                    }}
+                    className="w-full text-left p-4 rounded-xl bg-white/5 hover:bg-stacks-purple/10 transition-all group"
                   >
-                    {truncateAddress(address)}
+                    <p className="text-[10px] text-gray-500 uppercase font-bold tracking-widest mb-1 group-active:text-stacks-purple transition-colors">
+                      {copiedAddress ? 'Address Copied' : 'Connected Wallet'}
+                    </p>
+                    <p className="text-sm font-mono font-bold text-white mb-2 break-all">
+                      {truncateAddress(address)}
+                    </p>
                   </button>
-                  {copiedAddress && (
-                    <p className="text-xs text-stacks-purple mb-4">Copied</p>
-                  )}
+
                   <button
                     onClick={handleDisconnect}
-                    className="btn-secondary w-full px-4 py-2 rounded-xl text-sm font-medium"
-                    aria-label="Disconnect wallet"
+                    className="w-full p-4 rounded-xl bg-red-500/10 text-red-400 font-bold text-sm hover:bg-red-500/20 active:scale-[0.98] transition-all"
                   >
-                    Disconnect
+                    Disconnect Wallet
                   </button>
                 </div>
               ) : (
-                <button
-                  onClick={handleConnect}
-                  disabled={isConnecting}
-                  aria-label="Connect your Stacks wallet"
-                  className="btn-primary w-full px-6 py-2.5 rounded-xl font-medium flex items-center justify-center gap-2 transition-transform duration-300 hover:scale-[1.02] active:scale-95 focus:outline-none focus:ring-2 focus:ring-stacks-purple/50"
-                >
-                  {isConnecting ? (
-                    <>
-                      <div className="spinner w-4 h-4" />
-                      Connecting...
-                    </>
-                  ) : (
-                    <>
-                      <HiSparkles className="w-4 h-4" />
-                      Connect Wallet
-                    </>
-                  )}
-                </button>
+                <div className="pt-4">
+                  <button
+                    onClick={handleConnect}
+                    disabled={isConnecting}
+                    className="w-full p-4 rounded-xl bg-stacks-purple text-white font-bold flex items-center justify-center gap-2 active:scale-[0.98] transition-all shadow-lg shadow-stacks-purple/20"
+                  >
+                    {isConnecting ? (
+                      <>
+                        <div className="spinner w-5 h-5" />
+                        Connecting...
+                      </>
+                    ) : (
+                      <>
+                        <HiSparkles className="w-5 h-5" />
+                        Connect Wallet
+                      </>
+                    )}
+                  </button>
+                </div>
               )}
             </nav>
           </div>
-        )}
+        </div>
       </div>
     </header>
   )
