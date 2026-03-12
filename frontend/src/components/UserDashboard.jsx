@@ -13,6 +13,7 @@ import { useWallet } from '../context/WalletContext'
 import { formatNumber, blocksToTime, formatDate } from '../utils/helpers'
 import EmptyState from './EmptyState'
 import AreaChart from './AreaChart'
+import PieChart from './PieChart'
 
 const UserDashboard = () => {
   const { address } = useWallet()
@@ -152,26 +153,39 @@ const UserDashboard = () => {
         </div>
       </div>
 
-      {/* Performance Chart */}
+      {/* Performance & Allocation */}
       {stats.totalDeposited > 0 && (
-        <div className="glass-card p-6 rounded-2xl mb-8 overflow-hidden relative group">
-          <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
-            <HiArrowTrendingUp className="w-24 h-24 text-stacks-purple" />
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+          <div className="lg:col-span-2 glass-card p-6 rounded-2xl overflow-hidden relative group">
+            <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
+              <HiArrowTrendingUp className="w-24 h-24 text-stacks-purple" />
+            </div>
+            <AreaChart 
+              label="Portfolio TVL"
+              color="#5546FF"
+              height={200}
+              data={[
+                { label: 'Jan', value: 1200 },
+                { label: 'Feb', value: 1500 },
+                { label: 'Mar', value: 2200 },
+                { label: 'Apr', value: 1800 },
+                { label: 'May', value: 2500 },
+                { label: 'Jun', value: 3200 },
+                { label: 'Jul', value: stats.totalDeposited }
+              ]}
+            />
           </div>
-          <AreaChart 
-            label="Portfolio TVL"
-            color="#5546FF"
-            height={200}
-            data={[
-              { label: 'Jan', value: 1200 },
-              { label: 'Feb', value: 1500 },
-              { label: 'Mar', value: 2200 },
-              { label: 'Apr', value: 1800 },
-              { label: 'May', value: 2500 },
-              { label: 'Jun', value: 3200 },
-              { label: 'Jul', value: stats.totalDeposited }
-            ]}
-          />
+          <div className="glass-card p-6 rounded-2xl flex flex-col items-center justify-center">
+            <h4 className="text-sm font-bold text-gray-400 uppercase tracking-widest mb-6 w-full">Asset Allocation</h4>
+            <PieChart 
+              size={180}
+              data={[
+                { label: 'Conservative', value: 40, color: '#22C55E' },
+                { label: 'Balanced', value: 35, color: '#F59E0B' },
+                { label: 'Aggressive', value: 25, color: '#EF4444' }
+              ]}
+            />
+          </div>
         </div>
       )}
 
