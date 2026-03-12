@@ -68,28 +68,32 @@ const Stats = () => {
       label: 'Total Value Locked',
       value: `${formatNumber(displayStats.tvl)} STX`,
       color: 'text-stacks-purple',
-      bgColor: 'bg-stacks-purple/20'
+      bgColor: 'bg-stacks-purple/20',
+      tooltip: 'The total value of all assets currently deposited in StacksYield Pro vaults.'
     },
     {
       icon: HiUsers,
       label: 'Active Users',
       value: formatNumber(displayStats.users),
       color: 'text-stacks-orange',
-      bgColor: 'bg-stacks-orange/20'
+      bgColor: 'bg-stacks-orange/20',
+      tooltip: 'Individual wallets that have interacted with the protocol.'
     },
     {
       icon: HiArrowTrendingUp,
       label: 'Max APY',
       value: `${displayStats.apy}%`,
       color: 'text-vault-aggressive',
-      bgColor: 'bg-vault-aggressive/20'
+      bgColor: 'bg-vault-aggressive/20',
+      tooltip: 'The highest annual percentage yield currently offered across all vaults.'
     },
     {
       icon: HiLockClosed,
       label: 'Active Vaults',
       value: displayStats.vaults,
       color: 'text-vault-conservative',
-      bgColor: 'bg-vault-conservative/20'
+      bgColor: 'bg-vault-conservative/20',
+      tooltip: 'The number of smart contract vaults currently accepting deposits.'
     }
   ]
 
@@ -100,7 +104,8 @@ const Stats = () => {
           {statCards.map((stat, index) => (
             <div 
               key={stat.label}
-              className="stat-card glass-card p-6 rounded-2xl"
+              className="stat-card glass-card p-6 rounded-2xl tooltip cursor-help"
+              data-tooltip={stat.tooltip}
               style={{ animationDelay: `${index * 0.1}s` }}
               role="region"
               aria-label={stat.label}
