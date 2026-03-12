@@ -8,10 +8,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- Initial project structure
-- Smart contract for yield vault management
-- Frontend application with React
-- Wallet connection integration
+- **UI/UX Overhaul**: Implemented 45 distinct improvements across the platform.
+- **Accessibility**: Standardized ARIA labels and semantic HTML across all components.
+- **SEO**: Added OpenGraph and Twitter meta tags for better discovery.
+- **Data Visualization**: Added interactive TVL charts, portfolio pie charts, and APY sparklines.
+- **Micro-interactions**: Implemented staggered entrance animations and haptic-like scale transitions.
+- **Mobile Polish**: Added smart sticky header and optimized mobile ergonomics.
+
+### Changed
+- Multi-step transaction transparency with real-time steppers.
+- Search and filtering capabilities in the vault list.
+- Global styles including scrollbars, focus rings, and glassmorphism tokens.
 - User dashboard
 - Vault listing functionality
 - Referral system

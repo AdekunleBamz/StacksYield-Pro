@@ -58,12 +58,14 @@ This document describes the high-level architecture of StacksYield Pro.
 - **Stacks**: Layer 2 Bitcoin blockchain
 - **STX**: Native token for transactions
 
-## Data Flow
-
-1. User interacts with frontend
-2. Frontend triggers wallet connection
-3. User signs transaction
-4. Transaction sent to Stacks blockchain
-5. Smart contract executes
-6. State updated on-chain
 7. Frontend reflects updated state
+
+## UI/UX Optimization Layer (45 Improvements)
+
+Beyond the core architecture, the platform implements a comprehensive UX enhancement layer consisting of 45 distinct improvements across 5 categories:
+
+1. **Accessibility & SEO**: Semantic HTML, ARIA labels, and OpenGraph optimization.
+2. **UI Polish**: Glassmorphism refinement, consistent typography, and premium staggered animations.
+3. **UX Interactions**: Intelligent search/filter, multi-step transaction steppers, and educational tooltips.
+4. **Data Visualization**: SVG-based TVL charts, portfolio allocation visuals, and APY sparklines.
+5. **Mobile Ergonomics**: Smart sticky header, touch-target optimization, and haptic feedback.
