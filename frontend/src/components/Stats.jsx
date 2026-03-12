@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { HiCurrencyDollar, HiUsers, HiArrowTrendingUp, HiLockClosed } from 'react-icons/hi2'
 import { useProtocolStats, useVaults } from '../hooks/useContract'
 import { formatNumber } from '../utils/helpers'
+import Skeleton from './Skeleton'
 
 const Stats = () => {
   const { stats: protocolStats, loading: protocolLoading } = useProtocolStats()
@@ -99,7 +100,6 @@ const Stats = () => {
           {statCards.map((stat, index) => (
             <div 
               key={stat.label}
-              aria-label={stat.label}
               className="stat-card glass-card p-6 rounded-2xl"
               style={{ animationDelay: `${index * 0.1}s` }}
               role="region"
@@ -109,9 +109,13 @@ const Stats = () => {
                 <stat.icon className={`w-6 h-6 ${stat.color}`} aria-hidden="true" />
               </div>
               <p className="text-gray-400 text-sm mb-1">{stat.label}</p>
-              <p className={`text-2xl lg:text-3xl font-bold font-display ${stat.color} animate-count`}>
-                {stat.value}
-              </p>
+              {protocolLoading || vaultsLoading ? (
+                <Skeleton className="h-8 w-24 mb-1" />
+              ) : (
+                <p className={`text-2xl lg:text-3xl font-bold font-display ${stat.color} animate-count`}>
+                  {stat.value}
+                </p>
+              )}
             </div>
           ))}
         </div>
