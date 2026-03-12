@@ -9,7 +9,8 @@ import {
   HiLockClosed,
   HiClock,
   HiCurrencyDollar,
-  HiSparkles
+  HiSparkles,
+  HiExclamationTriangle
 } from 'react-icons/hi2'
 import {
   uintCV,
@@ -22,6 +23,7 @@ import toast from 'react-hot-toast'
 import { useVaults, CONTRACT_ADDRESS, CONTRACT_NAME } from '../hooks/useContract'
 import { useWallet } from '../context/WalletContext'
 import { toMicroSTX, blocksToTime, formatNumber } from '../utils/helpers'
+import EmptyState from './EmptyState'
 
 const Description = ({ text }) => {
   const [isExpanded, setIsExpanded] = useState(false)
@@ -341,235 +343,247 @@ const VaultList = () => {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {vaults.map((vault) => {
-          const meta = vaultMeta[vault.id] || vaultMeta[1]
-          const IconComponent = meta.icon
-          const amountValue = parseFloat(amount)
-          const isDeposit = actionType === 'deposit'
-          const isAmountInvalid =
-            !amount || Number.isNaN(amountValue) || (isDeposit ? amountValue < vault.minDeposit : amountValue <= 0)
+      {vaults.length === 0 && !vaultsLoading ? (
+        <EmptyState 
+          title="No Vaults Available"
+          message="We couldn't find any active vaults. Please check back later or connect your wallet."
+          icon={HiExclamationTriangle}
+          action={{
+            label: 'Try Re-fetching',
+            onClick: () => refetch()
+          }}
+        />
+      ) : (
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {vaults.map((vault) => {
+            const meta = vaultMeta[vault.id] || vaultMeta[1]
+            const IconComponent = meta.icon
+            const amountValue = parseFloat(amount)
+            const isDeposit = actionType === 'deposit'
+            const isAmountInvalid =
+              !amount || Number.isNaN(amountValue) || (isDeposit ? amountValue < vault.minDeposit : amountValue <= 0)
 
-          return (
-            <div
-              key={vault.id}
-              className={`glass-card rounded-2xl overflow-hidden vault-card transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-stacks-purple/10 focus-within:scale-[1.02] focus-within:ring-2 focus-within:ring-stacks-purple/50 vault-card-${meta.color}`}
-            >
-              {/* Vault Header */}
-              <div className={`p-6 bg-gradient-to-r ${meta.bgGradient}`}>
-                <div className="flex items-center justify-between mb-4">
-                  <div className={`w-12 h-12 rounded-xl bg-vault-${meta.color}/30 flex items-center justify-center`}>
-                    <IconComponent className={`w-6 h-6 text-vault-${meta.color}`} />
+            return (
+              <div
+                key={vault.id}
+                className={`glass-card rounded-2xl overflow-hidden vault-card transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-stacks-purple/10 focus-within:scale-[1.02] focus-within:ring-2 focus-within:ring-stacks-purple/50 vault-card-${meta.color}`}
+              >
+                {/* Vault Header */}
+                <div className={`p-6 bg-gradient-to-r ${meta.bgGradient}`}>
+                  <div className="flex items-center justify-between mb-4">
+                    <div className={`w-12 h-12 rounded-xl bg-vault-${meta.color}/30 flex items-center justify-center`}>
+                      <IconComponent className={`w-6 h-6 text-vault-${meta.color}`} />
+                    </div>
+                    <div className="text-right">
+                      <p className="text-sm text-gray-400">APY</p>
+                      <p className={`text-2xl font-bold text-vault-${meta.color}`}>{vault.apy}%</p>
+                    </div>
                   </div>
-                  <div className="text-right">
-                    <p className="text-sm text-gray-400">APY</p>
-                    <p className={`text-2xl font-bold text-vault-${meta.color}`}>{vault.apy}%</p>
-                  </div>
-                </div>
-                <div className="flex-1">
-                  <h3 className="text-xl font-bold font-display text-white mb-2">{vault.name}</h3>
-                  <Description text={vault.description} />
-                </div>
-              </div>
-
-              {/* Vault Stats */}
-              <div className="p-6 space-y-4">
-                <div className="flex items-center justify-between text-sm">
-                  <span className="text-gray-400 flex items-center gap-1">
-                    <HiCurrencyDollar className="w-4 h-4" /> TVL
-                  </span>
-                  <span className="font-medium">{formatNumber(vault.totalDeposits)} STX</span>
-                </div>
-                <div className="flex items-center justify-between text-sm">
-                  <span className="text-gray-400 flex items-center gap-1">
-                    <HiLockClosed className="w-4 h-4" /> Min Deposit
-                  </span>
-                  <span className="font-medium">{vault.minDeposit} STX</span>
-                </div>
-                <div className="flex items-center justify-between text-sm">
-                  <span className="text-gray-400 flex items-center gap-1">
-                    <HiClock className="w-4 h-4" /> Lock Period
-                  </span>
-                  <span className="font-medium">{blocksToTime(vault.lockPeriod)}</span>
-                </div>
-
-                {/* Features */}
-                <div className="pt-4 border-t border-stacks-gray">
-                  <p className="text-xs text-gray-500 mb-2">Features</p>
-                  <div className="flex flex-wrap gap-2">
-                    {meta.features.map((feature, idx) => (
-                      <span
-                        key={idx}
-                        className="text-xs px-2 py-1 rounded-full bg-stacks-gray text-gray-300"
-                      >
-                        {feature}
-                      </span>
-                    ))}
+                  <div className="flex-1">
+                    <h3 className="text-xl font-bold font-display text-white mb-2">{vault.name}</h3>
+                    <Description text={vault.description} />
                   </div>
                 </div>
 
-                {/* Vault Status */}
-                {!vault.isActive && (
-                  <div className="p-3 bg-red-500/10 rounded-lg border border-red-500/20">
-                    <p className="text-sm text-red-400 text-center">Vault is currently paused</p>
+                {/* Vault Stats */}
+                <div className="p-6 space-y-4">
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-gray-400 flex items-center gap-1">
+                      <HiCurrencyDollar className="w-4 h-4" /> TVL
+                    </span>
+                    <span className="font-medium">{formatNumber(vault.totalDeposits)} STX</span>
                   </div>
-                )}
-
-                {/* WalletConnect info */}
-                {isConnected && isWalletConnectSession && (
-                  <div className="p-3 bg-green-500/10 rounded-lg border border-green-500/20">
-                    <p className="text-xs text-green-400 text-center">
-                      📱 Connected via WalletConnect - transactions will be signed in your mobile wallet
-                    </p>
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-gray-400 flex items-center gap-1">
+                      <HiLockClosed className="w-4 h-4" /> Min Deposit
+                    </span>
+                    <span className="font-medium">{vault.minDeposit} STX</span>
                   </div>
-                )}
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-gray-400 flex items-center gap-1">
+                      <HiClock className="w-4 h-4" /> Lock Period
+                    </span>
+                    <span className="font-medium">{blocksToTime(vault.lockPeriod)}</span>
+                  </div>
 
-                {/* Action Buttons */}
-                <div className="pt-4 space-y-3">
-                  {selectedVault === vault.id ? (
-                    <div className="space-y-3">
-                      {/* Action Type Toggle */}
-                      <div className="flex rounded-xl overflow-hidden border border-stacks-gray">
-                        <button
-                          onClick={() => setActionType('deposit')}
-                          className={`flex-1 py-2 text-sm font-medium transition-colors ${actionType === 'deposit'
-                              ? 'bg-stacks-purple text-white'
-                              : 'text-gray-400 hover:text-white'
-                            }`}
+                  {/* Features */}
+                  <div className="pt-4 border-t border-stacks-gray">
+                    <p className="text-xs text-gray-500 mb-2">Features</p>
+                    <div className="flex flex-wrap gap-2">
+                      {meta.features.map((feature, idx) => (
+                        <span
+                          key={idx}
+                          className="text-xs px-2 py-1 rounded-full bg-stacks-gray text-gray-300"
                         >
-                          Deposit
-                        </button>
-                        <button
-                          onClick={() => setActionType('withdraw')}
-                          className={`flex-1 py-2 text-sm font-medium transition-colors ${actionType === 'withdraw'
-                              ? 'bg-stacks-purple text-white'
-                              : 'text-gray-400 hover:text-white'
-                            }`}
-                        >
-                          Withdraw
-                        </button>
-                      </div>
-
-                      {/* Amount Input */}
-                      <div className="relative">
-                        <label className="sr-only" htmlFor="vault-amount">Amount</label>
-                        <input id="vault-amount"
-                          type="number"
-                          inputMode="decimal"
-                          value={amount}
-                          onChange={(e) => setAmount(e.target.value)}
-                          placeholder={`Amount in ${actionType === 'deposit' ? 'STX' : 'shares'}`}
-                          className="input-field w-full px-4 py-3 rounded-xl text-white placeholder-gray-500"
-                          min={actionType === 'deposit' ? vault.minDeposit : 0}
-                          step="0.000001"
-                          aria-invalid={selectedVault === vault.id && isAmountInvalid}
-                          aria-describedby={`amount-help-${vault.id}`}
-                        />
-                        <span className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm">
-                          {actionType === 'deposit' ? 'STX' : 'Shares'}
+                          {feature}
                         </span>
-                      </div>
-                      <div id={`amount-help-${vault.id}`} className="text-xs px-2 text-gray-400">
-                        {selectedVault === vault.id && isAmountInvalid ? (
-                          actionType === 'deposit'
-                            ? `Minimum deposit is ${vault.minDeposit} STX`
-                            : 'Enter a positive share amount'
-                        ) : (
-                          actionType === 'deposit'
-                            ? `Minimum deposit: ${vault.minDeposit} STX`
-                            : 'Enter the number of shares to withdraw'
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Vault Status */}
+                  {!vault.isActive && (
+                    <div className="p-3 bg-red-500/10 rounded-lg border border-red-500/20">
+                      <p className="text-sm text-red-400 text-center">Vault is currently paused</p>
+                    </div>
+                  )}
+
+                  {/* WalletConnect info */}
+                  {isConnected && isWalletConnectSession && (
+                    <div className="p-3 bg-green-500/10 rounded-lg border border-green-500/20">
+                      <p className="text-xs text-green-400 text-center">
+                        📱 Connected via WalletConnect - transactions will be signed in your mobile wallet
+                      </p>
+                    </div>
+                  )}
+
+                  {/* Action Buttons */}
+                  <div className="pt-4 space-y-3">
+                    {selectedVault === vault.id ? (
+                      <div className="space-y-3">
+                        {/* Action Type Toggle */}
+                        <div className="flex rounded-xl overflow-hidden border border-stacks-gray">
+                          <button
+                            onClick={() => setActionType('deposit')}
+                            className={`flex-1 py-2 text-sm font-medium transition-colors ${actionType === 'deposit'
+                                ? 'bg-stacks-purple text-white'
+                                : 'text-gray-400 hover:text-white'
+                              }`}
+                          >
+                            Deposit
+                          </button>
+                          <button
+                            onClick={() => setActionType('withdraw')}
+                            className={`flex-1 py-2 text-sm font-medium transition-colors ${actionType === 'withdraw'
+                                ? 'bg-stacks-purple text-white'
+                                : 'text-gray-400 hover:text-white'
+                              }`}
+                          >
+                            Withdraw
+                          </button>
+                        </div>
+
+                        {/* Amount Input */}
+                        <div className="relative">
+                          <label className="sr-only" htmlFor="vault-amount">Amount</label>
+                          <input id="vault-amount"
+                            type="number"
+                            inputMode="decimal"
+                            value={amount}
+                            onChange={(e) => setAmount(e.target.value)}
+                            placeholder={`Amount in ${actionType === 'deposit' ? 'STX' : 'shares'}`}
+                            className="input-field w-full px-4 py-3 rounded-xl text-white placeholder-gray-500"
+                            min={actionType === 'deposit' ? vault.minDeposit : 0}
+                            step="0.000001"
+                            aria-invalid={selectedVault === vault.id && isAmountInvalid}
+                            aria-describedby={`amount-help-${vault.id}`}
+                          />
+                          <span className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm">
+                            {actionType === 'deposit' ? 'STX' : 'Shares'}
+                          </span>
+                        </div>
+                        <div id={`amount-help-${vault.id}`} className="text-xs px-2 text-gray-400">
+                          {selectedVault === vault.id && isAmountInvalid ? (
+                            actionType === 'deposit'
+                              ? `Minimum deposit is ${vault.minDeposit} STX`
+                              : 'Enter a positive share amount'
+                          ) : (
+                            actionType === 'deposit'
+                              ? `Minimum deposit: ${vault.minDeposit} STX`
+                              : 'Enter the number of shares to withdraw'
+                          )}
+                        </div>
+
+                        {/* Fee Info */}
+                        {actionType === 'deposit' && amount && parseFloat(amount) > 0 && (
+                          <div className="text-xs text-gray-400 px-2">
+                            Fee: {(parseFloat(amount) * 0.005).toFixed(6)} STX (0.5%) •
+                            Net: {(parseFloat(amount) * 0.995).toFixed(6)} STX
+                          </div>
+                        )}
+
+                        {/* Action Buttons */}
+                        <div className="flex gap-2">
+                          <button
+                            onClick={() => {
+                              if (actionType === 'deposit') {
+                                handleDeposit(vault)
+                              } else {
+                                handleWithdraw(vault)
+                              }
+                            }}
+                            disabled={isLoading || !vault.isActive || isAmountInvalid}
+                            className="flex-1 btn-primary py-3 rounded-xl font-medium flex items-center justify-center gap-2 disabled:opacity-50"
+                          >
+                            {isLoading ? (
+                              <div className="spinner w-5 h-5" />
+                            ) : actionType === 'deposit' ? (
+                              <>
+                                <HiArrowDown className="w-4 h-4" />
+                                Deposit
+                              </>
+                            ) : (
+                              <>
+                                <HiArrowUp className="w-4 h-4" />
+                                Withdraw
+                              </>
+                            )}
+                          </button>
+                          <button
+                            onClick={() => {
+                              setSelectedVault(null)
+                              setAmount('')
+                            }}
+                            className="btn-secondary px-4 py-3 rounded-xl"
+                          >
+                            Cancel
+                          </button>
+                        </div>
+
+                        {/* Quick Actions */}
+                        {isConnected && (
+                          <div className="flex gap-2 pt-2">
+                            <button
+                              onClick={() => handleCompound(vault)}
+                              disabled={isLoading}
+                              className="flex-1 text-xs py-2 rounded-lg bg-vault-conservative/20 text-vault-conservative hover:bg-vault-conservative/30 transition-colors disabled:opacity-50"
+                            >
+                              <HiSparkles className="w-3 h-3 inline mr-1" />
+                              Compound
+                            </button>
+                            <button
+                              onClick={() => handleEmergencyWithdraw(vault)}
+                              disabled={isLoading}
+                              className="flex-1 text-xs py-2 rounded-lg bg-vault-aggressive/20 text-vault-aggressive hover:bg-vault-aggressive/30 transition-colors disabled:opacity-50"
+                            >
+                              Emergency Exit
+                            </button>
+                          </div>
                         )}
                       </div>
-
-                      {/* Fee Info */}
-                      {actionType === 'deposit' && amount && parseFloat(amount) > 0 && (
-                        <div className="text-xs text-gray-400 px-2">
-                          Fee: {(parseFloat(amount) * 0.005).toFixed(6)} STX (0.5%) •
-                          Net: {(parseFloat(amount) * 0.995).toFixed(6)} STX
-                        </div>
-                      )}
-
-                      {/* Action Buttons */}
-                      <div className="flex gap-2">
-                        <button
-                          onClick={() => {
-                            if (actionType === 'deposit') {
-                              handleDeposit(vault)
-                            } else {
-                              handleWithdraw(vault)
-                            }
-                          }}
-                          disabled={isLoading || !vault.isActive || isAmountInvalid}
-                          className="flex-1 btn-primary py-3 rounded-xl font-medium flex items-center justify-center gap-2 disabled:opacity-50"
-                        >
-                          {isLoading ? (
-                            <div className="spinner w-5 h-5" />
-                          ) : actionType === 'deposit' ? (
-                            <>
-                              <HiArrowDown className="w-4 h-4" />
-                              Deposit
-                            </>
-                          ) : (
-                            <>
-                              <HiArrowUp className="w-4 h-4" />
-                              Withdraw
-                            </>
-                          )}
-                        </button>
-                        <button
-                          onClick={() => {
-                            setSelectedVault(null)
-                            setAmount('')
-                          }}
-                          className="btn-secondary px-4 py-3 rounded-xl"
-                        >
-                          Cancel
-                        </button>
-                      </div>
-
-                      {/* Quick Actions */}
-                      {isConnected && (
-                        <div className="flex gap-2 pt-2">
-                          <button
-                            onClick={() => handleCompound(vault)}
-                            disabled={isLoading}
-                            className="flex-1 text-xs py-2 rounded-lg bg-vault-conservative/20 text-vault-conservative hover:bg-vault-conservative/30 transition-colors disabled:opacity-50"
-                          >
-                            <HiSparkles className="w-3 h-3 inline mr-1" />
-                            Compound
-                          </button>
-                          <button
-                            onClick={() => handleEmergencyWithdraw(vault)}
-                            disabled={isLoading}
-                            className="flex-1 text-xs py-2 rounded-lg bg-vault-aggressive/20 text-vault-aggressive hover:bg-vault-aggressive/30 transition-colors disabled:opacity-50"
-                          >
-                            Emergency Exit
-                          </button>
-                        </div>
-                      )}
-                    </div>
-                  ) : (
-                    <button
-                      onClick={() => {
-                        if (!isConnected) {
-                          connectWallet()
-                        } else {
-                          setSelectedVault(vault.id)
-                          setActionType('deposit')
-                        }
-                      }}
-                      disabled={!vault.isActive}
-                      className="w-full btn-primary py-3 rounded-xl font-medium disabled:opacity-50"
-                    >
-                      {isConnected ? 'Select Vault' : 'Connect to Deposit'}
-                    </button>
-                  )}
+                    ) : (
+                      <button
+                        onClick={() => {
+                          if (!isConnected) {
+                            connectWallet()
+                          } else {
+                            setSelectedVault(vault.id)
+                            setActionType('deposit')
+                          }
+                        }}
+                        disabled={!vault.isActive}
+                        className="w-full btn-primary py-3 rounded-xl font-medium disabled:opacity-50"
+                      >
+                        {isConnected ? 'Select Vault' : 'Connect to Deposit'}
+                      </button>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
-          )
-        })}
-      </div>
+            )
+          })}
+        </div>
+      )}
 
       {/* Info Section */}
       <div className="mt-8 glass-card p-6 rounded-2xl">

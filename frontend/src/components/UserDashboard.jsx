@@ -11,6 +11,7 @@ import {
 import { useUserStats, useVaults, useUserDeposit, usePendingRewards } from '../hooks/useContract'
 import { useWallet } from '../context/WalletContext'
 import { formatNumber, blocksToTime, formatDate } from '../utils/helpers'
+import EmptyState from './EmptyState'
 
 const UserDashboard = () => {
   const { address } = useWallet()
@@ -177,19 +178,15 @@ const UserDashboard = () => {
         </div>
 
         {stats.totalDeposited === 0 && (
-          <div className="p-6 border-b border-stacks-gray">
-            <div className="flex items-center justify-between gap-4">
-              <p className="text-sm text-gray-400">
-                You don&apos;t have any active deposits yet. Start by choosing a vault.
-              </p>
-              <a
-                href="#vaults"
-                className="btn-primary px-4 py-2 rounded-xl text-sm font-medium"
-              >
-                Explore Vaults
-              </a>
-            </div>
-          </div>
+          <EmptyState 
+            title="No Deposits Yet"
+            message="You haven't deposited any STX into our vaults. Start earning today with up to 25% APY!"
+            icon={HiCurrencyDollar}
+            action={{
+              label: 'Explore Vaults',
+              onClick: () => { window.location.hash = '#vaults'; }
+            }}
+          />
         )}
 
         {vaults.length > 0 ? (
