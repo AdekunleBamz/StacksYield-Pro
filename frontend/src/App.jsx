@@ -46,62 +46,62 @@ function AppContent() {
           <Stats />
           
           {/* Breadcrumbs */}
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
-            <nav className="flex items-center space-x-2 text-sm text-gray-500" aria-label="Breadcrumb">
-              <a href="#" onClick={(e) => { e.preventDefault(); setActiveTab('vaults'); }} className="flex items-center hover:text-white transition-colors">
-                <HiHome className="w-4 h-4 mr-1" />
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6 md:mt-8 animate-fade-in-up">
+            <nav className="flex items-center space-x-2 text-xs md:text-sm text-gray-500" aria-label="Breadcrumb">
+              <a href="#" onClick={(e) => { e.preventDefault(); setActiveTab('vaults'); }} className="flex items-center hover:text-white transition-colors active:scale-95">
+                <HiHome className="w-3.5 h-3.5 md:w-4 md:h-4 mr-1" />
                 Home
               </a>
-              <HiChevronRight className="w-3 h-3" />
-              <span className="text-stacks-purple font-medium capitalize">
+              <HiChevronRight className="w-2.5 h-2.5 md:w-3 md:h-3" />
+              <span className="text-stacks-purple font-bold md:font-medium capitalize tracking-wide">
                 {activeTab.replace('-', ' ')}
               </span>
             </nav>
           </div>
           
           {/* Tab Navigation */}
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16">
-              <div className="flex space-x-4 border-b border-stacks-gray" role="tablist" aria-label="Dashboard tabs">
-                <button
-                  id="tab-vaults"
-                  role="tab"
-                  aria-selected={activeTab === 'vaults'}
-                  aria-controls="panel-vaults"
-                  onClick={() => setActiveTab('vaults')}
-                  className={`px-6 py-3 font-medium transition-all ${
-                    activeTab === 'vaults'
-                      ? 'tab-active text-white'
-                      : 'text-gray-400 hover:text-white'
-                  }`}
-                >
-                  Vaults
-                </button>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 md:mt-16 animate-fade-in-up delay-100">
+            <div className="flex space-x-2 md:space-x-4 border-b border-white/5" role="tablist" aria-label="Dashboard tabs">
+              <button
+                id="tab-vaults"
+                role="tab"
+                aria-selected={activeTab === 'vaults'}
+                aria-controls="panel-vaults"
+                onClick={() => setActiveTab('vaults')}
+                className={`flex-1 md:flex-none px-4 md:px-8 py-4 text-sm md:text-base font-bold transition-all active:scale-95 ${
+                  activeTab === 'vaults'
+                    ? 'tab-active text-white border-b-2 border-stacks-purple'
+                    : 'text-gray-500 hover:text-white hover:bg-white/5'
+                }`}
+              >
+                Vaults
+              </button>
               {isConnected && (
                 <>
                   <button
-                      id="tab-dashboard"
-                      role="tab"
-                      aria-selected={activeTab === 'dashboard'}
-                      aria-controls="panel-dashboard"
+                    id="tab-dashboard"
+                    role="tab"
+                    aria-selected={activeTab === 'dashboard'}
+                    aria-controls="panel-dashboard"
                     onClick={() => setActiveTab('dashboard')}
-                    className={`px-6 py-3 font-medium transition-all ${
+                    className={`flex-1 md:flex-none px-4 md:px-8 py-4 text-sm md:text-base font-bold transition-all active:scale-95 ${
                       activeTab === 'dashboard' 
-                        ? 'tab-active text-white' 
-                        : 'text-gray-400 hover:text-white'
+                        ? 'tab-active text-white border-b-2 border-stacks-purple' 
+                        : 'text-gray-500 hover:text-white hover:bg-white/5'
                     }`}
                   >
-                    My Dashboard
+                    Dashboard
                   </button>
                   <button
-                      id="tab-referrals"
-                      role="tab"
-                      aria-selected={activeTab === 'referrals'}
-                      aria-controls="panel-referrals"
+                    id="tab-referrals"
+                    role="tab"
+                    aria-selected={activeTab === 'referrals'}
+                    aria-controls="panel-referrals"
                     onClick={() => setActiveTab('referrals')}
-                    className={`px-6 py-3 font-medium transition-all ${
+                    className={`flex-1 md:flex-none px-4 md:px-8 py-4 text-sm md:text-base font-bold transition-all active:scale-95 ${
                       activeTab === 'referrals' 
-                        ? 'tab-active text-white' 
-                        : 'text-gray-400 hover:text-white'
+                        ? 'tab-active text-white border-b-2 border-stacks-purple' 
+                        : 'text-gray-500 hover:text-white hover:bg-white/5'
                     }`}
                   >
                     Referrals
