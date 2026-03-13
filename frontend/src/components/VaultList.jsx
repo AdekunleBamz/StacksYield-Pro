@@ -429,6 +429,12 @@ const VaultList = () => {
             className="input-field w-full pl-12 pr-4 py-4 md:py-3 rounded-xl border border-white/5 focus:border-stacks-purple/50 bg-[#1A1A1C] text-base md:text-sm"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
+            onKeyDown={(event) => {
+              if (event.key === 'Escape') {
+                setSearchQuery('')
+              }
+            }}
+            aria-label="Search vaults by name"
           />
         </div>
         <div className="flex gap-2 p-1 bg-[#1A1A1C] rounded-xl border border-white/5 overflow-x-auto">
@@ -436,6 +442,7 @@ const VaultList = () => {
             <button
               key={risk}
               onClick={() => setFilterRisk(risk)}
+              aria-pressed={filterRisk === risk}
               className={`px-8 md:px-6 py-4 md:py-2 rounded-lg text-base md:text-sm font-bold capitalize whitespace-nowrap transition-all active:scale-95 ${
                 filterRisk === risk 
                   ? 'bg-stacks-purple text-white shadow-lg shadow-stacks-purple/20' 
@@ -446,6 +453,24 @@ const VaultList = () => {
             </button>
           ))}
         </div>
+      </div>
+      <div className="mb-6 flex flex-wrap items-center justify-between gap-3 text-sm text-gray-400" role="status" aria-live="polite">
+        <span>
+          Showing {filteredVaults.length} of {vaults.length} vault{vaults.length === 1 ? '' : 's'}
+          {searchQuery ? ` for "${searchQuery}"` : ''}
+        </span>
+        {(searchQuery || filterRisk !== 'all') && (
+          <button
+            type="button"
+            className="px-4 py-2 rounded-lg border border-white/10 hover:border-stacks-purple/40 text-gray-300 hover:text-white transition-colors"
+            onClick={() => {
+              setSearchQuery('')
+              setFilterRisk('all')
+            }}
+          >
+            Reset filters
+          </button>
+        )}
       </div>
 
       {filteredVaults.length === 0 && !vaultsLoading ? (
