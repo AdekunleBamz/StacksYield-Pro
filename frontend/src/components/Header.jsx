@@ -26,6 +26,26 @@ const Header = () => {
     return () => window.removeEventListener('scroll', controlHeader)
   }, [lastScrollY])
 
+  useEffect(() => {
+    if (!mobileMenuOpen) return
+    const onKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        setMobileMenuOpen(false)
+      }
+    }
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [mobileMenuOpen])
+
+  useEffect(() => {
+    if (!mobileMenuOpen) return undefined
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.body.style.overflow = previousOverflow
+    }
+  }, [mobileMenuOpen])
+
   const truncateAddress = (addr) => {
     if (!addr) return ''
     return `${addr.slice(0, 6)}...${addr.slice(-4)}`
@@ -170,6 +190,7 @@ const Header = () => {
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
             aria-expanded={mobileMenuOpen}
+            aria-controls="mobile-primary-navigation"
             className="md:hidden p-2 rounded-lg glass"
           >
             {mobileMenuOpen ? (
@@ -198,12 +219,13 @@ const Header = () => {
               <button 
                 onClick={() => setMobileMenuOpen(false)}
                 className="p-3 rounded-xl bg-white/5 text-gray-400 active:scale-95 transition-all"
+                aria-label="Close mobile menu"
               >
                 <FiX className="w-6 h-6" />
               </button>
             </div>
 
-            <nav className="flex flex-col space-y-2">
+            <nav id="mobile-primary-navigation" aria-label="Mobile primary navigation" className="flex flex-col space-y-2">
               {[
                 { label: 'Vaults', href: '#vaults' },
                 { label: 'How It Works', href: '#how-it-works' },
