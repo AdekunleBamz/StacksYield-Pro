@@ -15,6 +15,7 @@ function AppContent() {
   const { isConnected } = useWallet()
   const [activeTab, setActiveTab] = useState('vaults')
   const [showScrollTop, setShowScrollTop] = useState(false)
+  const availableTabs = isConnected ? ['vaults', 'dashboard', 'referrals'] : ['vaults']
 
   useEffect(() => {
     const handleScroll = () => {
@@ -26,6 +27,27 @@ function AppContent() {
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  const handleTabKeyDown = (event, currentTab) => {
+    if (!['ArrowRight', 'ArrowLeft', 'Home', 'End'].includes(event.key)) return
+    event.preventDefault()
+
+    if (event.key === 'Home') {
+      setActiveTab(availableTabs[0])
+      return
+    }
+
+    if (event.key === 'End') {
+      setActiveTab(availableTabs[availableTabs.length - 1])
+      return
+    }
+
+    const currentIndex = availableTabs.indexOf(currentTab)
+    if (currentIndex === -1) return
+    const direction = event.key === 'ArrowRight' ? 1 : -1
+    const nextIndex = (currentIndex + direction + availableTabs.length) % availableTabs.length
+    setActiveTab(availableTabs[nextIndex])
   }
 
   return (
@@ -71,6 +93,7 @@ function AppContent() {
                 aria-selected={activeTab === 'vaults'}
                 aria-controls="panel-vaults"
                 onClick={() => setActiveTab('vaults')}
+                onKeyDown={(event) => handleTabKeyDown(event, 'vaults')}
                 className={`flex-1 md:flex-none px-4 md:px-8 py-4 text-sm md:text-base font-bold transition-all active:scale-95 ${
                   activeTab === 'vaults'
                     ? 'tab-active text-white border-b-2 border-stacks-purple'
@@ -87,6 +110,7 @@ function AppContent() {
                     aria-selected={activeTab === 'dashboard'}
                     aria-controls="panel-dashboard"
                     onClick={() => setActiveTab('dashboard')}
+                    onKeyDown={(event) => handleTabKeyDown(event, 'dashboard')}
                     className={`flex-1 md:flex-none px-4 md:px-8 py-4 text-sm md:text-base font-bold transition-all active:scale-95 ${
                       activeTab === 'dashboard' 
                         ? 'tab-active text-white border-b-2 border-stacks-purple' 
@@ -101,6 +125,7 @@ function AppContent() {
                     aria-selected={activeTab === 'referrals'}
                     aria-controls="panel-referrals"
                     onClick={() => setActiveTab('referrals')}
+                    onKeyDown={(event) => handleTabKeyDown(event, 'referrals')}
                     className={`flex-1 md:flex-none px-4 md:px-8 py-4 text-sm md:text-base font-bold transition-all active:scale-95 ${
                       activeTab === 'referrals' 
                         ? 'tab-active text-white border-b-2 border-stacks-purple' 
