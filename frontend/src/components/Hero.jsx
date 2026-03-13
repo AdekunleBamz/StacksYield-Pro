@@ -21,16 +21,16 @@ const Hero = () => {
           </div>
 
           {/* Main heading */}
-          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold font-display leading-tight mb-6">
-            <span className="text-white">Maximize Your</span>
+          <h1 className="text-5xl sm:text-6xl lg:text-8xl font-black font-display leading-[1.1] mb-8 tracking-tight">
+            <span className="text-white drop-shadow-2xl">Maximize Your</span>
             <br />
-            <span className="gradient-text">STX Yields</span>
+            <span className="gradient-text drop-shadow-[0_0_30px_rgba(139,92,246,0.3)]">STX Yields</span>
           </h1>
 
           {/* Subtitle */}
-          <p className="text-lg sm:text-xl text-gray-400 max-w-2xl mx-auto mb-10">
-            Auto-compounding vaults with multiple strategies.
-            Conservative, Balanced, or Aggressive - choose your risk level and let your STX work for you.
+          <p className="text-xl sm:text-2xl text-gray-400 max-w-2xl mx-auto mb-12 leading-relaxed font-medium">
+            Next-generation auto-compounding vaults on Stacks. 
+            Choose your protocol, deposit STX, and watch your yields multiply.
           </p>
 
           {/* CTA Buttons */}
