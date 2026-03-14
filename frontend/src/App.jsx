@@ -140,23 +140,29 @@ function AppContent() {
           </div>
           
           {/* Tab Content */}
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-                  {activeTab === 'vaults' && (
-                    <div id="panel-vaults" role="tabpanel" aria-labelledby="tab-vaults">
-                      <VaultList />
-                    </div>
-                  )}
-                  {activeTab === 'dashboard' && isConnected && (
-                    <div id="panel-dashboard" role="tabpanel" aria-labelledby="tab-dashboard">
-                      <UserDashboard />
-                    </div>
-                  )}
-                  {activeTab === 'referrals' && isConnected && (
-                    <div id="panel-referrals" role="tabpanel" aria-labelledby="tab-referrals">
-                      <ReferralSection />
-                    </div>
-                  )}
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <div 
+              key={activeTab}
+              className="animate-fade-in-up"
+              style={{ animationDuration: '600ms', animationTimingFunction: 'var(--ease-out-expo)' }}
+            >
+              {activeTab === 'vaults' && (
+                <div id="panel-vaults" role="tabpanel" aria-labelledby="tab-vaults">
+                  <VaultList />
                 </div>
+              )}
+              {activeTab === 'dashboard' && isConnected && (
+                <div id="panel-dashboard" role="tabpanel" aria-labelledby="tab-dashboard">
+                  <UserDashboard />
+                </div>
+              )}
+              {activeTab === 'referrals' && isConnected && (
+                <div id="panel-referrals" role="tabpanel" aria-labelledby="tab-referrals">
+                  <ReferralSection />
+                </div>
+              )}
+            </div>
+          </div>
         </main>
         
         <Footer />

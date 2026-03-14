@@ -151,211 +151,219 @@ const ReferralSection = () => {
 
       {/* Registration Required Notice */}
       {!stats.isRegistered && (
-        <div className="mb-8 glass-card p-6 rounded-2xl border border-stacks-purple/30">
-          <div className="flex items-start gap-4">
-            <div className="w-12 h-12 rounded-xl bg-stacks-purple/20 flex items-center justify-center flex-shrink-0">
-              <HiUserPlus className="w-6 h-6 text-stacks-purple" />
+        <div className="mb-10 glass-card p-8 rounded-3xl border border-stacks-purple/30 bg-stacks-purple/5 relative overflow-hidden animate-fade-in-up">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-stacks-purple/10 blur-3xl rounded-full -mr-32 -mt-32" />
+          <div className="flex flex-col md:flex-row items-center gap-6 relative z-10">
+            <div className="w-16 h-16 rounded-2xl bg-stacks-purple/20 flex items-center justify-center flex-shrink-0 shadow-inner">
+              <HiUserPlus className="w-8 h-8 text-stacks-purple" />
             </div>
-            <div className="flex-1">
-              <h3 className="font-semibold text-lg mb-2">Register to Unlock Referrals</h3>
-              <p className="text-gray-400 text-sm mb-4">
-                Register your account to create referral codes and start earning. 
+            <div className="flex-1 text-center md:text-left">
+              <h3 className="font-black text-xl mb-2 tracking-tight">Unlock Referral Rewards</h3>
+              <p className="text-gray-400 text-sm max-w-xl">
+                Register your account to create unique referral codes and earn 0.25% of all fees. 
                 {referralFromURL && (
-                  <span className="text-stacks-purple"> Using referral code: <strong>{referralFromURL}</strong></span>
+                  <span className="block mt-2 text-stacks-purple font-bold"> 
+                    <HiCheckCircle className="inline w-4 h-4 mr-1" />
+                    Referred by: {referralFromURL}
+                  </span>
                 )}
               </p>
-              <button
-                onClick={handleRegister}
-                disabled={isRegistering}
-                className="btn-primary px-6 py-2.5 rounded-xl font-medium flex items-center gap-2 active:scale-95 transition-all"
-              >
-                {isRegistering ? (
-                  <>
-                    <div className="spinner w-4 h-4" />
-                    Registering...
-                  </>
-                ) : (
-                  <>
-                    <HiUserPlus className="w-4 h-4" />
-                    Register Now
-                  </>
-                )}
-              </button>
             </div>
+            <button
+              onClick={handleRegister}
+              disabled={isRegistering}
+              className="btn-primary px-8 py-4 rounded-xl font-black uppercase tracking-widest text-xs animate-pulse-glow whitespace-nowrap active:scale-95 transition-all shadow-xl shadow-stacks-purple/20"
+            >
+              {isRegistering ? (
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  Processing
+                </div>
+              ) : (
+                "Register Now"
+              )}
+            </button>
           </div>
         </div>
       )}
 
       {/* How it works */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-        <div className="glass-card p-6 rounded-2xl text-center animate-fade-in-up delay-100">
-          <div className="w-12 h-12 rounded-full bg-stacks-purple/20 flex items-center justify-center mx-auto mb-4">
-            <span className="text-xl font-bold text-stacks-purple">1</span>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+        <div className="glass-card p-8 rounded-3xl text-center animate-fade-in-up opacity-0" style={{ animationDelay: '100ms', animationFillMode: 'forwards' }}>
+          <div className="w-14 h-14 rounded-2xl bg-stacks-purple/20 flex items-center justify-center mx-auto mb-6 shadow-inner">
+            <span className="text-2xl font-black text-stacks-purple">1</span>
           </div>
-          <h3 className="font-semibold mb-2">Create Your Code</h3>
-          <p className="text-sm text-gray-400">
-            Generate a unique referral code to share with friends
+          <h3 className="font-black text-lg mb-3 tracking-tight">Create Code</h3>
+          <p className="text-sm text-gray-400 font-bold leading-relaxed opacity-60">
+            Generate a custom code that reflects your brand or identity.
           </p>
         </div>
 
-        <div className="glass-card p-6 rounded-2xl text-center animate-fade-in-up delay-200">
-          <div className="w-12 h-12 rounded-full bg-vault-balanced/20 flex items-center justify-center mx-auto mb-4">
-            <span className="text-xl font-bold text-vault-balanced">2</span>
+        <div className="glass-card p-8 rounded-3xl text-center animate-fade-in-up opacity-0" style={{ animationDelay: '250ms', animationFillMode: 'forwards' }}>
+          <div className="w-14 h-14 rounded-2xl bg-vault-balanced/20 flex items-center justify-center mx-auto mb-6 shadow-inner">
+            <span className="text-2xl font-black text-vault-balanced">2</span>
           </div>
-          <h3 className="font-semibold mb-2">Share & Invite</h3>
-          <p className="text-sm text-gray-400">
-            Share your code on social media or with friends
+          <h3 className="font-black text-lg mb-3 tracking-tight">Share & Invite</h3>
+          <p className="text-sm text-gray-400 font-bold leading-relaxed opacity-60">
+            Invite your network to join the highest-yielding STX vaults.
           </p>
         </div>
 
-        <div className="glass-card p-6 rounded-2xl text-center animate-fade-in-up delay-300">
-          <div className="w-12 h-12 rounded-full bg-vault-conservative/20 flex items-center justify-center mx-auto mb-4">
-            <span className="text-xl font-bold text-vault-conservative">3</span>
+        <div className="glass-card p-8 rounded-3xl text-center animate-fade-in-up opacity-0" style={{ animationDelay: '400ms', animationFillMode: 'forwards' }}>
+          <div className="w-14 h-14 rounded-2xl bg-vault-conservative/20 flex items-center justify-center mx-auto mb-6 shadow-inner">
+            <span className="text-2xl font-black text-vault-conservative">3</span>
           </div>
-          <h3 className="font-semibold mb-2">Earn Forever</h3>
-          <p className="text-sm text-gray-400">
-            Get 0.25% of every deposit your referrals make
+          <h3 className="font-black text-lg mb-3 tracking-tight">Earn Forever</h3>
+          <p className="text-sm text-gray-400 font-bold leading-relaxed opacity-60">
+            Collect rewards automatically on every deposit they make.
           </p>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Referral Code Section */}
-        <div className="glass-card p-6 rounded-2xl">
-          <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
-            <HiLink className="w-5 h-5 text-stacks-purple" />
-            Your Referral Code
+        <div className="glass-card p-8 rounded-3xl animate-fade-in-up opacity-0" style={{ animationDelay: '500ms', animationFillMode: 'forwards' }}>
+          <h3 className="text-xl font-black mb-8 flex items-center gap-3 tracking-tight">
+            <div className="w-10 h-10 rounded-xl bg-stacks-purple/10 flex items-center justify-center">
+              <HiLink className="w-5 h-5 text-stacks-purple" />
+            </div>
+            Referral Portal
           </h3>
 
           {stats.isRegistered ? (
-            <div className="space-y-4">
-              <div className="bg-stacks-dark p-4 rounded-xl border border-stacks-purple/30">
-                <p className="text-sm text-gray-400 mb-2">Your Code</p>
+            <div className="space-y-6">
+              <div className="bg-[#0C0C0D] p-6 rounded-2xl border border-white/5 relative overflow-hidden group">
+                <div className="absolute top-0 right-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <HiSparkles className="w-5 h-5 text-stacks-purple animate-pulse" />
+                </div>
+                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 mb-4">Your Custom Code</p>
                 <div className="flex items-center justify-between">
-                  <p className="text-2xl font-bold font-mono text-stacks-purple">
+                  <p className="text-3xl font-black font-display text-white tracking-widest leading-none">
                     {defaultCode}
                   </p>
                   <button
                     onClick={() => copyToClipboard(defaultCode)}
-                    className="p-2 rounded-lg bg-stacks-purple/20 hover:bg-stacks-purple/30 transition-all active:scale-90"
+                    className="p-3 rounded-xl bg-stacks-purple text-white hover:bg-stacks-purple-light transition-all active:scale-90 shadow-lg shadow-stacks-purple/20"
                     aria-label="Copy referral code"
                   >
                     {copied ? (
-                      <HiCheckCircle className="w-5 h-5 text-vault-conservative" />
+                      <HiCheckCircle className="w-5 h-5" />
                     ) : (
-                      <HiClipboardDocument className="w-5 h-5 text-stacks-purple" />
+                      <HiClipboardDocument className="w-5 h-5" />
                     )}
                   </button>
                 </div>
               </div>
 
-              <div className="bg-stacks-dark p-4 rounded-xl border border-stacks-gray">
-                <p className="text-sm text-gray-400 mb-2">Referral Link</p>
-                <div className="flex items-center gap-2">
+              <div className="bg-[#0C0C0D] p-6 rounded-2xl border border-white/5">
+                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 mb-4">Referral Link</p>
+                <div className="flex items-center gap-3">
                   <input
                     type="text"
                     value={generateReferralURL(defaultCode)}
                     readOnly
-                    className="flex-1 bg-transparent text-sm text-gray-300 outline-none truncate"
+                    className="flex-1 bg-transparent text-sm font-bold text-gray-400 outline-none truncate"
                   />
                   <button
                     onClick={() => copyToClipboard(generateReferralURL(defaultCode))}
-                    className="p-2 rounded-lg bg-stacks-gray hover:bg-stacks-purple/20 transition-all active:scale-90"
+                    className="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-all active:scale-90"
                     aria-label="Copy referral link"
                   >
-                    <HiClipboardDocument className="w-4 h-4" />
+                    <HiClipboardDocument className="w-5 h-5" />
                   </button>
                 </div>
               </div>
 
               <button
                 onClick={shareReferral}
-                className="w-full btn-primary py-3 rounded-xl font-medium flex items-center justify-center gap-2 active:scale-[0.98] transition-all"
+                className="w-full bg-white/5 border border-white/5 py-4 rounded-xl font-black uppercase tracking-widest text-xs flex items-center justify-center gap-3 hover:bg-white/10 active:scale-[0.98] transition-all"
                 aria-label="Share referral link"
               >
-                <HiShare className="w-5 h-5" />
-                Share Referral Link
+                <HiShare className="w-5 h-5 text-stacks-purple" />
+                Launch Share Menu
               </button>
 
               {/* Create Custom Code */}
-              <div className="pt-4 border-t border-stacks-gray">
-                <p className="text-sm text-gray-400 mb-3">Or create a custom code:</p>
-                <div className="flex gap-2">
+              <div className="pt-6 border-t border-white/5">
+                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 mb-4">Custom Branding</p>
+                <div className="flex gap-3">
                   <input
                     type="text"
                     value={newCode}
                     onChange={(e) => setNewCode(e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, ''))}
-                    placeholder="MYCODE"
+                    placeholder="ENTER_YOUR_CODE"
                     maxLength={20}
-                    className="input-field flex-1 px-4 py-2 rounded-xl uppercase text-sm"
+                    className="flex-1 bg-[#0C0C0D] border border-white/5 px-6 py-3 rounded-xl uppercase text-xs font-black tracking-widest text-white focus:border-stacks-purple/50 transition-colors"
                     aria-label="Custom referral code"
                   />
                   <button
                     onClick={handleCreateCode}
                     disabled={isCreating || !newCode || newCode.length < 3}
-                    className="btn-secondary px-4 py-2 rounded-xl text-sm disabled:opacity-50 active:scale-95 transition-all"
+                    className="bg-stacks-purple px-6 py-3 rounded-xl text-xs font-black uppercase tracking-widest text-white disabled:opacity-50 active:scale-95 transition-all shadow-lg shadow-stacks-purple/20"
                   >
                     {isCreating ? (
-                      <div className="spinner w-4 h-4" />
+                      <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                     ) : (
-                      'Create'
+                      'Apply'
                     )}
                   </button>
                 </div>
               </div>
             </div>
           ) : (
-            <div className="text-center py-8">
-              <HiLink className="w-12 h-12 text-gray-500 mx-auto mb-4" />
-              <p className="text-gray-400 mb-2">Register to get your referral code</p>
-              <p className="text-sm text-gray-500">
-                Once registered, you can create custom codes and share with friends
+            <div className="text-center py-12 bg-[#0C0C0D] rounded-2xl border border-white/5 border-dashed">
+              <HiLink className="w-16 h-16 text-gray-700 mx-auto mb-6 opacity-40" />
+              <p className="text-white font-black uppercase tracking-widest text-xs mb-2">Unauthorized</p>
+              <p className="text-gray-500 text-xs font-bold max-w-[200px] mx-auto opacity-60">
+                Complete your registration to unlock the referral portal.
               </p>
             </div>
           )}
         </div>
 
         {/* Referral Stats */}
-        <div className="glass-card p-6 rounded-2xl">
-          <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
-            <HiGift className="w-5 h-5 text-vault-balanced" />
-            Your Referral Stats
+        <div className="glass-card p-8 rounded-3xl animate-fade-in-up opacity-0" style={{ animationDelay: '650ms', animationFillMode: 'forwards' }}>
+          <h3 className="text-xl font-black mb-8 flex items-center gap-3 tracking-tight">
+            <div className="w-10 h-10 rounded-xl bg-vault-balanced/10 flex items-center justify-center">
+              <HiGift className="w-5 h-5 text-vault-balanced" />
+            </div>
+            Revenue Share
           </h3>
 
           <div className="space-y-4">
-            <div className="flex items-center justify-between p-4 bg-stacks-dark rounded-xl">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-lg bg-stacks-purple/20 flex items-center justify-center">
-                  <HiUserPlus className="w-5 h-5 text-stacks-purple" />
+            <div className="flex items-center justify-between p-6 bg-[#0C0C0D] rounded-2xl border border-white/5 hover:border-stacks-purple/20 transition-colors group">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-xl bg-stacks-purple/10 flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <HiUserPlus className="w-6 h-6 text-stacks-purple" />
                 </div>
                 <div>
-                  <p className="text-sm text-gray-400">Total Referrals</p>
-                  <p className="font-semibold">{stats.referralCount}</p>
+                  <p className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-500 mb-1">Total Network</p>
+                  <p className="text-2xl font-black text-white leading-none">{stats.referralCount}</p>
                 </div>
               </div>
             </div>
 
-            <div className="flex items-center justify-between p-4 bg-stacks-dark rounded-xl">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-lg bg-vault-conservative/20 flex items-center justify-center">
-                  <HiGift className="w-5 h-5 text-vault-conservative" />
+            <div className="flex items-center justify-between p-6 bg-[#0C0C0D] rounded-2xl border border-white/5 hover:border-vault-conservative/20 transition-colors group">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-xl bg-vault-conservative/10 flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <HiGift className="w-6 h-6 text-vault-conservative" />
                 </div>
                 <div>
-                  <p className="text-sm text-gray-400">Total Earnings</p>
-                  <p className="font-semibold text-vault-conservative">{formatNumber(stats.referralEarnings)} STX</p>
+                  <p className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-500 mb-1">Yield Earned</p>
+                  <p className="text-2xl font-black text-vault-conservative leading-none">{formatNumber(stats.referralEarnings)} <span className="text-xs opacity-40 ml-1 tracking-normal font-bold">STX</span></p>
                 </div>
               </div>
             </div>
 
-            <div className="flex items-center justify-between p-4 bg-stacks-dark rounded-xl">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-lg bg-vault-balanced/20 flex items-center justify-center">
-                  <HiClock className="w-5 h-5 text-vault-balanced" />
+            <div className="flex items-center justify-between p-6 bg-[#0C0C0D] rounded-2xl border border-white/5 hover:border-vault-balanced/20 transition-colors group">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-xl bg-vault-balanced/10 flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <HiClock className="w-6 h-6 text-vault-balanced" />
                 </div>
                 <div>
-                  <p className="text-sm text-gray-400">Status</p>
-                  <p className={`font-semibold ${stats.isRegistered ? 'text-vault-conservative' : 'text-gray-400'}`}>
-                    {stats.isRegistered ? 'Active' : 'Not Registered'}
+                  <p className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-500 mb-1">Account Status</p>
+                  <p className={`text-sm font-black uppercase tracking-widest ${stats.isRegistered ? 'text-vault-conservative' : 'text-gray-500'}`}>
+                    {stats.isRegistered ? 'Active Operator' : 'Standby'}
                   </p>
                 </div>
               </div>
@@ -363,19 +371,22 @@ const ReferralSection = () => {
           </div>
 
           {/* Referral Tiers Info */}
-          <div className="mt-6 p-4 bg-gradient-to-r from-stacks-purple/10 to-stacks-orange/10 rounded-xl border border-stacks-purple/20">
-            <p className="text-sm font-medium mb-2">💎 Referral Bonus Structure</p>
-            <p className="text-xs text-gray-400">
-              Earn 0.25% of the deposit fees paid by anyone who uses your referral code. 
-              Rewards are automatically credited to your account when your referrals deposit.
+          <div className="mt-8 p-6 bg-gradient-to-br from-stacks-purple/20 via-stacks-purple/5 to-transparent rounded-2xl border border-white/5 shadow-inner">
+            <h4 className="text-xs font-black uppercase tracking-widest text-white mb-3 flex items-center gap-2">
+              <HiSparkles className="w-4 h-4 text-stacks-orange" />
+              Passive Income
+            </h4>
+            <p className="text-xs text-gray-400 font-bold leading-relaxed opacity-60">
+              Receive 0.25% of all deposit fees generated by your network. 
+              Payouts are instant and settled directly on the Stacks blockchain.
             </p>
           </div>
 
           {/* Referrer Info */}
           {stats.referrer && (
-            <div className="mt-4 p-3 bg-stacks-dark rounded-xl">
-              <p className="text-xs text-gray-400">You were referred by:</p>
-              <p className="text-sm font-mono text-stacks-purple truncate">{stats.referrer}</p>
+            <div className="mt-6 p-4 bg-[#0C0C0D]/50 rounded-xl border border-white/[0.02]">
+              <p className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-600 mb-2 underline decoration-stacks-purple/30">Network Parent</p>
+              <p className="text-[10px] font-black font-mono text-gray-500 truncate">{stats.referrer}</p>
             </div>
           )}
         </div>

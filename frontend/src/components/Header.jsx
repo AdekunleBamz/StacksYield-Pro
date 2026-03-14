@@ -84,16 +84,16 @@ const Header = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded-xl gradient-bg flex items-center justify-center">
-              <HiSparkles className="w-6 h-6 text-white" />
+          <div className="flex items-center space-x-4 group cursor-default">
+            <div className="w-12 h-12 rounded-2xl gradient-bg flex items-center justify-center shadow-lg shadow-stacks-purple/20 logo-shimmer group-hover:scale-110 transition-transform duration-500">
+              <HiSparkles className="w-7 h-7 text-white" />
             </div>
             <div>
-              <h1 className="text-xl font-bold font-display">
+              <h1 className="text-2xl font-black font-display tracking-tight leading-none">
                 <span className="gradient-text">StacksYield</span>
                 <span className="text-white"> Pro</span>
               </h1>
-              <p className="text-xs text-gray-500">Powered by WalletKit</p>
+              <p className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-600 mt-1">Yield Optimizer</p>
             </div>
           </div>
 
@@ -229,27 +229,29 @@ const Header = () => {
               {[
                 { label: 'Vaults', href: '#vaults' },
                 { label: 'How It Works', href: '#how-it-works' },
-              ].map((link) => (
+              ].map((link, i) => (
                 <a 
                   key={link.label}
                   href={link.href} 
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center justify-between p-4 rounded-xl hover:bg-white/5 text-gray-300 hover:text-white transition-all active:bg-stacks-purple/20 active:translate-x-1"
+                  className="flex items-center justify-between p-5 rounded-2xl hover:bg-white/5 text-gray-400 hover:text-white transition-all active:bg-stacks-purple/20 active:translate-x-1 animate-fade-in-right opacity-0"
+                  style={{ animationDelay: `${(i + 1) * 100}ms`, animationFillMode: 'forwards' }}
                 >
-                  <span className="font-bold">{link.label}</span>
-                  <HiChevronRight className="w-5 h-5 opacity-30" />
+                  <span className="font-black uppercase tracking-widest text-xs">{link.label}</span>
+                  <HiChevronRight className="w-5 h-5 opacity-20" />
                 </a>
               ))}
               <a 
                 href="https://docs.stacks.co" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="flex items-center justify-between p-4 rounded-xl hover:bg-white/5 text-gray-300 hover:text-white transition-all"
+                className="flex items-center justify-between p-5 rounded-2xl hover:bg-white/5 text-gray-400 hover:text-white transition-all animate-fade-in-right opacity-0"
+                style={{ animationDelay: '300ms', animationFillMode: 'forwards' }}
               >
-                <div className="flex items-center gap-2 font-bold">
-                  Docs <FiExternalLink className="w-4 h-4" />
+                <div className="flex items-center gap-2 font-black uppercase tracking-widest text-xs">
+                  Docs <FiExternalLink className="w-4 h-4 opacity-40" />
                 </div>
-                <HiChevronRight className="w-5 h-5 opacity-30" />
+                <HiChevronRight className="w-5 h-5 opacity-20" />
               </a>
 
               <div className="my-4 h-px bg-white/5" />

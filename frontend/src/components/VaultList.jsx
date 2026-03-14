@@ -34,12 +34,18 @@ import TransactionStepper from './TransactionStepper'
 import { HiArrowPath } from 'react-icons/hi2'
 
 const RefreshIndicator = ({ isLoading }) => (
-  <div className={`flex flex-col items-center justify-center transition-all duration-500 overflow-hidden ${
-    isLoading ? 'h-16 opacity-100' : 'h-0 opacity-0'
+  <div className={`flex flex-col items-center justify-center transition-all duration-700 ease-in-out overflow-hidden ${
+    isLoading ? 'h-24 opacity-100 scale-100' : 'h-0 opacity-0 scale-95'
   }`}>
-    <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-stacks-purple/10 border border-stacks-purple/20 text-stacks-purple">
-      <HiArrowPath className={`w-4 h-4 ${isLoading ? 'animate-spin' : ''}`} />
-      <span className="text-xs font-bold uppercase tracking-widest">Updating Vaults</span>
+    <div className="flex items-center gap-3 px-6 py-2.5 rounded-2xl bg-stacks-purple/10 border border-stacks-purple/20 text-stacks-purple shadow-xl shadow-stacks-purple/5">
+      <div className="relative">
+        <HiArrowPath className={`w-5 h-5 ${isLoading ? 'animate-spin' : ''}`} />
+        <span className="absolute -top-1 -right-1 w-2 h-2 bg-stacks-purple rounded-full animate-ping" />
+      </div>
+      <div className="flex flex-col">
+        <span className="text-[10px] font-black uppercase tracking-[0.2em]">Synchronizing</span>
+        <span className="text-[10px] font-bold opacity-60">Updating vault state on-chain...</span>
+      </div>
     </div>
   </div>
 )
@@ -504,8 +510,11 @@ const VaultList = () => {
             return (
               <div
                 key={vault.id}
-                className={`glass-card rounded-2xl overflow-hidden vault-card transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-stacks-purple/10 focus-within:scale-[1.02] focus-within:ring-2 focus-within:ring-stacks-purple/50 vault-card-${meta.color} animate-fade-in-up`}
-                style={{ animationDelay: `${(vault.id - 1) * 150}ms` }}
+                className={`glass-card rounded-2xl overflow-hidden vault-card transition-all duration-500 hover:translate-y-[-8px] hover:shadow-2xl hover:shadow-stacks-purple/20 focus-within:ring-2 focus-within:ring-stacks-purple/50 vault-card-${meta.color} animate-fade-in-up opacity-0`}
+                style={{ 
+                  animationDelay: `${(vault.id - 1) * 150}ms`,
+                  animationFillMode: 'forwards'
+                }}
               >
                 {/* Vault Header */}
                 <div className={`p-5 md:p-6 bg-gradient-to-r ${meta.bgGradient}`}>

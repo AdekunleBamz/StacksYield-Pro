@@ -111,44 +111,44 @@ const UserDashboard = () => {
       )}
 
       {/* Stats Overview */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <div className="stat-card glass-card p-6 rounded-2xl">
-          <div className="w-10 h-10 rounded-xl bg-stacks-purple/20 flex items-center justify-center mb-3">
-            <HiCurrencyDollar className="w-5 h-5 text-stacks-purple" />
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 lg:gap-6 mb-8 mt-4">
+        <div className="stat-card glass-card p-4 md:p-6 rounded-2xl border-l-4 border-stacks-purple">
+          <div className="w-8 h-8 md:w-10 md:h-10 rounded-xl bg-stacks-purple/20 flex items-center justify-center mb-3">
+            <HiCurrencyDollar className="w-4 h-4 md:w-5 md:h-5 text-stacks-purple" />
           </div>
-          <p className="text-sm text-gray-400 mb-1">Total Deposited</p>
-          <p className="text-2xl font-bold text-stacks-purple">
-            {formatNumber(stats.totalDeposited)} STX
+          <p className="text-[10px] md:text-sm text-gray-500 font-black uppercase tracking-widest mb-1">Total Deposited</p>
+          <p className="text-xl md:text-2xl font-black text-white">
+            {formatNumber(stats.totalDeposited)} <span className="text-xs text-gray-500">STX</span>
           </p>
         </div>
 
-        <div className="stat-card glass-card p-6 rounded-2xl">
-          <div className="w-10 h-10 rounded-xl bg-vault-conservative/20 flex items-center justify-center mb-3">
-            <HiArrowTrendingUp className="w-5 h-5 text-vault-conservative" />
+        <div className="stat-card glass-card p-4 md:p-6 rounded-2xl border-l-4 border-green-500">
+          <div className="w-8 h-8 md:w-10 md:h-10 rounded-xl bg-green-500/20 flex items-center justify-center mb-3">
+            <HiArrowTrendingUp className="w-4 h-4 md:w-5 md:h-5 text-green-400" />
           </div>
-          <p className="text-sm text-gray-400 mb-1">Total Rewards</p>
-          <p className="text-2xl font-bold text-vault-conservative">
-            {formatNumber(stats.totalRewards)} STX
+          <p className="text-[10px] md:text-sm text-gray-500 font-black uppercase tracking-widest mb-1">Total Rewards</p>
+          <p className="text-xl md:text-2xl font-black text-white">
+            {formatNumber(stats.totalRewards)} <span className="text-xs text-gray-500">STX</span>
           </p>
         </div>
 
-        <div className="stat-card glass-card p-6 rounded-2xl">
-          <div className="w-10 h-10 rounded-xl bg-vault-balanced/20 flex items-center justify-center mb-3">
-            <HiGift className="w-5 h-5 text-vault-balanced" />
+        <div className="stat-card glass-card p-4 md:p-6 rounded-2xl border-l-4 border-amber-500">
+          <div className="w-8 h-8 md:w-10 md:h-10 rounded-xl bg-amber-500/20 flex items-center justify-center mb-3">
+            <HiGift className="w-4 h-4 md:w-5 md:h-5 text-amber-400" />
           </div>
-          <p className="text-sm text-gray-400 mb-1">Referral Earnings</p>
-          <p className="text-2xl font-bold text-vault-balanced">
-            {formatNumber(stats.referralEarnings)} STX
+          <p className="text-[10px] md:text-sm text-gray-500 font-black uppercase tracking-widest mb-1">Referral Rewards</p>
+          <p className="text-xl md:text-2xl font-black text-white">
+            {formatNumber(stats.referralEarnings)} <span className="text-xs text-gray-500">STX</span>
           </p>
         </div>
 
-        <div className="stat-card glass-card p-6 rounded-2xl">
-          <div className="w-10 h-10 rounded-xl bg-stacks-orange/20 flex items-center justify-center mb-3">
-            <HiUsers className="w-5 h-5 text-stacks-orange" />
+        <div className="stat-card glass-card p-4 md:p-6 rounded-2xl border-l-4 border-stacks-orange">
+          <div className="w-8 h-8 md:w-10 md:h-10 rounded-xl bg-stacks-orange/20 flex items-center justify-center mb-3">
+            <HiUsers className="w-4 h-4 md:w-5 md:h-5 text-stacks-orange" />
           </div>
-          <p className="text-sm text-gray-400 mb-1">Referrals</p>
-          <p className="text-2xl font-bold text-stacks-orange">
-            {stats.referralCount}
+          <p className="text-[10px] md:text-sm text-gray-500 font-black uppercase tracking-widest mb-1">Total Referrals</p>
+          <p className="text-xl md:text-2xl font-black text-white">
+            {stats.referralCount} <span className="text-xs text-gray-500">Users</span>
           </p>
         </div>
       </div>
