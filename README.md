@@ -43,6 +43,11 @@ cd StacksYield-Pro
 # Frontend setup
 cd frontend
 npm install
+
+# Configure WalletConnect
+cp .env.example .env
+# Set VITE_WALLETCONNECT_PROJECT_ID in .env
+
 npm run dev
 ```
 
@@ -85,7 +90,15 @@ This app uses WalletConnect (via Reown AppKit UniversalConnector) to connect **m
 - Best UX is with **Xverse mobile** or **Leather mobile** (scan from inside the wallet’s WalletConnect scanner).
 - Phone camera apps may not recognize `wc:` QR codes. Use the wallet’s scanner or open the WalletConnect web handoff link shown in the app.
 
+### Required environment variables
+
+Set these in `frontend/.env`:
+
+```dotenv
+VITE_WALLETCONNECT_PROJECT_ID=YOUR_PROJECT_ID
+VITE_WALLETCONNECT_RELAY_URL=wss://relay.walletconnect.com
+```
+
 ---
 
 Built with ❤️ for Stacks Builder Challenge #3
-
