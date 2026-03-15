@@ -4,6 +4,11 @@
     "private": true,
     "scripts": {
         "prepare": "husky install",
+        "contracts:check": "clarinet check",
+        "frontend:dev": "npm --prefix frontend run dev",
+        "frontend:build": "npm --prefix frontend run build",
+        "frontend:lint": "npm --prefix frontend run lint",
+        "setup": "npm install && npm --prefix frontend install",
         "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
         "format": "prettier --write .",
         "commit": "commitlint --edit"
