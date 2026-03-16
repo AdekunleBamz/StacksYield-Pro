@@ -1,40 +1,65 @@
 /**
- * Application Constants
+ * Network configuration for Stacks
  */
-
-export const CONTRACT_CONFIG = {
-  mainnet: {
-    address: 'SP1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ',
-    name: 'stacksyield-pro'
+export const NETWORKS = {
+  MAINNET: {
+    address: 'SP3C1163TTC6A6KGK05V6GNRV8B3M1P8878B3S869',
+    name: 'stacksyield-pro',
+    label: 'Mainnet'
   },
-  testnet: {
-    address: 'ST1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ',
-    name: 'stacksyield-pro'
+  TESTNET: {
+    address: 'ST3C1163TTC6A6KGK05V6GNRV8B3M1P8878B3S869',
+    name: 'stacksyield-pro',
+    label: 'Testnet'
   }
 }
 
+/**
+ * Vault Strategy Details
+ */
 export const VAULT_STRATEGIES = [
-  { id: 1, name: 'Conservative', apy: 5, minDeposit: 1, lockPeriod: 7, risk: 'low' },
-  { id: 2, name: 'Balanced', apy: 12, minDeposit: 10, lockPeriod: 14, risk: 'medium' },
-  { id: 3, name: 'Aggressive', apy: 25, minDeposit: 50, lockPeriod: 28, risk: 'high' }
+  { id: 1, name: 'Conservative', apy: 5, minDeposit: 1, lockPeriod: 7, risk: 'low', color: 'blue' },
+  { id: 2, name: 'Balanced', apy: 12, minDeposit: 10, lockPeriod: 14, risk: 'medium', color: 'purple' },
+  { id: 3, name: 'Aggressive', apy: 25, minDeposit: 50, lockPeriod: 28, risk: 'high', color: 'orange' }
 ]
 
-export const FEE_RATES = {
-  deposit: 0.5,
-  withdrawal: 0.5,
-  emergencyWithdrawal: 5,
-  performance: 10,
-  referral: 0.25
+/**
+ * Protocol Fee Structure (Basis Points)
+ */
+export const FEE_BPS = {
+  DEPOSIT: 50,
+  WITHDRAWAL: 50,
+  EMERGENCY: 500,
+  PERFORMANCE: 1000,
+  REFERRAL: 25
 }
 
-export const TRANSACTION_STATUS = {
-  PENDING: 'pending',
+/**
+ * Transaction and Application State
+ */
+export const STATE = {
+  IDLE: 'idle',
+  LOADING: 'loading',
   SUCCESS: 'success',
-  FAILED: 'failed'
+  ERROR: 'error'
 }
 
-export const STORAGE_KEYS = {
-  wallet: 'stx_wallet',
-  network: 'stx_network',
-  referral: 'stx_referral'
+/**
+ * Local Storage Persistence Keys
+ */
+export const KEYS = {
+  AUTH: 'stx_auth_session',
+  THEME: 'stx_app_theme',
+  REF: 'stx_referral_code',
+  NETWORK: 'stx_active_network'
+}
+
+/**
+ * Common Error Messages
+ */
+export const ERRORS = {
+  WALLET_NOT_CONNECTED: 'Please connect your wallet to continue',
+  INSUFFICIENT_FUNDS: 'Insufficient STX balance in your wallet',
+  TX_REJECTED: 'Transaction was rejected by user',
+  VAULT_LOCKED: 'Funds are still within the lock period'
 }
