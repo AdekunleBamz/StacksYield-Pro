@@ -1,7 +1,17 @@
 import React from 'react'
 
-const Button = ({ children, onClick, variant = 'primary', disabled, loading, type = 'button', className = '', size = 'md' }) => {
-  const baseStyles = 'inline-flex items-center justify-center font-semibold transition-all duration-300 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100'
+const Button = ({ 
+  children, 
+  onClick, 
+  variant = 'primary', 
+  disabled, 
+  loading, 
+  type = 'button', 
+  className = '', 
+  size = 'md',
+  ariaLabel
+}) => {
+  const baseStyles = 'inline-flex items-center justify-center font-semibold transition-all duration-300 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100 focus:outline-none focus:ring-2 focus:ring-stacks-purple/50 focus:ring-offset-2 focus:ring-offset-background'
   
   const variants = {
     primary: 'bg-stacks-purple text-white hover:bg-stacks-purple-light hover:shadow-lg hover:shadow-stacks-purple/20',
@@ -23,11 +33,13 @@ const Button = ({ children, onClick, variant = 'primary', disabled, loading, typ
       type={type}
       onClick={onClick}
       disabled={disabled || loading}
+      aria-label={ariaLabel}
+      aria-busy={loading}
       className={`${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`}
     >
       {loading ? (
         <div className="flex items-center gap-2">
-          <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+          <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" aria-hidden="true" />
           <span>Processing...</span>
         </div>
       ) : children}
