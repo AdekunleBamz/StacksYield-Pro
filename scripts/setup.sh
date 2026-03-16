@@ -45,7 +45,7 @@ if ! command -v clarinet &> /dev/null; then
     warn "Clarinet is not detected. Smart contract development will be restricted."
     echo "      Visit: https://github.com/hirosystems/clarinet"
 else
-    success "All core prerequisites met."
+    success "Clarinet found: $(clarinet --version)"
 fi
 
 # Install frontend dependencies
@@ -69,13 +69,11 @@ if [ ! -f frontend/.env ]; then
     fi
 fi
 
-echo ""
-success "Setup validated and complete!"
-echo ""
-echo -e "${BOLD}To begin development:${NC}"
-echo -e "  1. ${CYAN}cd frontend && npm run dev${NC}"
+echo -e "\n${GREEN}${BOLD}✨ Setup validated and complete!${NC}\n"
+info "To start development:"
+echo -e "  1. ${BOLD}cd frontend && npm run dev${NC}"
 echo -e "  2. Access: ${BOLD}http://localhost:5173${NC}"
 echo ""
-echo -e "${BOLD}To verify contracts:${NC}"
-echo -e "  ${CYAN}clarinet test${NC}"
+info "To run contract tests:"
+echo -e "  ${BOLD}clarinet test${NC}"
 echo "--------------------------------------------------"
