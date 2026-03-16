@@ -1,91 +1,113 @@
 # 🚀 StacksYield Pro
 
-**The Premium Yield Aggregator & Auto-Compounding Suite for the Stacks ecosystem.**
+<div align="center">
+  <img src="frontend/public/logo.svg" alt="StacksYield Pro Logo" width="120" height="120" />
+  <h3>Premium Yield Aggregator & Auto-Compounding Suite for the Stacks Ecosystem</h3>
+  
+  [![Contracts CI](https://github.com/AdekunleBamz/StacksYield-Pro/actions/workflows/contracts.yml/badge.svg)](https://github.com/AdekunleBamz/StacksYield-Pro/actions/workflows/contracts.yml)
+  [![Frontend CI](https://github.com/AdekunleBamz/StacksYield-Pro/actions/workflows/frontend.yml/badge.svg)](https://github.com/AdekunleBamz/StacksYield-Pro/actions/workflows/frontend.yml)
+  ![Stacks](https://img.shields.io/badge/Stacks-L2-5546FF?style=for-the-badge&logo=stacks)
+  ![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
+</div>
 
-[![Contracts CI](https://github.com/AdekunleBamz/StacksYield-Pro/actions/workflows/contracts.yml/badge.svg)](https://github.com/AdekunleBamz/StacksYield-Pro/actions/workflows/contracts.yml)
-[![Frontend CI](https://github.com/AdekunleBamz/StacksYield-Pro/actions/workflows/frontend.yml/badge.svg)](https://github.com/AdekunleBamz/StacksYield-Pro/actions/workflows/frontend.yml)
-![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
-![Stacks](https://img.shields.io/badge/Stacks-L2-5546FF?style=for-the-badge&logo=stacks)
+---
+
+## 📋 Overview
+
+StacksYield Pro is a high-performance DeFi yield aggregator built on the Stacks blockchain. It enables users to maximize their STX holdings through automated vault strategies with varying risk profiles and lock periods.
+
+### ✨ Core Features
+
+- 🔄 **Auto-Compounding** — Automated reward reinvestment for maximum APY.
+- 🛡️ **Tiered Vaults** — Choose from Conservative, Balanced, or Aggressive strategies.
+- 🤝 **Referral Engine** — Earn a 0.25% bonus for growing the ecosystem.
+- 🆘 **Emergency Exit** — Instant liquidity access with a safety-first approach.
+- 📱 **Mobile Ready** — Full WalletConnect support for Xverse and Leather mobile.
 
 ---
 
 ## 💎 Premium UI/UX Experience
 
-StacksYield Pro features a state-of-the-art interface designed for professional DeFi users.
-
 - **🎨 Glassmorphic Aesthetic**: Deep shadows, backdrop blurs, and translucent layering.
 - **✨ Micro-Interactions**: Custom spring easings, staggered grid reveals, and pulsating sync indicators.
-- **📱 Mobile-First Native Feel**: Optimized for Xverse and Leather mobile via WalletConnect.
 - **📊 Advanced Data Viz**: Premium Area and Pie charts with radial animations and interactive tooltips.
 - **🛡️ Resilience Redefined**: Branded `ErrorBoundary` and elastic modal dynamics for a seamless experience.
 
 ---
 
-## 🛠️ Quick Start
+## 🧩 Stacks.js Integration
 
-### Professional Suite setup
-The easiest way to get started is using our optimized development scripts:
+This project leverages the official **Stacks.js SDK** for a seamless Web3 experience:
 
-```bash
-# 1. Setup the environment (Prerequisites & Deps)
-./scripts/setup.sh
-
-# 2. Launch the Development Engine
-./scripts/dev.sh
-```
-
-### Manual Installation
-```bash
-# Clone repository
-git clone https://github.com/AdekunleBamz/StacksYield-Pro.git
-cd StacksYield-Pro
-
-# Frontend setup
-cd frontend
-npm install
-npm run dev
-```
-
-## 📋 Protocol Overview
-
-StacksYield Pro is a DeFi yield aggregator that allows users to deposit STX into different vault strategies:
-
-- **Conservative Vault** - 5% APY, 1 week lock, minimum 1 STX
-- **Balanced Vault** - 12% APY, 2 week lock, minimum 10 STX  
-- **Aggressive Vault** - 25% APY, 4 week lock, minimum 50 STX
-
-### Key Features
-
-✅ Auto-compounding rewards  
-✅ Multiple vault strategies  
-✅ Referral program (0.25% bonus)  
-✅ Emergency withdrawal option  
-✅ WalletKit SDK integration  
-
-## 🧩 Stacks SDK Usage
-
-This project relies on the official Stacks.js libraries for wallet connectivity, transaction building, and network configuration:
-
-- `@stacks/connect` — wallet connection and contract call signing
-- `@stacks/transactions` — Clarity value encoding and post-conditions
-- `@stacks/network` — network configuration and API targeting
-
-Key integrations live in:
-
-- Wallet & session setup: `frontend/src/context/WalletContext.jsx`
-- Contract calls: `frontend/src/components/VaultList.jsx`, `frontend/src/components/ReferralSection.jsx`
-- Read-only queries: `frontend/src/hooks/useContract.js`
-
-## 🔌 WalletConnect (Reown) + Stacks
-
-This app uses WalletConnect (via Reown AppKit UniversalConnector) to connect **mobile** Stacks wallets and sign transactions using Stacks JSON-RPC.
-
-### What to expect
-
-- Best UX is with **Xverse mobile** or **Leather mobile** (scan from inside the wallet’s WalletConnect scanner).
-- Phone camera apps may not recognize `wc:` QR codes. Use the wallet’s scanner or open the WalletConnect web handoff link shown in the app.
+- **`@stacks/connect`** — Secure wallet authentication and transaction signing.
+- **`@stacks/transactions`** — Robust Clarity value encoding and post-condition safety.
+- **`@stacks/network`** — Reliable network configuration for Mainnet and Testnet.
 
 ---
 
-Built with ❤️ for Stacks Builder Challenge #3
+## 🛠️ Quick Start
 
+### ⚡ Optimized Suite
+The easiest way to get started is using our optimized productivity scripts:
+```bash
+./scripts/setup.sh    # Setup environment & dependencies
+./scripts/dev.sh      # Launch the development engine
+```
+
+### 🔧 Manual Setup
+```bash
+git clone https://github.com/AdekunleBamz/StacksYield-Pro.git
+cd StacksYield-Pro
+npm run setup         # Installs all dependencies across the project
+npm run dev           # Starts the full stacks development environment
+```
+
+---
+
+## 🔌 WalletConnect (Reown)
+
+StacksYield Pro uses **WalletConnect v2** (via Reown AppKit) to bridge the gap between desktop dApps and mobile Stacks wallets.
+
+> [!TIP]
+> For the best experience, use **Xverse** or **Leather** mobile wallets. Ensure your `VITE_WALLETCONNECT_PROJECT_ID` is correctly set in your `.env` file.
+
+---
+
+## 📁 Project Architecture
+
+```bash
+stacksyield-pro/
+├── contracts/        # Clarity Smart Contracts
+├── frontend/         # React + Vite + Tailwind UI
+├── scripts/          # Automation & Dev Ops scripts
+├── tests/            # Contract & Integration tests
+└── deployments/      # Deployment plans & records
+```
+
+---
+
+## 📜 Smart Contract Interface
+
+### User Functions
+
+| Function | Action |
+|:---|:---|
+| `register-user` | Join the protocol (optional referral) |
+| `deposit` | Allocate STX to a specific strategy |
+| `withdraw` | Release funds after lock period |
+| `emergency-withdraw` | Instant withdrawal (5% penalty) |
+| `compound` | Trigger manual reward auto-compounding |
+
+---
+
+## 🔗 Stay Connected
+
+- **GitHub**: [@AdekunleBamz](https://github.com/AdekunleBamz)
+- **Twitter**: [@hrh_mckay](https://twitter.com/hrh_mckay)
+- **Farcaster**: [@Bamzzz](https://warpcast.com/bamzzz)
+
+---
+
+<div align="center">
+  Built with ❤️ for <b>Stacks Builder Challenge #3</b>
+</div>
