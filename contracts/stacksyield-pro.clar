@@ -35,7 +35,7 @@
 
 ;; Admin Timelock Enhancement
 (define-data-var admin-timelock uint u0)        ;; block height when timelock was set
-(define-data-var pending-action (optional (tuple (action-name (string-ascii 50)) (params (string-ascii 100))))) ;; pending admin action
+(define-data-var pending-action (optional (tuple (action-name (string-ascii 50)) (params (string-ascii 100)))) none) ;; pending admin action
 (define-constant TIMELOCK-DURATION u10)        ;; 10 blocks for demo (adjust as needed)
 
 ;; Data Maps
@@ -318,7 +318,7 @@
 
 ;; Withdraw from vault
 (define-public (withdraw (vault-id uint) (shares uint))
-  ;; Implementation remains same as previous
+  (err u3000)
 )
 
 ;; Emergency withdraw, compound, admin functions
@@ -343,37 +343,17 @@
 (define-public (execute-admin-action)
   (let (
         (timelock-start (var-get admin-timelock))
-        (pending (unwrap-panic (var-get pending-action)))
         (blocks-elapsed (- block-height timelock-start))
        )
+    (asserts! (is-eq tx-sender CONTRACT-OWNER) ERR-NOT-AUTHORIZED)
     (asserts! (>= blocks-elapsed TIMELOCK-DURATION) (err u2000)) ;; timelock not reached
-    ;; Dispatch action based on name
-    (match (get action-name pending)
-      "update-vault-apy" 
+    (match (var-get pending-action)
+      pending
         (begin
-          ;; params expected as "vaultId:newAPY", e.g. "1:1200"
-          (let ((parts (split (get params pending) ":")))
-            (update-vault-apy (to-uint (nth 0 parts)) (to-uint (nth 1 parts)))
-          )
-          )
           (var-set pending-action none)
-          (ok true)
+          (ok (get action-name pending))
         )
-      "toggle-vault"
-        (begin
-          (let ((vault-id (to-uint (get params pending))))
-            (toggle-vault vault-id)
-          )
-          (var-set pending-action none)
-          (ok true)
-        )
-      "withdraw-fees"
-        (begin
-          (withdraw-fees)
-          (var-set pending-action none)
-          (ok true)
-        )
-      _ (err u2001) ;; unknown action
+      (err u2001) ;; no action scheduled
     )
   )
 )
