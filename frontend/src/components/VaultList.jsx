@@ -15,7 +15,7 @@ import {
   HiFunnel,
   HiArrowPath
 } from 'react-icons/hi2'
-import Skeleton from './Skeleton'
+import { Skeleton } from './Skeleton'
 import {
   uintCV,
   PostConditionMode,
@@ -27,11 +27,10 @@ import toast from 'react-hot-toast'
 import { useVaults, CONTRACT_ADDRESS, CONTRACT_NAME } from '../hooks/useContract'
 import { useWallet } from '../context/WalletContext'
 import { toMicroSTX, blocksToTime, formatNumber } from '../utils/helpers'
-import EmptyState from './EmptyState'
-import ConfirmationModal from './ConfirmationModal'
-import Sparkline from './Sparkline'
-import TransactionStepper from './TransactionStepper'
-import { HiArrowPath } from 'react-icons/hi2'
+import { EmptyState } from './EmptyState'
+import { ConfirmationModal } from './ConfirmationModal'
+import { Sparkline } from './Sparkline'
+import { TransactionStepper } from './TransactionStepper'
 
 const RefreshIndicator = ({ isLoading }) => (
   <div className={`flex flex-col items-center justify-center transition-all duration-700 ease-in-out overflow-hidden ${
@@ -71,7 +70,7 @@ const Description = ({ text }) => {
   )
 }
 
-const VaultList = () => {
+export const VaultList = () => {
   const { isConnected, connectWallet, address, network, wcSession } = useWallet()
   const [selectedVault, setSelectedVault] = useState(null)
   const [actionType, setActionType] = useState('deposit')
@@ -744,4 +743,3 @@ const VaultList = () => {
   )
 }
 
-export default VaultList
