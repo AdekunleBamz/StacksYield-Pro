@@ -1,9 +1,9 @@
 import React from 'react'
 import { HiOutlineInbox } from 'react-icons/hi2'
 
-import Button from './Button'
+import { Button } from './Button'
 
-const EmptyState = ({ 
+export const EmptyState = ({ 
   title = "No data found", 
   message = "There are no items to display at the moment.",
   icon: Icon = HiOutlineInbox,
@@ -38,4 +38,3 @@ const EmptyState = ({
   )
 }
 
-export default EmptyState
