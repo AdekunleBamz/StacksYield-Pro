@@ -8,9 +8,9 @@ import {
   HiCheckCircle,
   HiXCircle
 } from 'react-icons/hi2'
-import EmptyState from './EmptyState'
+import { EmptyState } from './EmptyState'
 
-const TransactionHistory = ({ transactions = [] }) => {
+export const TransactionHistory = ({ transactions = [] }) => {
   if (transactions.length === 0) {
     return <EmptyState 
       title="No Transactions" 
@@ -86,4 +86,3 @@ const TransactionHistory = ({ transactions = [] }) => {
   )
 }
 
-export default TransactionHistory
