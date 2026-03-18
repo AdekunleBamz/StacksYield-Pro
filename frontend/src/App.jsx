@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import { WalletProvider, useWallet } from './context/WalletContext'
 import { HiArrowSmallUp, HiChevronRight, HiHome } from 'react-icons/hi2'
-import Header from './components/Header'
-import Hero from './components/Hero'
-import Stats from './components/Stats'
-import VaultList from './components/VaultList'
-import UserDashboard from './components/UserDashboard'
-import ReferralSection from './components/ReferralSection'
-import Footer from './components/Footer'
-import WalletConnectQRModal from './components/WalletConnectQRModal'
+import { Header } from './components/Header'
+import { Hero } from './components/Hero'
+import { Stats } from './components/Stats'
+import { VaultList } from './components/VaultList'
+import { UserDashboard } from './components/UserDashboard'
+import { ReferralSection } from './components/ReferralSection'
+import { Footer } from './components/Footer'
+import { WalletConnectQRModal } from './components/WalletConnectQRModal'
+import { ErrorBoundary } from './components/ErrorBoundary'
 
 // Main App Content (uses wallet context)
 function AppContent() {
@@ -183,11 +184,13 @@ function AppContent() {
 }
 
 // App wrapper with providers
-function App() {
+export function App() {
   return (
-    <WalletProvider>
-      <AppContent />
-    </WalletProvider>
+    <ErrorBoundary>
+      <WalletProvider>
+        <AppContent />
+      </WalletProvider>
+    </ErrorBoundary>
   )
 }
 
