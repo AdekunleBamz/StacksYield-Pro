@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { getTransaction } from '@stacks/transactions'
 import { StacksMainnet, StacksTestnet } from '@stacks/network'
 import { HiExternalLink, HiCheckCircle, HiXCircle, HiClock } from 'react-icons/hi2'
-import LoadingSpinner from './LoadingSpinner'
+import { LoadingSpinner } from './LoadingSpinner'
 
-const TransactionStatus = ({ txId, network = 'mainnet', onConfirm }) => {
+export const TransactionStatus = ({ txId, network = 'mainnet', onConfirm }) => {
   const [status, setStatus] = useState('pending')
   const [confirmations, setConfirmations] = useState(0)
   
@@ -75,4 +75,3 @@ const TransactionStatus = ({ txId, network = 'mainnet', onConfirm }) => {
   )
 }
 
-export default TransactionStatus
