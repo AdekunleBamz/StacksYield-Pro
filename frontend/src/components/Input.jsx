@@ -1,36 +1,23 @@
-import React from 'react'
+import React, { useId } from 'react'
 
-export const Input = ({ 
-  label, 
-  error, 
-  type = 'text', 
-  value, 
-  onChange, 
-  placeholder, 
-  disabled, 
-  className = '',
-  id,
-  required,
-  name
-}) => {
-  const inputId = id || `input-${name || Math.random().toString(36).substr(2, 9)}`
-  const errorId = `${inputId}-error`
+export const Input = ({ label, error, className = '', disabled, required, ...props }) => {
+  const id = useId()
+  const errorId = `${id}-error`
 
   return (
-    <div className={`space-y-2 ${className}`}>
+    <div className="mb-4">
       {label && (
-        <label htmlFor={inputId} className="block text-sm font-medium text-gray-400 ml-1 transition-colors group-focus-within:text-stacks-purple">
+        <label 
+          htmlFor={id} 
+          className="block text-gray-400 text-sm mb-2 font-black uppercase tracking-widest"
+        >
           {label} {required && <span className="text-error">*</span>}
         </label>
       )}
       <div className="relative group">
         <input
-          id={inputId}
-          name={name}
-          type={type}
-          value={value}
-          onChange={onChange}
-          placeholder={placeholder}
+          id={id}
+          {...props}
           disabled={disabled}
           required={required}
           aria-invalid={!!error}
@@ -38,21 +25,24 @@ export const Input = ({
           className={`
             w-full px-4 py-3 rounded-xl bg-white/5 border transition-all duration-300
             text-white placeholder-gray-500
-            focus:outline-none focus-visible:ring-2 focus-visible:ring-stacks-purple/50
+            focus:outline-none focus:ring-4 focus:ring-stacks-purple/10
             ${error 
-            focus:outline-none
+              ? 'border-error/50 focus:border-error' 
+              : 'border-white/5 group-hover:border-white/20 focus:border-stacks-purple'
+            }
+            ${disabled ? 'opacity-50 cursor-not-allowed' : 'hover:border-white/10'}
+            ${className}
           `}
         />
+        {error && (
+          <p 
+            id={errorId}
+            className="mt-1.5 text-[10px] text-error font-black uppercase tracking-wider animate-fade-in"
+          >
+            {error}
+          </p>
+        )}
       </div>
-      {error && (
-        <p id={errorId} className="text-error text-xs font-medium ml-1 flex items-center gap-1.5 animate-in fade-in slide-in-from-top-1 duration-200">
-          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-          </svg>
-          {error}
-        </p>
-      )}
     </div>
   )
 }
-
