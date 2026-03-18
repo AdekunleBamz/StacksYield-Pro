@@ -2,7 +2,13 @@
   "name": "stacksyield-pro",
   "version": "1.0.0",
   "type": "module",
-  "description": "Yield Aggregator & Auto-Compounding Vault System with Stacks Connect",
+  "description": "Premium Yield Aggregator & Auto-Compounding Vault System on Stacks",
+  "author": "StacksYield Pro Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/StacksYield-Pro/StacksYield-Pro.git"
+  },
   "private": true,
   "scripts": {
     "dev": "vite",
