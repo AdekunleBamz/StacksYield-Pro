@@ -4,7 +4,7 @@ import { HiSparkles, HiCurrencyDollar, HiGlobeAlt, HiClipboardDocument, HiCheck,
 import { useWallet } from '../context/WalletContext'
 import NetworkSwitcher from './NetworkSwitcher'
 
-const Header = () => {
+export const Header = () => {
   const { isConnected, address, stxBalance, balanceLoading, isConnecting, connectWallet, disconnectWallet, networkType, switchNetwork } = useWallet()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [copiedAddress, setCopiedAddress] = useState(false)
@@ -323,4 +323,3 @@ const Header = () => {
   )
 }
 
-export default Header
