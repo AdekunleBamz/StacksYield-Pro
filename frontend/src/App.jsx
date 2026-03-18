@@ -64,9 +64,9 @@ function AppContent() {
           Skip to main content
         </a>
         <WalletConnectQRModal />
-        <Header />
+        <Header role="banner" />
         
-        <main id="main-content" tabIndex={-1}>
+        <main id="main-content" tabIndex={-1} role="main">
           <Hero />
           
           <Stats />
@@ -166,7 +166,7 @@ function AppContent() {
           </div>
         </main>
         
-        <Footer />
+        <Footer role="contentinfo" />
         
         {/* Scroll to Top */}
         <button
