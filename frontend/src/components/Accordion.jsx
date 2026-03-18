@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const Accordion = ({ items }) => {
+export const Accordion = ({ items }) => {
   const [openIndex, setOpenIndex] = useState(null)
 
   return (
@@ -54,4 +54,3 @@ const Accordion = ({ items }) => {
   )
 }
 
-export default Accordion
