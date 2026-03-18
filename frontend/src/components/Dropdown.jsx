@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const Dropdown = ({ options, value, onChange, placeholder = 'Select...' }) => {
+export const Dropdown = ({ options, value, onChange, placeholder = 'Select...' }) => {
   const [isOpen, setIsOpen] = useState(false)
   
   return (
@@ -40,4 +40,3 @@ const Dropdown = ({ options, value, onChange, placeholder = 'Select...' }) => {
   )
 }
 
-export default Dropdown
