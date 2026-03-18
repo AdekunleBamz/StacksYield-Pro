@@ -1,7 +1,7 @@
 import React from 'react'
 import { HiCheck, HiClock, HiArrowRight } from 'react-icons/hi2'
 
-const TransactionStepper = ({ currentStep = 0, steps = [] }) => {
+export const TransactionStepper = ({ currentStep = 0, steps = [] }) => {
   return (
     <div className="w-full py-4">
       <div className="flex items-center justify-between relative">
@@ -61,4 +61,3 @@ const TransactionStepper = ({ currentStep = 0, steps = [] }) => {
   )
 }
 
-export default TransactionStepper
