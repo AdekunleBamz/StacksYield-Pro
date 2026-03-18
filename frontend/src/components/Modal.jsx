@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 
-const Modal = ({ isOpen, onClose, title, children }) => {
+export const Modal = ({ isOpen, onClose, title, children }) => {
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden'
@@ -37,4 +37,3 @@ const Modal = ({ isOpen, onClose, title, children }) => {
   )
 }
 
-export default Modal
