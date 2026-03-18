@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Badge = ({ children, variant = 'default', size = 'md', animate = false }) => {
+export const Badge = ({ children, variant = 'default', size = 'md', animate = false }) => {
   const variants = {
     default: 'bg-stacks-purple/10 text-stacks-purple border border-stacks-purple/20',
     success: 'bg-success/10 text-success border border-success/20',
@@ -27,4 +27,3 @@ const Badge = ({ children, variant = 'default', size = 'md', animate = false }) 
   )
 }
 
-export default Badge
