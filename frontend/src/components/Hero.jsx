@@ -2,7 +2,7 @@ import React from 'react'
 import { HiArrowRight, HiShieldCheck, HiCurrencyDollar, HiChartBar } from 'react-icons/hi2'
 import { useWallet } from '../context/WalletContext'
 
-const Hero = () => {
+export const Hero = () => {
   const { isConnected, connectWallet } = useWallet()
 
   return (
@@ -98,4 +98,3 @@ const Hero = () => {
   )
 }
 
-export default Hero
