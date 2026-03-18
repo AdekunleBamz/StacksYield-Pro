@@ -3,9 +3,9 @@ import { HiCurrencyDollar, HiUsers, HiArrowTrendingUp, HiLockClosed } from 'reac
 import { useProtocolStats, useVaults } from '../hooks/useContract'
 import { formatNumber } from '../utils/helpers'
 import Skeleton from './Skeleton'
-import StatsCard from './StatsCard'
+import { StatsCard } from './StatsCard'
 
-const Stats = () => {
+export const Stats = ({ stats, loading }) => {
   const { stats: protocolStats, loading: protocolLoading } = useProtocolStats()
   const { vaults, loading: vaultsLoading } = useVaults()
   
@@ -143,4 +143,3 @@ const Stats = () => {
   )
 }
 
-export default Stats
