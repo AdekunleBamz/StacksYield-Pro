@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Select = ({ label, options, value, onChange, error }) => {
+export const Select = ({ label, options, value, onChange, error }) => {
   return (
     <div className="mb-4">
       {label && <label className="block text-gray-400 text-sm mb-2">{label}</label>}
@@ -18,4 +18,3 @@ const Select = ({ label, options, value, onChange, error }) => {
   )
 }
 
-export default Select
