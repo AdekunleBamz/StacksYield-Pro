@@ -358,7 +358,26 @@ export const VaultList = () => {
   }
 
   return (
-    <section id="vaults" className="py-16 relative" aria-labelledby="vaults-heading">
+    <section id="vaults" className="py-16 scroll-mt-20 relative" aria-labelledby="vaults-heading">
+      {isProcessing && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-md animate-fade-in">
+          <div className="glass-card p-8 rounded-3xl flex flex-col items-center gap-6 border border-white/10 shadow-3xl max-w-sm w-full mx-4 animate-fade-in-up">
+            <div className="relative">
+              <div className="absolute inset-0 bg-stacks-purple/20 blur-2xl rounded-full scale-150 animate-pulse-glow" />
+              <div className="w-20 h-20 border-4 border-stacks-purple/20 border-t-stacks-purple rounded-full animate-spin shadow-inner relative z-10" />
+            </div>
+            <div className="text-center">
+              <h4 className="text-xl font-black gradient-text mb-2 tracking-tight">Transaction Pending</h4>
+              <p className="text-gray-400 text-sm font-medium opacity-80 leading-relaxed px-4">
+                Please confirm the transaction in your wallet and wait for blockchain confirmation.
+              </p>
+            </div>
+            <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden mt-2">
+              <div className="h-full bg-stacks-purple animate-[shimmer_2s_infinite_linear]" style={{ width: '100%', backgroundSize: '200% 100%', backgroundImage: 'linear-gradient(90deg, #5546FF 0%, #7B6DFF 50%, #5546FF 100%)' }} />
+            </div>
+          </div>
+        </div>
+      )}
       <RefreshIndicator isLoading={vaultsLoading} />
       
       <div className="mb-8 flex items-center justify-between">

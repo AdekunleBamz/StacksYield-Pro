@@ -52,7 +52,7 @@ export const TransactionHistory = ({ transactions = [], isLoading = false }) => 
           <div 
             key={i} 
             className="group flex justify-between items-center bg-[#1A1A1C]/50 border border-white/5 p-4 rounded-xl hover:bg-[#1A1A1C] hover:border-stacks-purple/30 hover:translate-x-1 transition-all duration-300 animate-fade-in-up"
-            style={{ animationDelay: `${i * 50}ms` }}
+            style={{ animationDelay: `${i * 50}ms`, animationFillMode: 'forwards' }}
           >
             <div className="flex items-center gap-4">
               <div className={`w-12 h-12 rounded-xl ${config.bgColor} flex items-center justify-center transition-transform group-hover:scale-110`}>
