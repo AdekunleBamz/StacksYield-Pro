@@ -1,6 +1,6 @@
 import React from 'react'
 
-const ProgressBar = ({ value, max = 100, color = 'stacks-purple', showLabel = true }) => {
+export const ProgressBar = ({ value, max = 100, color = 'stacks-purple', showLabel = true }) => {
   const percentage = Math.min((value / max) * 100, 100)
   
   return (
@@ -21,4 +21,3 @@ const ProgressBar = ({ value, max = 100, color = 'stacks-purple', showLabel = tr
   )
 }
 
-export default ProgressBar
