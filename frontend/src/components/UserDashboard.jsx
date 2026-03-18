@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { 
-import {
-  HiCurrencyDollar,
-  HiArrowTrendingUp,
+  HiCurrencyDollar, 
+  HiArrowTrendingUp, 
   HiGift,
   HiClock,
   HiCheckCircle,
@@ -12,10 +11,10 @@ import {
   HiArrowsRightLeft,
   HiShieldCheck
 } from 'react-icons/hi2'
-import { useUserStats, useTransactions } from '../hooks/useContract'
+import { useUserStats, useVaults, useUserDeposit, usePendingRewards, useTransactions } from '../hooks/useContract'
 import { useWallet } from '../context/WalletContext'
-import { formatNumber, formatSTX, blocksToTime, formatDate } from '../utils/helpers'
-import EmptyState from './EmptyState'
+import { formatNumber, blocksToTime, formatDate, formatSTX } from '../utils/helpers'
+import { EmptyState } from './EmptyState'
 import { AreaChart } from './AreaChart'
 import { PieChart } from './PieChart'
 import { Stats } from './Stats'
@@ -332,4 +331,3 @@ export const UserDashboard = () => {
     </section>
   )
 }
-

@@ -1,8 +1,9 @@
 import React, { useEffect, useMemo, useState } from 'react'
+import { HiGlobeAlt } from 'react-icons/hi2'
 import QRCode from 'qrcode'
 import { useWallet } from '../context/WalletContext'
 
-const WalletConnectQRModal = () => {
+export const WalletConnectQRModal = () => {
   const { wcUri, isConnecting, isConnected, disconnectWallet } = useWallet()
   const [qrDataUrl, setQrDataUrl] = useState(null)
   const [copyState, setCopyState] = useState('')
@@ -144,4 +145,3 @@ const WalletConnectQRModal = () => {
   )
 }
 
-export default WalletConnectQRModal
