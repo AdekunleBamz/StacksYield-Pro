@@ -2,7 +2,7 @@ import { HiClipboard, HiShare } from 'react-icons/hi2'
 import { FaXTwitter, FaTelegram, FaWhatsapp } from 'react-icons/fa6'
 import toast from 'react-hot-toast'
 
-const ReferralCard = ({ address, referrals, earnings }) => {
+export const ReferralCard = ({ address, referrals, earnings }) => {
   const referralLink = `${window.location.origin}/?ref=${address}`
   
   const copyToClipboard = () => {
@@ -97,4 +97,3 @@ const ReferralCard = ({ address, referrals, earnings }) => {
   )
 }
 
-export default ReferralCard
