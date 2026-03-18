@@ -10,7 +10,7 @@ export const useToast = () => {
   return context
 }
 
-const Toast = ({ message, type, onClose }) => {
+export const Toast = ({ message, type = 'success', onClose }) => {
   const colors = {
     success: 'bg-green-600',
     error: 'bg-red-600',
@@ -59,4 +59,3 @@ export const ToastProvider = ({ children }) => {
   )
 }
 
-export default Toast
