@@ -2,7 +2,7 @@ import React from 'react'
 import { HiShieldCheck, HiScale, HiFire } from 'react-icons/hi2'
 import { formatSTX } from '../utils/helpers'
 
-const VaultCard = ({ vault, onDeposit, onWithdraw }) => {
+export const VaultCard = ({ vault, onDeposit, onWithdraw }) => {
   const strategyMeta = {
     1: { icon: HiShieldCheck, color: 'text-green-400', border: 'border-green-500/30', label: 'Conservative' },
     2: { icon: HiScale, color: 'text-amber-400', border: 'border-amber-500/30', label: 'Balanced' },
@@ -60,4 +60,3 @@ const VaultCard = ({ vault, onDeposit, onWithdraw }) => {
   )
 }
 
-export default VaultCard
