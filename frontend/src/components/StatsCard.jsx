@@ -1,7 +1,7 @@
 import React from 'react'
-import Sparkline from './Sparkline'
+import { Sparkline } from './Sparkline'
 
-const StatsCard = ({ title, value, subtitle, icon, trend, sparklineData, color = '#5546FF' }) => {
+export const StatsCard = ({ title, value, subtitle, icon, trend, sparklineData, color = '#5546FF' }) => {
   return (
     <div className="stat-card glass-card rounded-2xl p-6 relative overflow-hidden group border border-white/5 hover:border-white/20 transition-all duration-500">
       {/* Dynamic Glow Overlay */}
@@ -44,4 +44,3 @@ const StatsCard = ({ title, value, subtitle, icon, trend, sparklineData, color =
   )
 }
 
-export default StatsCard
