@@ -1,6 +1,6 @@
 import React from 'react'
 
-const AreaChart = ({ 
+export const AreaChart = ({ 
   data = [], 
   color = '#5546FF', 
   height = 200, 
@@ -142,4 +142,3 @@ const AreaChart = ({
   )
 }
 
-export default AreaChart
