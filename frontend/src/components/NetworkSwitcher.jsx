@@ -1,6 +1,6 @@
 import { HiGlobeAlt, HiChevronDown } from 'react-icons/hi2'
 
-const NetworkSwitcher = ({ currentNetwork, onSwitch }) => {
+export const NetworkSwitcher = ({ currentNetwork, onSwitch }) => {
   const isMainnet = currentNetwork === 'mainnet'
 
   return (
@@ -30,4 +30,3 @@ const NetworkSwitcher = ({ currentNetwork, onSwitch }) => {
   )
 }
 
-export default NetworkSwitcher
