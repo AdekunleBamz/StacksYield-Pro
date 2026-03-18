@@ -35,12 +35,11 @@ export const Input = ({
           required={required}
           aria-invalid={!!error}
           aria-describedby={error ? errorId : undefined}
-          className={`w-full bg-[#1A1A1C] border-2 rounded-xl px-4 py-3 text-white transition-all duration-300 placeholder:text-gray-600
+          className={`
+            w-full px-4 py-3 rounded-xl bg-white/5 border transition-all duration-300
+            text-white placeholder-gray-500
+            focus:outline-none focus-visible:ring-2 focus-visible:ring-stacks-purple/50
             ${error 
-              ? 'border-error/50 focus:border-error focus:ring-4 focus:ring-error/10' 
-              : 'border-white/5 focus:border-stacks-purple focus:ring-4 focus:ring-stacks-purple/10'
-            } 
-            ${disabled ? 'opacity-50 cursor-not-allowed' : 'hover:border-white/10'}
             focus:outline-none
           `}
         />
