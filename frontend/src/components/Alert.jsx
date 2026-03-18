@@ -16,7 +16,10 @@ export const Alert = ({ children, variant = 'info', title, onClose }) => {
   }
   
   return (
-    <div className={`
+    <div 
+      role="alert"
+      aria-live={variant === 'error' ? 'assertive' : 'polite'}
+      className={`
       relative border-l-4 p-4 rounded-xl flex items-start animate-in fade-in slide-in-from-left-2 duration-300
       ${variants[variant]}
     `}>
@@ -31,7 +34,7 @@ export const Alert = ({ children, variant = 'info', title, onClose }) => {
         <button 
           onClick={onClose}
           className="ml-4 flex-shrink-0 p-1 hover:bg-white/10 rounded-full transition-colors focus:outline-none"
-          aria-label="Dismiss alert"
+          aria-label="Close alert"
         >
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
