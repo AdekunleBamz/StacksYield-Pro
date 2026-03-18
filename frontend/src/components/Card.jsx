@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Card = ({ children, title, className = '', hover = true }) => {
+export const Card = ({ children, title, className = '', hover = true }) => {
   return (
     <div className={`
       bg-[#1A1A1C] glass-card border border-white/5 rounded-2xl overflow-hidden
@@ -19,4 +19,3 @@ const Card = ({ children, title, className = '', hover = true }) => {
   )
 }
 
-export default Card
