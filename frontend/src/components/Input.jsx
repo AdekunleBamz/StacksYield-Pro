@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Input = ({ 
+export const Input = ({ 
   label, 
   error, 
   type = 'text', 
@@ -57,4 +57,3 @@ const Input = ({
   )
 }
 
-export default Input
