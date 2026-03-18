@@ -1,7 +1,7 @@
 import React from 'react'
 import { truncateAddress } from '../utils/helpers'
 
-const Avatar = ({ address, size = 'md' }) => {
+export const Avatar = ({ address, size = 'md' }) => {
   const sizes = { sm: 'w-8 h-8', md: 'w-10 h-10', lg: 'w-12 h-12' }
   
   return (
@@ -11,4 +11,3 @@ const Avatar = ({ address, size = 'md' }) => {
   )
 }
 
-export default Avatar
