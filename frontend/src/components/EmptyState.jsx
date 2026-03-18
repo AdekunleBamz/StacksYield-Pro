@@ -8,33 +8,37 @@ export const EmptyState = ({
   message = "There are no items to display at the moment.",
   icon: Icon = HiOutlineInbox,
   action,
-  className = ""
+  className = "",
+  size = "md" // Added new prop 'size' with default 'md'
 }) => {
   return (
-    <div className={`flex flex-col items-center justify-center py-20 px-6 text-center glass-card border-dashed border-2 border-white/5 rounded-3xl bg-white/[0.02] animate-in fade-in zoom-in-95 duration-700 ${className}`}>
-      <div className="relative mb-8">
-        <div className="absolute inset-0 bg-stacks-purple/20 blur-3xl rounded-full scale-150 opacity-20" />
-        <div className="w-24 h-24 rounded-3xl bg-white/[0.03] border border-white/10 flex items-center justify-center relative z-10 shadow-2xl">
-          <Icon className="w-12 h-12 text-white/20" />
+    <div className={`
+      flex flex-col items-center justify-center text-center p-8 md:p-12 
+      glass-card rounded-3xl border border-white/5 bg-white/[0.02]
+      animate-fade-in-up transition-all duration-500
+      ${size === 'sm' ? 'py-8' : size === 'lg' ? 'py-20' : 'py-12'}
+      ${className}
+    `}>
+      <div className="relative mb-6">
+        <div className="absolute inset-0 bg-stacks-purple/20 blur-2xl rounded-full scale-150 animate-pulse-glow" />
+        <div className="relative w-20 h-20 rounded-2xl bg-stacks-purple/10 flex items-center justify-center border border-stacks-purple/20 shadow-xl shadow-stacks-purple/5">
+          <Icon className="w-10 h-10 text-stacks-purple" aria-hidden="true" />
         </div>
       </div>
-      
-      <h3 className="text-2xl font-black text-white mb-3 tracking-tight">{title}</h3>
-      <p className="text-white/40 text-sm max-w-sm mx-auto mb-10 leading-relaxed">
+      <h3 className="text-xl md:text-2xl font-black text-white mb-3 tracking-tight">
+        {title}
+      </h3>
+      <p className="text-gray-400 text-sm md:text-base max-w-sm mb-8 leading-relaxed">
         {message}
       </p>
-      
       {action && (
-        <Button
+        <button
           onClick={action.onClick}
-          variant={action.variant || 'primary'}
-          size="lg"
-          className="px-8"
+          className="btn-primary px-8 py-3 rounded-xl font-bold uppercase tracking-widest text-xs active:scale-95 transition-all shadow-lg shadow-stacks-purple/20"
         >
           {action.label}
-        </Button>
+        </button>
       )}
     </div>
   )
 }
-
