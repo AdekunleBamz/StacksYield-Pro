@@ -1,9 +1,9 @@
 import React from 'react'
-import Modal from './Modal'
+import { Modal } from './Modal'
 import { HiExclamationTriangle } from 'react-icons/hi2'
-import Button from './Button'
+import { Button } from './Button'
 
-const ConfirmationModal = ({ 
+export const ConfirmationModal = ({ 
   isOpen, 
   onClose, 
   onConfirm, 
@@ -55,4 +55,3 @@ const ConfirmationModal = ({
   )
 }
 
-export default ConfirmationModal
