@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { FiCopy, FiCheck } from 'react-icons/fi'
 
-const CopyButton = ({ text, className = '' }) => {
+export const CopyButton = ({ text, className = '' }) => {
   const [copied, setCopied] = useState(false)
 
   const handleCopy = async () => {
@@ -35,4 +35,3 @@ const CopyButton = ({ text, className = '' }) => {
   )
 }
 
-export default CopyButton
