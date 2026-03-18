@@ -1,6 +1,11 @@
 import React from 'react'
 
-const PieChart = ({ data = [], size = 200, innerRadius = 60 }) => {
+export const PieChart = ({ 
+  data = [], 
+  size = 200, 
+  innerRadius = 60,
+  label = 'Value'
+}) => {
   if (!data || data.length === 0) return null
 
   const total = data.reduce((sum, item) => sum + item.value, 0)
@@ -112,5 +117,3 @@ const PieChart = ({ data = [], size = 200, innerRadius = 60 }) => {
     </div>
   )
 }
-
-export default PieChart
