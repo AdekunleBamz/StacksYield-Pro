@@ -139,8 +139,8 @@ export const ReferralSection = () => {
         <h2 id="referral-heading" className="text-3xl font-bold font-display mb-2">
           <span className="gradient-text">Referral Program</span>
         </h2>
-        <p className="text-gray-400">
-          Invite friends and earn 0.25% of their deposit fees forever
+        <p className="text-gray-400 text-sm md:text-base font-medium opacity-80 mb-8">
+          Invite friends and earn <span className="text-stacks-purple font-black">0.25%</span> of their deposit fees forever
         </p>
       </div>
 
@@ -185,31 +185,31 @@ export const ReferralSection = () => {
       {/* How it works */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
         <div className="glass-card p-8 rounded-3xl text-center animate-fade-in-up opacity-0" style={{ animationDelay: '100ms', animationFillMode: 'forwards' }}>
-          <div className="w-14 h-14 rounded-2xl bg-stacks-purple/20 flex items-center justify-center mx-auto mb-6 shadow-inner">
+          <div className="w-16 h-16 rounded-2xl bg-stacks-purple/10 flex items-center justify-center mx-auto mb-6 shadow-xl shadow-stacks-purple/5 border border-stacks-purple/20">
             <span className="text-2xl font-black text-stacks-purple">1</span>
           </div>
-          <h3 className="font-black text-lg mb-3 tracking-tight">Create Code</h3>
-          <p className="text-sm text-gray-400 font-bold leading-relaxed opacity-60">
+          <h3 className="font-black text-xl mb-3 tracking-tight">Create Code</h3>
+          <p className="text-sm text-gray-400 font-bold leading-relaxed opacity-70">
             Generate a custom code that reflects your brand or identity.
           </p>
         </div>
 
         <div className="glass-card p-8 rounded-3xl text-center animate-fade-in-up opacity-0" style={{ animationDelay: '250ms', animationFillMode: 'forwards' }}>
-          <div className="w-14 h-14 rounded-2xl bg-vault-balanced/20 flex items-center justify-center mx-auto mb-6 shadow-inner">
+          <div className="w-16 h-16 rounded-2xl bg-vault-balanced/10 flex items-center justify-center mx-auto mb-6 shadow-xl shadow-vault-balanced/5 border border-vault-balanced/20">
             <span className="text-2xl font-black text-vault-balanced">2</span>
           </div>
-          <h3 className="font-black text-lg mb-3 tracking-tight">Share & Invite</h3>
-          <p className="text-sm text-gray-400 font-bold leading-relaxed opacity-60">
+          <h3 className="font-black text-xl mb-3 tracking-tight">Share & Invite</h3>
+          <p className="text-sm text-gray-400 font-bold leading-relaxed opacity-70">
             Invite your network to join the highest-yielding STX vaults.
           </p>
         </div>
 
         <div className="glass-card p-8 rounded-3xl text-center animate-fade-in-up opacity-0" style={{ animationDelay: '400ms', animationFillMode: 'forwards' }}>
-          <div className="w-14 h-14 rounded-2xl bg-vault-conservative/20 flex items-center justify-center mx-auto mb-6 shadow-inner">
+          <div className="w-16 h-16 rounded-2xl bg-vault-conservative/10 flex items-center justify-center mx-auto mb-6 shadow-xl shadow-vault-conservative/5 border border-vault-conservative/20">
             <span className="text-2xl font-black text-vault-conservative">3</span>
           </div>
-          <h3 className="font-black text-lg mb-3 tracking-tight">Earn Forever</h3>
-          <p className="text-sm text-gray-400 font-bold leading-relaxed opacity-60">
+          <h3 className="font-black text-xl mb-3 tracking-tight">Earn Forever</h3>
+          <p className="text-sm text-gray-400 font-bold leading-relaxed opacity-70">
             Collect rewards automatically on every deposit they make.
           </p>
         </div>
