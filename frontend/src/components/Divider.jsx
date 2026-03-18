@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Divider = ({ text, className = '' }) => {
+export const Divider = ({ text, className = '' }) => {
   if (text) {
     return (
       <div className={`flex items-center gap-4 my-6 ${className}`}>
@@ -13,4 +13,3 @@ const Divider = ({ text, className = '' }) => {
   return <div className={`border-t border-stacks-gray my-4 ${className}`} />
 }
 
-export default Divider
