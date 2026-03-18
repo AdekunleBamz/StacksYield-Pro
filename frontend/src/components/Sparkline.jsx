@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Sparkline = ({ data = [], color = '#5546FF', height = 40, width = 100 }) => {
+export const Sparkline = ({ data = [], color = '#5546FF', height = 40, width = 120 }) => {
   if (!data || data.length < 2) return null
 
   const min = Math.min(...data)
@@ -65,4 +65,3 @@ const Sparkline = ({ data = [], color = '#5546FF', height = 40, width = 100 }) =
   )
 }
 
-export default Sparkline
