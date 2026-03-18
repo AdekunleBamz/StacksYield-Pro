@@ -1,6 +1,6 @@
 import React from 'react'
 
-const InfoSection = ({ title, items, icon }) => {
+export const InfoSection = ({ title, items, icon }) => {
   return (
     <div className="bg-stacks-gray/20 border border-stacks-gray rounded-xl p-6">
       <div className="flex items-center gap-3 mb-4">
@@ -19,4 +19,3 @@ const InfoSection = ({ title, items, icon }) => {
   )
 }
 
-export default InfoSection
