@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Alert = ({ children, variant = 'info', title, onClose }) => {
+export const Alert = ({ children, variant = 'info', title, onClose }) => {
   const variants = {
     info: 'bg-blue-500/10 border-blue-500/50 text-blue-200',
     success: 'bg-green-500/10 border-green-500/50 text-green-200',
@@ -42,4 +42,3 @@ const Alert = ({ children, variant = 'info', title, onClose }) => {
   )
 }
 
-export default Alert
