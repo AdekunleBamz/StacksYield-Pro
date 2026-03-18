@@ -1,21 +1,29 @@
 import React, { useState, useEffect } from 'react'
 import { 
-  HiCurrencyDollar, 
-  HiArrowTrendingUp, 
+import {
+  HiCurrencyDollar,
+  HiArrowTrendingUp,
   HiGift,
   HiClock,
   HiCheckCircle,
   HiExclamationTriangle,
-  HiUsers
+  HiUsers,
+  HiWallet,
+  HiArrowsRightLeft,
+  HiShieldCheck
 } from 'react-icons/hi2'
-import { useUserStats, useVaults, useUserDeposit, usePendingRewards } from '../hooks/useContract'
+import { useUserStats, useTransactions } from '../hooks/useContract'
 import { useWallet } from '../context/WalletContext'
-import { formatNumber, blocksToTime, formatDate } from '../utils/helpers'
+import { formatNumber, formatSTX, blocksToTime, formatDate } from '../utils/helpers'
 import EmptyState from './EmptyState'
-import AreaChart from './AreaChart'
-import PieChart from './PieChart'
+import { AreaChart } from './AreaChart'
+import { PieChart } from './PieChart'
+import { Stats } from './Stats'
+import { TransactionHistory } from './TransactionHistory'
+import { Tabs } from './Tabs'
+import { ReferralSection } from './ReferralSection'
 
-const UserDashboard = () => {
+export const UserDashboard = () => {
   const { address } = useWallet()
   const { stats: userStats, loading: statsLoading } = useUserStats(address)
   const { vaults, loading: vaultsLoading } = useVaults()
@@ -325,4 +333,3 @@ const UserDashboard = () => {
   )
 }
 
-export default UserDashboard
