@@ -10,13 +10,10 @@ import {
 
 // Contract configuration
 export const CONTRACT_ADDRESS = 'SP3FKNEZ86RG5RT7SZ5FBRGH85FZNG94ZH1MCGG6N'
-export const CONTRACT_NAME = 'stacksyield-pro-v2'
+export const CONTRACT_NAME = 'stacksyield-pro'
 // Initial network settings
 const MAINNET_API = 'https://api.mainnet.hiro.so'
 const TESTNET_API = 'https://api.testnet.hiro.so'
-
-// Stacks API endpoint for balance queries (same endpoint)
-const STACKS_API = 'https://api.mainnet.hiro.so'
 
 // Create the context
 const WalletContext = createContext(null)
@@ -54,7 +51,8 @@ export const WalletProvider = ({ children }) => {
 
     try {
       setBalanceLoading(true)
-      const response = await fetch(`${STACKS_API}/extended/v1/address/${address}/balances`)
+      const apiBase = networkType === 'mainnet' ? MAINNET_API : TESTNET_API
+      const response = await fetch(`${apiBase}/extended/v1/address/${address}/balances`)
       const data = await response.json()
       
       if (data.stx) {
@@ -68,7 +66,7 @@ export const WalletProvider = ({ children }) => {
     } finally {
       setBalanceLoading(false)
     }
-  }, [address])
+  }, [address, networkType])
 
   // Initialize (NO auto-connect)
   useEffect(() => {
@@ -153,9 +151,7 @@ export const WalletProvider = ({ children }) => {
     newNetwork.coreApiUrl = isMain ? MAINNET_API : TESTNET_API
     setNetwork(newNetwork)
     
-    // Refresh balance for the new network
-    setTimeout(fetchBalance, 100)
-  }, [networkType, fetchBalance])
+  }, [networkType])
 
   // Check if connected
   const isConnected = !!address

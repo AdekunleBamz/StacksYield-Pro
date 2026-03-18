@@ -170,18 +170,7 @@ export const emergencyWithdraw = async ({
   contractName,
   isMainnet = true
 }) => {
-  const network = getNetwork(isMainnet)
-  
-  const tx = await makeContractCall({
-    contractAddress,
-    contractName,
-    functionName: 'emergency-withdraw',
-    functionArgs: [uintCV(strategyId)],
-    senderKey: privateKey,
-    network
-  })
-  
-  return broadcastTransaction(tx, network)
+  throw new Error('Emergency withdraw is not supported by the current stacksyield-pro contract')
 }
 
 /**
@@ -218,16 +207,5 @@ export const compoundRewards = async ({
   contractName,
   isMainnet = true
 }) => {
-  const network = getNetwork(isMainnet)
-  
-  const tx = await makeContractCall({
-    contractAddress,
-    contractName,
-    functionName: 'compound',
-    functionArgs: [uintCV(strategyId)],
-    senderKey: privateKey,
-    network
-  })
-  
-  return broadcastTransaction(tx, network)
+  throw new Error('Compound is not supported by the current stacksyield-pro contract')
 }

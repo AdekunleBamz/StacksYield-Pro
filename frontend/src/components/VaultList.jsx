@@ -298,39 +298,13 @@ const VaultList = () => {
       return
     }
 
-    setVaultToEmergency(vault)
-    setIsConfirmOpen(true)
+    toast.error('Emergency withdraw is not available in the current contract version')
   }
 
   const confirmEmergencyWithdraw = async () => {
-    if (!vaultToEmergency) return
-    
     setIsConfirmOpen(false)
-    setIsLoading(true)
-
-    try {
-      const res = await signAndBroadcast({
-        functionName: 'emergency-withdraw',
-        functionArgs: [uintCV(vaultToEmergency.id)],
-        postConditionMode: PostConditionMode.Allow,
-        postConditions: [],
-      })
-
-      toast.success(`Emergency withdrawal submitted${res?.txid ? `: ${res.txid}` : ''}`)
-      setSelectedVault(null)
-      setVaultToEmergency(null)
-      setTimeout(() => refetch(), 5000)
-    } catch (error) {
-      console.error('Emergency withdraw error:', error)
-
-      if (error?.message === 'WALLET_TIMEOUT') {
-        toast.error('Wallet did not respond. Please try again.', { duration: 5000 })
-      } else {
-        toast.error(error?.message || 'Failed to initiate emergency withdrawal')
-      }
-    } finally {
-      setIsLoading(false)
-    }
+    setVaultToEmergency(null)
+    toast.error('Emergency withdraw is not available in the current contract version')
   }
 
   const handleCompound = async (vault) => {
@@ -339,24 +313,7 @@ const VaultList = () => {
       return
     }
 
-    setIsLoading(true)
-
-    try {
-      const res = await signAndBroadcast({
-        functionName: 'compound',
-        functionArgs: [uintCV(vault.id)],
-        postConditionMode: PostConditionMode.Allow,
-        postConditions: [],
-      })
-
-      toast.success(`Compound submitted${res?.txid ? `: ${res.txid}` : ''}`)
-      setTimeout(() => refetch(), 5000)
-    } catch (error) {
-      console.error('Compound error:', error)
-      toast.error('Failed to initiate compound')
-    } finally {
-      setIsLoading(false)
-    }
+    toast.error('Compound is not available in the current contract version')
   }
 
   const filteredVaults = vaults.filter(vault => {
