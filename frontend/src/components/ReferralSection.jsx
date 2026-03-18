@@ -1,13 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { 
-  HiLink, 
-  HiClipboardDocument, 
-  HiCheckCircle,
-  HiUserPlus,
-  HiGift,
-  HiShare,
-  HiClock
-} from 'react-icons/hi2'
+import { ReferralCard } from './ReferralCard'
+import { HiLink, HiClipboardDocument, HiCheckCircle, HiUserPlus, HiGift, HiShare, HiClock, HiSparkles } from 'react-icons/hi2'
+import { Card } from './Card'
+import { Button } from './Button'
 import { openContractCall } from '@stacks/connect'
 import { stringAsciiCV, optionalCVOf, noneCV, PostConditionMode } from '@stacks/transactions'
 import toast from 'react-hot-toast'
@@ -15,7 +10,7 @@ import { useUserStats, CONTRACT_ADDRESS, CONTRACT_NAME } from '../hooks/useContr
 import { useWallet } from '../context/WalletContext'
 import { generateReferralURL, parseReferralFromURL, formatNumber } from '../utils/helpers'
 
-const ReferralSection = () => {
+export const ReferralSection = () => {
   const { address, network } = useWallet()
   const [newCode, setNewCode] = useState('')
   const [isCreating, setIsCreating] = useState(false)
@@ -395,4 +390,3 @@ const ReferralSection = () => {
   )
 }
 
-export default ReferralSection
