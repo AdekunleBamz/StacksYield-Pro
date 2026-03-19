@@ -3,6 +3,7 @@
 <div align="center">
   <img src="frontend/public/logo.svg" alt="StacksYield Pro Logo" width="120" height="120" />
   <h3>Premium Yield Aggregator & Auto-Compounding Suite for the Stacks Ecosystem</h3>
+  <p>Maximize your STX yields with institutional-grade security and a world-class user experience.</p>
   
   [![Contracts CI](https://github.com/AdekunleBamz/StacksYield-Pro/actions/workflows/contracts.yml/badge.svg)](https://github.com/AdekunleBamz/StacksYield-Pro/actions/workflows/contracts.yml)
   [![Frontend CI](https://github.com/AdekunleBamz/StacksYield-Pro/actions/workflows/frontend.yml/badge.svg)](https://github.com/AdekunleBamz/StacksYield-Pro/actions/workflows/frontend.yml)
