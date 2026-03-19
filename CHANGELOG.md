@@ -1,57 +1,30 @@
 # Changelog
 
-All notable changes to StacksYield Pro will be documented in this file.
+All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.0.0] - 2026-03-19
 
 ### Added
-- **UI/UX Overhaul**: Implemented 45 distinct improvements across the platform.
-- **Accessibility**: Standardized ARIA labels and semantic HTML across all components.
-- **SEO**: Added OpenGraph and Twitter meta tags for better discovery.
-- **Data Visualization**: Added interactive TVL charts, portfolio pie charts, and APY sparklines.
-- **Micro-interactions**: Implemented staggered entrance animations and haptic-like scale transitions.
-- **Mobile Polish**: Added smart sticky header and optimized mobile ergonomics.
+- Initial release of StacksYield Pro.
+- Conservative, Balanced, and Aggressive auto-compounding vaults.
+- Real-time yield tracking and transaction history.
+- Referral program with revenue sharing.
+- PWA support with manifest and offline capabilities.
+- Comprehensive accessibility enhancements (ARIA roles, keyboard nav).
+- Root ErrorBoundary for application resilience.
 
 ### Changed
-- Multi-step transaction transparency with real-time steppers.
-- Search and filtering capabilities in the vault list.
-- Global styles including scrollbars, focus rings, and glassmorphism tokens.
-- User dashboard
-- Vault listing functionality
-- Referral system
-- Statistics display
-
-### Changed
-- N/A
-
-### Deprecated
-- N/A
-
-### Removed
-- N/A
+- All components refactored to use named exports for better maintainability.
+- Enhanced UI aesthetics with premium glassmorphism and animations.
+- Improved mobile responsive navigation and interaction patterns.
 
 ### Fixed
-- N/A
+- Fixed several linting and syntax errors across core components.
+- Resolved race conditions in wallet connection state.
+- Improved error handling in contract interactions.
 
-### Security
-- N/A
-
-## [1.0.0] - 2024-12-23
-
-### Added
-- Core yield vault smart contract
-- Deposit and withdrawal functions
-- Reward calculation logic
-- Frontend React application
-- Tailwind CSS styling
-- Wallet context for state management
-- Custom hooks for contract interaction
-- Responsive design components
-
-### Security
-- Input validation on all contract functions
-- Protected admin functions
-- Safe math operations
+---
+*Last updated: 2026-03-19*
