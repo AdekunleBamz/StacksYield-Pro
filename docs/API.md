@@ -101,6 +101,16 @@ Update APY for a vault (owner only).
 
 ---
 
+#### `set-vault-active`
+Toggle a vault active flag (owner only).
+
+**Parameters:**
+- `vault-id`: (uint)
+- `is-active`: (bool)
+**Returns:** (response bool uint)
+
+---
+
 ### Read-Only Functions
 
 #### `get-vault`
