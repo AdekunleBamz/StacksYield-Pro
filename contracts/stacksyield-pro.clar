@@ -150,6 +150,10 @@
   (var-get admin-timelock)
 )
 
+(define-read-only (get-pending-admin-action)
+  (var-get pending-action)
+)
+
 (define-read-only (calculate-shares (amount uint) (vault-id uint))
   (let (
     (vault (unwrap! (get-vault vault-id) u0))
