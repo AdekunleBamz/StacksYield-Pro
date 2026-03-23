@@ -118,3 +118,4 @@ If you can't resolve your issue:
 | u1008 | Self-referral | Use a different referral code |
 | u1009 | Already registered | Use existing registration |
 | u1010 | Invalid shares | Enter a valid share amount |
+| u1011 | User not registered | Register before interacting |
