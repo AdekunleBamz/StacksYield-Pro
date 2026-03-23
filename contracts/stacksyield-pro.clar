@@ -568,6 +568,10 @@
           pending-rewards: u0
         })
       )
+      (map-set user-stats
+        { user: tx-sender }
+        (merge user-data { total-rewards: (+ (get total-rewards user-data) rewards) })
+      )
       (err u3001)
     )
   )
