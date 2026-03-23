@@ -354,6 +354,16 @@ Get user share balance for a vault.
 
 ---
 
+#### `get-user-deposit-amount`
+Get user tracked deposit amount for a vault.
+
+**Parameters:**
+- `user`: (principal)
+- `vault-id`: (uint)
+**Returns:** (uint)
+
+---
+
 ## Error Codes
 
 | Code | Description |
