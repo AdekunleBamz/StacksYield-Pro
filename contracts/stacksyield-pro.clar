@@ -142,6 +142,10 @@
   (get total-withdrawn (get-user-stats user))
 )
 
+(define-read-only (get-user-total-rewards (user principal))
+  (get total-rewards (get-user-stats user))
+)
+
 (define-read-only (get-total-tvl)
   (var-get total-tvl)
 )
