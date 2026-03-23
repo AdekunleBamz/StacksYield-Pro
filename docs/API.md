@@ -707,3 +707,4 @@ Convert share amount into underlying withdrawal amount.
 | u1007 | Invalid strategy |
 | u1008 | Self-referral |
 | u1009 | Already registered |
+| u1010 | Invalid shares |
