@@ -597,6 +597,17 @@
   )
 )
 
+(define-public (set-vault-active (vault-id uint) (is-active bool))
+  (let ((vault (unwrap! (get-vault vault-id) ERR-VAULT-NOT-FOUND)))
+    (asserts! (is-eq tx-sender CONTRACT-OWNER) ERR-NOT-AUTHORIZED)
+    (map-set vaults
+      { vault-id: vault-id }
+      (merge vault { is-active: is-active })
+    )
+    (ok is-active)
+  )
+)
+
 ;; -------------------------
 ;; Admin Timelock Functions
 ;; -------------------------
