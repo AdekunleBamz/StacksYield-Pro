@@ -126,6 +126,10 @@
   (get referrer (get-user-stats user))
 )
 
+(define-read-only (get-user-referral-count (user principal))
+  (get referral-count (get-user-stats user))
+)
+
 (define-read-only (get-total-tvl)
   (var-get total-tvl)
 )
