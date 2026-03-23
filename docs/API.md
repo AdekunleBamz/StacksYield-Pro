@@ -229,6 +229,13 @@ Get block height when the current timelock was scheduled.
 
 ---
 
+#### `get-pending-admin-action`
+Get currently queued timelock action payload.
+
+**Returns:** (optional {action-name, params})
+
+---
+
 #### `calculate-pending-rewards`
 Calculate pending rewards for a user in a vault.
 
