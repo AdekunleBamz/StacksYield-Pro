@@ -488,6 +488,7 @@
       (asserts! (>= (get total-deposits vault) gross-amount) ERR-INSUFFICIENT-BALANCE)
       (asserts! (>= (get total-shares vault) shares) ERR-INVALID-SHARES)
       (asserts! (>= (get deposit-amount user-deposit) gross-amount) ERR-INVALID-AMOUNT)
+      (asserts! (>= (var-get total-tvl) gross-amount) ERR-INSUFFICIENT-BALANCE)
       (map-set vaults
         { vault-id: vault-id }
         (merge vault {
