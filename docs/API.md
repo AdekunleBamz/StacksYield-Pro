@@ -620,6 +620,15 @@ Check if vault strategy is conservative.
 
 ---
 
+#### `is-balanced-vault`
+Check if vault strategy is balanced.
+
+**Parameters:**
+- `vault-id`: (uint)
+**Returns:** (bool)
+
+---
+
 ## Error Codes
 
 | Code | Description |
