@@ -47,7 +47,7 @@ Withdraw immediately with a penalty.
 
 **Parameters:**
 - `vault-id`: (uint)
-**Returns:** (response bool uint)
+**Returns:** (response {gross-amount: uint, fee: uint, net-amount: uint} uint)
 
 ---
 
