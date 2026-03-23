@@ -674,6 +674,16 @@ Calculate referral bonus from fee amount.
 
 ---
 
+#### `calculate-shares`
+Convert deposit amount into vault shares.
+
+**Parameters:**
+- `amount`: (uint)
+- `vault-id`: (uint)
+**Returns:** (uint)
+
+---
+
 ## Error Codes
 
 | Code | Description |
