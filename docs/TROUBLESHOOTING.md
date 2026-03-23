@@ -125,3 +125,4 @@ If you can't resolve your issue:
 | u1015 | Lock period still active | Wait until lock period expires |
 | u1016 | Admin action already pending | Execute/cancel existing action first |
 | u1017 | Invalid APY value | Use APY within allowed bounds |
+| u1018 | No rewards available | Wait longer before compounding |
