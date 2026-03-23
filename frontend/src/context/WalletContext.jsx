@@ -27,7 +27,7 @@ export const WalletProvider = ({ children }) => {
   const [stxBalance, setStxBalance] = useState(null)
   const [balanceLoading, setBalanceLoading] = useState(false)
   const [wcUri, setWcUri] = useState(null)
-  const [networkType, setNetworkType] = useState('mainnet')
+  const [networkType, setNetworkType] = useState(import.meta.env.VITE_NETWORK || 'mainnet')
   const [network, setNetwork] = useState(() => {
     const net = new StacksMainnet()
     net.coreApiUrl = MAINNET_API
