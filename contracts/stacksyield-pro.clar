@@ -170,6 +170,15 @@
   (var-get total-fees-collected)
 )
 
+(define-read-only (get-protocol-metrics)
+  {
+    total-tvl: (var-get total-tvl),
+    total-users: (var-get total-users),
+    total-fees-collected: (var-get total-fees-collected),
+    protocol-paused: (var-get protocol-paused)
+  }
+)
+
 (define-read-only (get-contract-owner)
   CONTRACT-OWNER
 )
