@@ -306,6 +306,15 @@
   )
 )
 
+(define-read-only (get-vault-strategy (vault-id uint))
+  (let ((vault (get-vault vault-id)))
+    (match vault
+      data (get strategy data)
+      u0
+    )
+  )
+)
+
 (define-read-only (get-vault-min-deposit (vault-id uint))
   (let ((vault (get-vault vault-id)))
     (match vault
