@@ -503,6 +503,15 @@ Get owner of a referral code if it exists.
 
 ---
 
+#### `get-user-referral-code`
+Get referral code associated with a user.
+
+**Parameters:**
+- `user`: (principal)
+**Returns:** (optional {code: (string-ascii 20)})
+
+---
+
 ## Error Codes
 
 | Code | Description |
