@@ -549,6 +549,7 @@
     (asserts! (get is-registered user-data) ERR-NOT-REGISTERED)
     (let (
       (rewards (calculate-pending-rewards tx-sender vault-id))
+      (reward-shares (calculate-shares rewards vault-id))
     )
       (asserts! (> rewards u0) ERR-NO-REWARDS)
       (err u3001)
