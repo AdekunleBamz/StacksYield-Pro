@@ -246,6 +246,13 @@ Get performance fee in basis points.
 
 ---
 
+#### `get-emergency-fee-bps`
+Get emergency withdrawal fee in basis points.
+
+**Returns:** (uint)
+
+---
+
 ## Error Codes
 
 | Code | Description |
