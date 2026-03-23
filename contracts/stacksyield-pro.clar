@@ -288,7 +288,7 @@
     (asserts! (>= amount (get min-deposit vault)) ERR-INVALID-AMOUNT)
     
     (let (
-      (fee (/ (* amount DEPOSIT-FEE) BPS-DENOMINATOR))
+      (fee (calculate-deposit-fee amount))
       (net-amount (- amount fee))
       (shares (calculate-shares net-amount vault-id))
       (referral-bonus-amount (/ (* fee REFERRAL-BONUS) u100))
