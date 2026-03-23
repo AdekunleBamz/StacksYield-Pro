@@ -714,3 +714,4 @@ Convert share amount into underlying withdrawal amount.
 | u1014 | No shares found |
 | u1015 | Lock period still active |
 | u1016 | Admin action already pending |
+| u1017 | Invalid APY value |
