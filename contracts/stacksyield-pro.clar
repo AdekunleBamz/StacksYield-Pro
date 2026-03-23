@@ -467,7 +467,14 @@
 
 ;; Withdraw from vault
 (define-public (withdraw (vault-id uint) (shares uint))
-  (err u3000)
+  (let (
+    (vault (unwrap! (get-vault vault-id) ERR-VAULT-NOT-FOUND))
+    (user-data (get-user-stats tx-sender))
+    (user-deposit (unwrap! (get-user-deposit tx-sender vault-id) ERR-NO-SHARES))
+  )
+    (asserts! (not (var-get protocol-paused)) ERR-VAULT-PAUSED)
+    (err u3000)
+  )
 )
 
 ;; Emergency withdraw, compound, admin functions
