@@ -562,6 +562,7 @@
     (asserts! (is-eq tx-sender CONTRACT-OWNER) ERR-NOT-AUTHORIZED)
     (asserts! (or (is-eq strategy STRATEGY-CONSERVATIVE) (is-eq strategy STRATEGY-BALANCED) (is-eq strategy STRATEGY-AGGRESSIVE)) ERR-INVALID-STRATEGY)
     (asserts! (> min-deposit u0) ERR-INVALID-AMOUNT)
+    (asserts! (> apy u0) ERR-INVALID-APY)
     (map-set vaults
       { vault-id: vault-id }
       {
