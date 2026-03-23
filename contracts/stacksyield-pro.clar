@@ -546,6 +546,7 @@
 (define-public (schedule-admin-action (action-name (string-ascii 50)) (params (string-ascii 100)))
   (begin
     (asserts! (is-eq tx-sender CONTRACT-OWNER) ERR-NOT-AUTHORIZED)
+    (asserts! (is-none (var-get pending-action)) ERR-ALREADY-REGISTERED)
     (var-set admin-timelock block-height)
     (var-set pending-action (some { action-name: action-name, params: params }))
     (ok true)
