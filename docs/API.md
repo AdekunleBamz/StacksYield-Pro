@@ -243,6 +243,13 @@ Get number of blocks remaining before execution is allowed.
 
 ---
 
+#### `has-pending-admin-action`
+Check whether any admin action is currently queued.
+
+**Returns:** (bool)
+
+---
+
 #### `calculate-pending-rewards`
 Calculate pending rewards for a user in a vault.
 
