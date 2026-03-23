@@ -315,6 +315,15 @@
   )
 )
 
+(define-read-only (get-vault-created-at (vault-id uint))
+  (let ((vault (get-vault vault-id)))
+    (match vault
+      data (get created-at data)
+      u0
+    )
+  )
+)
+
 (define-read-only (get-vault-min-deposit (vault-id uint))
   (let ((vault (get-vault vault-id)))
     (match vault
