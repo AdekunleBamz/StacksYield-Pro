@@ -111,6 +111,16 @@ Toggle a vault active flag (owner only).
 
 ---
 
+#### `set-vault-min-deposit`
+Update minimum deposit requirement (owner only).
+
+**Parameters:**
+- `vault-id`: (uint)
+- `new-min-deposit`: (uint)
+**Returns:** (response uint uint)
+
+---
+
 ### Read-Only Functions
 
 #### `get-vault`
