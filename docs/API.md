@@ -211,6 +211,13 @@ Calculate pending rewards for a user in a vault.
 
 ---
 
+#### `get-protocol-metrics`
+Get aggregated protocol metrics.
+
+**Returns:** {total-tvl, total-users, total-fees-collected, protocol-paused}
+
+---
+
 ## Error Codes
 
 | Code | Description |
