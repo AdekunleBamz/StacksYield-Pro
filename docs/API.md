@@ -225,6 +225,13 @@ Get deployer/owner principal captured by the contract.
 
 ---
 
+#### `get-deposit-fee-bps`
+Get protocol deposit fee in basis points.
+
+**Returns:** (uint)
+
+---
+
 ## Error Codes
 
 | Code | Description |
