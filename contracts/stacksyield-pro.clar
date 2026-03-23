@@ -198,6 +198,10 @@
   MAX-APY
 )
 
+(define-read-only (get-timelock-duration)
+  TIMELOCK-DURATION
+)
+
 (define-read-only (get-protocol-paused)
   (var-get protocol-paused)
 )
