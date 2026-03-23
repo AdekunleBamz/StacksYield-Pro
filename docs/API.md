@@ -60,6 +60,15 @@ Compound pending rewards for a vault position.
 
 ---
 
+#### `set-protocol-paused`
+Toggle protocol pause status (owner only).
+
+**Parameters:**
+- `paused`: (bool)
+**Returns:** (response bool uint)
+
+---
+
 ### Read-Only Functions
 
 #### `get-vault`
