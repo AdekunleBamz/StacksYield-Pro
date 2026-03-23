@@ -272,6 +272,14 @@
   )
 )
 
+(define-read-only (get-admin-timelock-status)
+  {
+    has-pending-action: (is-some (var-get pending-action)),
+    timelock-start: (var-get admin-timelock),
+    blocks-remaining: (get-blocks-until-admin-action)
+  }
+)
+
 (define-read-only (has-pending-admin-action)
   (is-some (var-get pending-action))
 )
