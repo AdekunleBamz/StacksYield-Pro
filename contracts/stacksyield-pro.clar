@@ -565,6 +565,7 @@
     (match (var-get pending-action)
       pending
         (begin
+          (var-set admin-timelock u0)
           (var-set pending-action none)
           (ok (get action-name pending))
         )
