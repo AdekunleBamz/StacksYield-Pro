@@ -476,6 +476,7 @@
     (asserts! (get is-active vault) ERR-VAULT-PAUSED)
     (asserts! (> shares u0) ERR-INVALID-SHARES)
     (asserts! (get is-registered user-data) ERR-NOT-REGISTERED)
+    (asserts! (>= (get shares user-deposit) shares) ERR-INVALID-SHARES)
     (err u3000)
   )
 )
