@@ -530,6 +530,15 @@ Get vault display name for a vault ID.
 
 ---
 
+#### `get-vault-strategy`
+Get numeric strategy code for vault.
+
+**Parameters:**
+- `vault-id`: (uint)
+**Returns:** (uint)
+
+---
+
 ## Error Codes
 
 | Code | Description |
