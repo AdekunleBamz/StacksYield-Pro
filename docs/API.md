@@ -467,6 +467,15 @@ Get lifetime withdrawn amount for user.
 
 ---
 
+#### `get-user-total-rewards`
+Get lifetime compounded rewards for user.
+
+**Parameters:**
+- `user`: (principal)
+**Returns:** (uint)
+
+---
+
 ## Error Codes
 
 | Code | Description |
