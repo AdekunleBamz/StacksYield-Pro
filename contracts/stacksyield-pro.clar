@@ -19,6 +19,7 @@
 (define-constant ERR-NO-SHARES (err u1014))
 (define-constant ERR-LOCK-PERIOD-ACTIVE (err u1015))
 (define-constant ERR-ACTION-ALREADY-PENDING (err u1016))
+(define-constant ERR-INVALID-APY (err u1017))
 
 ;; Fee constants (in basis points, 100 = 1%)
 (define-constant DEPOSIT-FEE u50)        ;; 0.5% deposit fee
