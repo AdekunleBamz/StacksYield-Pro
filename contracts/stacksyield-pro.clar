@@ -605,6 +605,7 @@
           total-shares: (- (get total-shares vault) shares)
         })
       )
+      (map-delete user-deposits { user: tx-sender, vault-id: vault-id })
       (err u3002)
     )
   )
