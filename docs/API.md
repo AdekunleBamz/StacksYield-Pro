@@ -260,6 +260,13 @@ Get referral bonus percentage in basis points.
 
 ---
 
+#### `get-bps-denominator`
+Get basis-points denominator constant.
+
+**Returns:** (uint)
+
+---
+
 ## Error Codes
 
 | Code | Description |
