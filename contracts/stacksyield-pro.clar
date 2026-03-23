@@ -579,7 +579,14 @@
 )
 
 (define-public (emergency-withdraw (vault-id uint))
-  (err u3002)
+  (let (
+    (vault (unwrap! (get-vault vault-id) ERR-VAULT-NOT-FOUND))
+    (user-data (get-user-stats tx-sender))
+    (user-deposit (unwrap! (get-user-deposit tx-sender vault-id) ERR-NO-SHARES))
+  )
+    (asserts! (get is-registered user-data) ERR-NOT-REGISTERED)
+    (err u3002)
+  )
 )
 
 (define-public (set-protocol-paused (paused bool))
