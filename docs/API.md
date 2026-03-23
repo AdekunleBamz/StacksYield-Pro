@@ -593,6 +593,15 @@ Get total shares issued by vault.
 
 ---
 
+#### `get-vault-total-deposits`
+Get total deposits tracked by vault.
+
+**Parameters:**
+- `vault-id`: (uint)
+**Returns:** (uint)
+
+---
+
 ## Error Codes
 
 | Code | Description |
