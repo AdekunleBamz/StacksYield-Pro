@@ -711,3 +711,4 @@ Convert share amount into underlying withdrawal amount.
 | u1011 | User not registered |
 | u1012 | No pending admin action |
 | u1013 | Timelock not ready |
+| u1014 | No shares found |
