@@ -177,7 +177,7 @@
     (shares (get shares user-deposit))
   )
     ;; Simplified reward calculation
-    (/ (* (* shares apy) time-elapsed) (* BPS-DENOMINATOR u52560))
+    (/ (* (* shares apy) time-elapsed) (* BPS-DENOMINATOR BLOCKS-PER-YEAR))
   )
 )
 
