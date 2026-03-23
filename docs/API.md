@@ -611,6 +611,15 @@ Get compact vault state snapshot.
 
 ---
 
+#### `is-conservative-vault`
+Check if vault strategy is conservative.
+
+**Parameters:**
+- `vault-id`: (uint)
+**Returns:** (bool)
+
+---
+
 ## Error Codes
 
 | Code | Description |
