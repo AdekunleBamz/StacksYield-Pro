@@ -174,6 +174,10 @@
   WITHDRAWAL-FEE
 )
 
+(define-read-only (get-performance-fee-bps)
+  PERFORMANCE-FEE
+)
+
 (define-read-only (get-protocol-paused)
   (var-get protocol-paused)
 )
