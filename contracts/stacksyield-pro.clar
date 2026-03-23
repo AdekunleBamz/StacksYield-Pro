@@ -190,6 +190,10 @@
   )
 )
 
+(define-read-only (has-pending-admin-action)
+  (is-some (var-get pending-action))
+)
+
 (define-read-only (calculate-shares (amount uint) (vault-id uint))
   (let (
     (vault (unwrap! (get-vault vault-id) u0))
