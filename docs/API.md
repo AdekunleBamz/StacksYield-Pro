@@ -135,12 +135,6 @@ Calculate pending rewards for a user in a vault.
 | u1008 | Self-referral |
 | u1009 | Already registered |
 
-# API Reference
-
-## Smart Contract Functions
-
-### Public Functions
-
 #### `deposit`
 Deposit STX into a yield vault.
 
