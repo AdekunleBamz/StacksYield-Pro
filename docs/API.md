@@ -394,6 +394,16 @@ Get cached pending rewards from user deposit map.
 
 ---
 
+#### `has-user-position`
+Check if a user has an active position in vault.
+
+**Parameters:**
+- `user`: (principal)
+- `vault-id`: (uint)
+**Returns:** (bool)
+
+---
+
 ## Error Codes
 
 | Code | Description |
