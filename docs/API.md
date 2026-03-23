@@ -404,6 +404,15 @@ Check if a user has an active position in vault.
 
 ---
 
+#### `get-user-referrer`
+Get user referrer principal if configured.
+
+**Parameters:**
+- `user`: (principal)
+**Returns:** (optional principal)
+
+---
+
 ## Error Codes
 
 | Code | Description |
