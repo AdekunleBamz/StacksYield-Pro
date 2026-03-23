@@ -606,6 +606,12 @@
         })
       )
       (map-delete user-deposits { user: tx-sender, vault-id: vault-id })
+      (map-set user-stats
+        { user: tx-sender }
+        (merge user-data {
+          total-withdrawn: (+ (get total-withdrawn user-data) net-amount)
+        })
+      )
       (err u3002)
     )
   )
