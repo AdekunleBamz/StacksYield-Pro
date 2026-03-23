@@ -122,6 +122,10 @@
   )
 )
 
+(define-read-only (get-user-referrer (user principal))
+  (get referrer (get-user-stats user))
+)
+
 (define-read-only (get-total-tvl)
   (var-get total-tvl)
 )
