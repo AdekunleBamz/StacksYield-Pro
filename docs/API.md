@@ -584,6 +584,15 @@ Check whether vault is active for deposits/withdrawals.
 
 ---
 
+#### `get-vault-total-shares`
+Get total shares issued by vault.
+
+**Parameters:**
+- `vault-id`: (uint)
+**Returns:** (uint)
+
+---
+
 ## Error Codes
 
 | Code | Description |
