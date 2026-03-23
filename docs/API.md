@@ -458,6 +458,15 @@ Get lifetime deposited amount for user.
 
 ---
 
+#### `get-user-total-withdrawn`
+Get lifetime withdrawn amount for user.
+
+**Parameters:**
+- `user`: (principal)
+**Returns:** (uint)
+
+---
+
 ## Error Codes
 
 | Code | Description |
