@@ -119,3 +119,4 @@ If you can't resolve your issue:
 | u1009 | Already registered | Use existing registration |
 | u1010 | Invalid shares | Enter a valid share amount |
 | u1011 | User not registered | Register before interacting |
+| u1012 | No pending admin action | Schedule an action first |
