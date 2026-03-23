@@ -162,6 +162,10 @@
   (var-get total-fees-collected)
 )
 
+(define-read-only (get-contract-owner)
+  CONTRACT-OWNER
+)
+
 (define-read-only (get-protocol-paused)
   (var-get protocol-paused)
 )
