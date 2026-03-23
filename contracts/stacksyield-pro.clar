@@ -130,6 +130,10 @@
   (get referrer (get-user-stats user))
 )
 
+(define-read-only (has-user-referrer (user principal))
+  (is-some (get referrer (get-user-stats user)))
+)
+
 (define-read-only (get-user-referral-count (user principal))
   (get referral-count (get-user-stats user))
 )
