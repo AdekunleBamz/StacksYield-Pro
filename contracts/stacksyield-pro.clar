@@ -481,6 +481,7 @@
     (let (
       (gross-amount (calculate-withdrawal-amount shares vault-id))
     )
+      (asserts! (> gross-amount u0) ERR-INVALID-AMOUNT)
       (err u3000)
     )
   )
