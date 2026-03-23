@@ -166,6 +166,10 @@
   CONTRACT-OWNER
 )
 
+(define-read-only (get-deposit-fee-bps)
+  DEPOSIT-FEE
+)
+
 (define-read-only (get-protocol-paused)
   (var-get protocol-paused)
 )
