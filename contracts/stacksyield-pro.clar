@@ -478,7 +478,11 @@
     (asserts! (get is-registered user-data) ERR-NOT-REGISTERED)
     (asserts! (>= (get shares user-deposit) shares) ERR-INVALID-SHARES)
     (asserts! (>= block-height (+ (get deposit-time user-deposit) (get lock-period vault))) ERR-LOCK-PERIOD-ACTIVE)
-    (err u3000)
+    (let (
+      (gross-amount (calculate-withdrawal-amount shares vault-id))
+    )
+      (err u3000)
+    )
   )
 )
 
