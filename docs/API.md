@@ -494,6 +494,15 @@ Check whether user has completed registration.
 
 ---
 
+#### `get-referral-code-owner`
+Get owner of a referral code if it exists.
+
+**Parameters:**
+- `code`: (string-ascii 20)
+**Returns:** (optional {owner: principal})
+
+---
+
 ## Error Codes
 
 | Code | Description |
