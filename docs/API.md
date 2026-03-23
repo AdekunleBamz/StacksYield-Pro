@@ -28,7 +28,7 @@ Deposit STX into a yield vault.
 **Parameters:**
 - `vault-id`: (uint)
 - `amount`: (uint) — in micro-STX
-**Returns:** (response bool uint)
+**Returns:** (response {shares: uint, net-amount: uint, fee: uint} uint)
 
 ---
 
