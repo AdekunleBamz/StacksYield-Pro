@@ -503,6 +503,12 @@
           last-compound: block-height
         })
       )
+      (map-set user-stats
+        { user: tx-sender }
+        (merge user-data {
+          total-withdrawn: (+ (get total-withdrawn user-data) net-amount)
+        })
+      )
       (err u3000)
     )
   )
