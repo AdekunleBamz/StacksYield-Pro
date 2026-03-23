@@ -543,14 +543,14 @@
         (blocks-elapsed (- block-height timelock-start))
        )
     (asserts! (is-eq tx-sender CONTRACT-OWNER) ERR-NOT-AUTHORIZED)
-    (asserts! (>= blocks-elapsed TIMELOCK-DURATION) (err u2000)) ;; timelock not reached
+    (asserts! (>= blocks-elapsed TIMELOCK-DURATION) ERR-TIMELOCK-NOT-READY) ;; timelock not reached
     (match (var-get pending-action)
       pending
         (begin
           (var-set pending-action none)
           (ok (get action-name pending))
         )
-      (err u2001) ;; no action scheduled
+      ERR-NO-PENDING-ACTION ;; no action scheduled
     )
   )
 )
