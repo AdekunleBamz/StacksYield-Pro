@@ -439,6 +439,10 @@
   )
 )
 
+(define-read-only (has-user-position (user principal) (vault-id uint))
+  (is-some (get-user-deposit user vault-id))
+)
+
 ;; -------------------------
 ;; Public functions
 ;; -------------------------
