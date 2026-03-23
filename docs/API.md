@@ -281,6 +281,13 @@ Get maximum APY value accepted by admin setters.
 
 ---
 
+#### `get-timelock-duration`
+Get admin timelock duration in blocks.
+
+**Returns:** (uint)
+
+---
+
 ## Error Codes
 
 | Code | Description |
