@@ -578,6 +578,10 @@
   )
 )
 
+(define-public (emergency-withdraw (vault-id uint))
+  (err u3002)
+)
+
 (define-public (set-protocol-paused (paused bool))
   (begin
     (asserts! (is-eq tx-sender CONTRACT-OWNER) ERR-NOT-AUTHORIZED)
