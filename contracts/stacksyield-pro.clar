@@ -178,6 +178,10 @@
   PERFORMANCE-FEE
 )
 
+(define-read-only (get-emergency-fee-bps)
+  EMERGENCY-FEE
+)
+
 (define-read-only (get-protocol-paused)
   (var-get protocol-paused)
 )
