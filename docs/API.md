@@ -384,6 +384,16 @@ Get initial deposit block height for a position.
 
 ---
 
+#### `get-user-cached-pending-rewards`
+Get cached pending rewards from user deposit map.
+
+**Parameters:**
+- `user`: (principal)
+- `vault-id`: (uint)
+**Returns:** (uint)
+
+---
+
 ## Error Codes
 
 | Code | Description |
