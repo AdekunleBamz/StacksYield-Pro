@@ -238,6 +238,15 @@
   )
 )
 
+(define-read-only (get-vault-lock-period (vault-id uint))
+  (let ((vault (get-vault vault-id)))
+    (match vault
+      data (get lock-period data)
+      u0
+    )
+  )
+)
+
 (define-read-only (get-referral-code-owner (code (string-ascii 20)))
   (map-get? referral-codes { code: code })
 )
