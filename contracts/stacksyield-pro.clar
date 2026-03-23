@@ -590,6 +590,8 @@
       (shares (get shares user-deposit))
       (gross-amount (calculate-withdrawal-amount (get shares user-deposit) vault-id))
     )
+      (asserts! (> shares u0) ERR-NO-SHARES)
+      (asserts! (> gross-amount u0) ERR-INVALID-AMOUNT)
       (err u3002)
     )
   )
