@@ -552,6 +552,13 @@
       (reward-shares (calculate-shares rewards vault-id))
     )
       (asserts! (> rewards u0) ERR-NO-REWARDS)
+      (map-set vaults
+        { vault-id: vault-id }
+        (merge vault {
+          total-deposits: (+ (get total-deposits vault) rewards),
+          total-shares: (+ (get total-shares vault) reward-shares)
+        })
+      )
       (err u3001)
     )
   )
