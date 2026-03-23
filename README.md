@@ -59,7 +59,7 @@ The easiest way to get started is using our optimized productivity scripts:
 ```bash
 git clone https://github.com/AdekunleBamz/StacksYield-Pro.git
 cd StacksYield-Pro
-npm run setup         # Installs all dependencies across the project
+npm install           # Installs root dependencies
 npm run dev           # Starts the full stacks development environment
 ```
 
