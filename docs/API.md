@@ -274,6 +274,13 @@ Get annualized block-count constant used in APY math.
 
 ---
 
+#### `get-max-apy`
+Get maximum APY value accepted by admin setters.
+
+**Returns:** (uint)
+
+---
+
 ## Error Codes
 
 | Code | Description |
