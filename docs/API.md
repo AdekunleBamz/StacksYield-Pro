@@ -121,6 +121,16 @@ Update minimum deposit requirement (owner only).
 
 ---
 
+#### `set-vault-lock-period`
+Update lock period for a vault (owner only).
+
+**Parameters:**
+- `vault-id`: (uint)
+- `new-lock-period`: (uint)
+**Returns:** (response uint uint)
+
+---
+
 ### Read-Only Functions
 
 #### `get-vault`
