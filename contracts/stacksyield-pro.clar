@@ -12,6 +12,7 @@
 (define-constant ERR-INVALID-STRATEGY (err u1007))
 (define-constant ERR-REFERRAL-SELF (err u1008))
 (define-constant ERR-ALREADY-REGISTERED (err u1009))
+(define-constant ERR-INVALID-SHARES (err u1010))
 
 ;; Fee constants (in basis points, 100 = 1%)
 (define-constant DEPOSIT-FEE u50)        ;; 0.5% deposit fee
