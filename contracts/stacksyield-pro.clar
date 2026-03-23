@@ -171,6 +171,10 @@
   (/ (* amount DEPOSIT-FEE) BPS-DENOMINATOR)
 )
 
+(define-read-only (calculate-withdrawal-fee (amount uint))
+  (/ (* amount WITHDRAWAL-FEE) BPS-DENOMINATOR)
+)
+
 (define-read-only (calculate-withdrawal-amount (shares uint) (vault-id uint))
   (let (
     (vault (unwrap! (get-vault vault-id) u0))
