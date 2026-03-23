@@ -638,6 +638,15 @@ Check if vault strategy is aggressive.
 
 ---
 
+#### `calculate-deposit-fee`
+Calculate deposit fee for a given amount.
+
+**Parameters:**
+- `amount`: (uint)
+**Returns:** (uint)
+
+---
+
 ## Error Codes
 
 | Code | Description |
