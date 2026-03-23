@@ -350,6 +350,10 @@
   (map-get? user-referral-code { user: user })
 )
 
+(define-read-only (has-user-referral-code (user principal))
+  (is-some (get-user-referral-code user))
+)
+
 (define-read-only (calculate-pending-rewards (user principal) (vault-id uint))
   (let (
     (user-deposit (unwrap! (get-user-deposit user vault-id) u0))
