@@ -26,6 +26,7 @@
 (define-constant EMERGENCY-FEE u500)     ;; 5% emergency withdrawal fee
 (define-constant REFERRAL-BONUS u25)     ;; 0.25% referral bonus
 (define-constant BPS-DENOMINATOR u10000)
+(define-constant BLOCKS-PER-YEAR u52560)
 
 ;; Strategy types
 (define-constant STRATEGY-CONSERVATIVE u1)
