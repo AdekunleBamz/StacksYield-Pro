@@ -38,7 +38,7 @@ Withdraw STX from a yield vault.
 **Parameters:**
 - `vault-id`: (uint)
 - `shares`: (uint) — number of vault shares
-**Returns:** (response bool uint)
+**Returns:** (response {withdrawn-shares: uint, gross-amount: uint, fee: uint, net-amount: uint} uint)
 
 ---
 
