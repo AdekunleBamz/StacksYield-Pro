@@ -538,9 +538,9 @@
   )
 )
 
-;; Emergency withdraw, compound, admin functions
-;; Implementation remains same as previous
-;; Except admin actions will be executed via timelock mechanism
+(define-public (compound (vault-id uint))
+  (err u3001)
+)
 
 (define-public (set-protocol-paused (paused bool))
   (begin
