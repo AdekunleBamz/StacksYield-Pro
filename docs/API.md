@@ -548,6 +548,15 @@ Get vault creation block height.
 
 ---
 
+#### `get-vault-apy`
+Get APY basis points for vault.
+
+**Parameters:**
+- `vault-id`: (uint)
+**Returns:** (uint)
+
+---
+
 ## Error Codes
 
 | Code | Description |
