@@ -539,6 +539,14 @@
 ;; Implementation remains same as previous
 ;; Except admin actions will be executed via timelock mechanism
 
+(define-public (set-protocol-paused (paused bool))
+  (begin
+    (asserts! (is-eq tx-sender CONTRACT-OWNER) ERR-NOT-AUTHORIZED)
+    (var-set protocol-paused paused)
+    (ok paused)
+  )
+)
+
 ;; -------------------------
 ;; Admin Timelock Functions
 ;; -------------------------
