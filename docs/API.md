@@ -239,6 +239,13 @@ Get protocol withdrawal fee in basis points.
 
 ---
 
+#### `get-performance-fee-bps`
+Get performance fee in basis points.
+
+**Returns:** (uint)
+
+---
+
 ## Error Codes
 
 | Code | Description |
