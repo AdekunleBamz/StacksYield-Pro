@@ -123,3 +123,4 @@ If you can't resolve your issue:
 | u1013 | Timelock not ready | Wait required blocks before execution |
 | u1014 | No shares found | Deposit before withdrawing/compounding |
 | u1015 | Lock period still active | Wait until lock period expires |
+| u1016 | Admin action already pending | Execute/cancel existing action first |
