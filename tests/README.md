@@ -66,3 +66,5 @@ Clarinet.test({
 2. **Integration Tests** - Test function interactions
 3. **Edge Cases** - Test boundary conditions
 4. **Error Cases** - Test error handling
+
+Recent helper updates include extended error mappings for `u1010` through `u1018` to cover share validation, timelock, APY validation, and reward availability paths.
