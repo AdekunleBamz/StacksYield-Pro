@@ -138,6 +138,10 @@
   (get total-deposited (get-user-stats user))
 )
 
+(define-read-only (get-user-total-withdrawn (user principal))
+  (get total-withdrawn (get-user-stats user))
+)
+
 (define-read-only (get-total-tvl)
   (var-get total-tvl)
 )
