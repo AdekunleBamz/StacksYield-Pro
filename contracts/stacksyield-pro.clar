@@ -585,6 +585,7 @@
     (user-deposit (unwrap! (get-user-deposit tx-sender vault-id) ERR-NO-SHARES))
   )
     (asserts! (get is-registered user-data) ERR-NOT-REGISTERED)
+    (asserts! (var-get protocol-paused) ERR-VAULT-PAUSED)
     (err u3002)
   )
 )
