@@ -521,6 +521,15 @@ Check whether a user has created a referral code.
 
 ---
 
+#### `get-vault-name`
+Get vault display name for a vault ID.
+
+**Parameters:**
+- `vault-id`: (uint)
+**Returns:** (string-ascii 50)
+
+---
+
 ## Error Codes
 
 | Code | Description |
