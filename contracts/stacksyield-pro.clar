@@ -154,6 +154,17 @@
   (get total-rewards (get-user-stats user))
 )
 
+(define-read-only (get-user-summary (user principal))
+  (let ((stats (get-user-stats user)))
+    {
+      is-registered: (get is-registered stats),
+      total-deposited: (get total-deposited stats),
+      total-withdrawn: (get total-withdrawn stats),
+      total-rewards: (get total-rewards stats)
+    }
+  )
+)
+
 (define-read-only (is-user-registered (user principal))
   (get is-registered (get-user-stats user))
 )
