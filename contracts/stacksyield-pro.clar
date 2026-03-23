@@ -598,6 +598,13 @@
       (asserts! (>= (get total-deposits vault) gross-amount) ERR-INSUFFICIENT-BALANCE)
       (asserts! (>= (get total-shares vault) shares) ERR-INVALID-SHARES)
       (asserts! (>= (var-get total-tvl) gross-amount) ERR-INSUFFICIENT-BALANCE)
+      (map-set vaults
+        { vault-id: vault-id }
+        (merge vault {
+          total-deposits: (- (get total-deposits vault) gross-amount),
+          total-shares: (- (get total-shares vault) shares)
+        })
+      )
       (err u3002)
     )
   )
