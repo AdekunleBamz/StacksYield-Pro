@@ -430,6 +430,15 @@
   )
 )
 
+(define-read-only (get-user-cached-pending-rewards (user principal) (vault-id uint))
+  (let ((user-deposit (get-user-deposit user vault-id)))
+    (match user-deposit
+      position (get pending-rewards position)
+      u0
+    )
+  )
+)
+
 ;; -------------------------
 ;; Public functions
 ;; -------------------------
