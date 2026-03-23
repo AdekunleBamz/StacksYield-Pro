@@ -131,6 +131,16 @@ Update lock period for a vault (owner only).
 
 ---
 
+#### `schedule-admin-action`
+Queue an admin action behind timelock (owner only).
+
+**Parameters:**
+- `action-name`: (string-ascii 50)
+- `params`: (string-ascii 100)
+**Returns:** (response bool uint)
+
+---
+
 ### Read-Only Functions
 
 #### `get-vault`
