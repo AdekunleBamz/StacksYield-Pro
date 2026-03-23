@@ -56,7 +56,7 @@ Compound pending rewards for a vault position.
 
 **Parameters:**
 - `vault-id`: (uint)
-**Returns:** (response bool uint)
+**Returns:** (response {rewards: uint, reward-shares: uint} uint)
 
 ---
 
