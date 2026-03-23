@@ -135,17 +135,6 @@ Calculate pending rewards for a user in a vault.
 | u1008 | Self-referral |
 | u1009 | Already registered |
 
-#### `withdraw`
-Withdraw STX from a yield vault.
-
-**Parameters:**
-- `vault-id`: (uint) - The ID of the vault to withdraw from
-- `amount`: (uint) - The amount of STX to withdraw
-
-**Returns:** (response bool uint)
-
----
-
 #### `claim-rewards`
 Claim accumulated rewards from a vault.
 
