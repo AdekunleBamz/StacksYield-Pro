@@ -712,3 +712,4 @@ Convert share amount into underlying withdrawal amount.
 | u1012 | No pending admin action |
 | u1013 | Timelock not ready |
 | u1014 | No shares found |
+| u1015 | Lock period still active |
