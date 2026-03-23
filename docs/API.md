@@ -449,6 +449,15 @@ Get combined referral metrics for a user.
 
 ---
 
+#### `get-user-total-deposited`
+Get lifetime deposited amount for user.
+
+**Parameters:**
+- `user`: (principal)
+**Returns:** (uint)
+
+---
+
 ## Error Codes
 
 | Code | Description |
