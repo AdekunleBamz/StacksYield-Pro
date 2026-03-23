@@ -575,6 +575,15 @@ Get lock period (in blocks) for vault.
 
 ---
 
+#### `is-vault-active`
+Check whether vault is active for deposits/withdrawals.
+
+**Parameters:**
+- `vault-id`: (uint)
+**Returns:** (bool)
+
+---
+
 ## Error Codes
 
 | Code | Description |
