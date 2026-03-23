@@ -509,6 +509,8 @@
           total-withdrawn: (+ (get total-withdrawn user-data) net-amount)
         })
       )
+      (var-set total-tvl (- (var-get total-tvl) gross-amount))
+      (var-set total-fees-collected (+ (var-get total-fees-collected) fee))
       (err u3000)
     )
   )
