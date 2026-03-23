@@ -480,6 +480,8 @@
     (asserts! (>= block-height (+ (get deposit-time user-deposit) (get lock-period vault))) ERR-LOCK-PERIOD-ACTIVE)
     (let (
       (gross-amount (calculate-withdrawal-amount shares vault-id))
+      (fee (calculate-withdrawal-fee gross-amount))
+      (net-amount (- gross-amount fee))
     )
       (asserts! (> gross-amount u0) ERR-INVALID-AMOUNT)
       (err u3000)
