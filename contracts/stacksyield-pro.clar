@@ -357,6 +357,10 @@
   (is-eq (get-vault-strategy vault-id) STRATEGY-CONSERVATIVE)
 )
 
+(define-read-only (is-balanced-vault (vault-id uint))
+  (is-eq (get-vault-strategy vault-id) STRATEGY-BALANCED)
+)
+
 (define-read-only (get-vault-created-at (vault-id uint))
   (let ((vault (get-vault vault-id)))
     (match vault
