@@ -584,6 +584,19 @@
   )
 )
 
+(define-public (set-vault-apy (vault-id uint) (new-apy uint))
+  (let ((vault (unwrap! (get-vault vault-id) ERR-VAULT-NOT-FOUND)))
+    (asserts! (is-eq tx-sender CONTRACT-OWNER) ERR-NOT-AUTHORIZED)
+    (asserts! (> new-apy u0) ERR-INVALID-APY)
+    (asserts! (<= new-apy MAX-APY) ERR-INVALID-APY)
+    (map-set vaults
+      { vault-id: vault-id }
+      (merge vault { apy: new-apy })
+    )
+    (ok new-apy)
+  )
+)
+
 ;; -------------------------
 ;; Admin Timelock Functions
 ;; -------------------------
