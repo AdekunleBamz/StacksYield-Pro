@@ -297,6 +297,15 @@
   )
 )
 
+(define-read-only (get-vault-name (vault-id uint))
+  (let ((vault (get-vault vault-id)))
+    (match vault
+      data (get name data)
+      ""
+    )
+  )
+)
+
 (define-read-only (get-vault-min-deposit (vault-id uint))
   (let ((vault (get-vault vault-id)))
     (match vault
