@@ -413,6 +413,15 @@ Get user referrer principal if configured.
 
 ---
 
+#### `has-user-referrer`
+Check whether user has referrer configured.
+
+**Parameters:**
+- `user`: (principal)
+**Returns:** (bool)
+
+---
+
 ## Error Codes
 
 | Code | Description |
