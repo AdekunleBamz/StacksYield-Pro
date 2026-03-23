@@ -178,6 +178,18 @@
   (var-get pending-action)
 )
 
+(define-read-only (get-blocks-until-admin-action)
+  (let (
+    (timelock-start (var-get admin-timelock))
+    (elapsed (- block-height timelock-start))
+  )
+    (if (>= elapsed TIMELOCK-DURATION)
+      u0
+      (- TIMELOCK-DURATION elapsed)
+    )
+  )
+)
+
 (define-read-only (calculate-shares (amount uint) (vault-id uint))
   (let (
     (vault (unwrap! (get-vault vault-id) u0))
