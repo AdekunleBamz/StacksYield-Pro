@@ -91,6 +91,16 @@ Create a new vault configuration (owner only).
 
 ---
 
+#### `set-vault-apy`
+Update APY for a vault (owner only).
+
+**Parameters:**
+- `vault-id`: (uint)
+- `new-apy`: (uint)
+**Returns:** (response uint uint)
+
+---
+
 ### Read-Only Functions
 
 #### `get-vault`
