@@ -318,7 +318,7 @@
 (define-read-only (get-user-shares (user principal) (vault-id uint))
   (let ((user-deposit (get-user-deposit user vault-id)))
     (match user-deposit
-      deposit (get shares deposit)
+      position (get shares position)
       u0
     )
   )
@@ -327,7 +327,7 @@
 (define-read-only (get-user-deposit-amount (user principal) (vault-id uint))
   (let ((user-deposit (get-user-deposit user vault-id)))
     (match user-deposit
-      deposit (get deposit-amount deposit)
+      position (get deposit-amount position)
       u0
     )
   )
@@ -336,7 +336,7 @@
 (define-read-only (get-user-last-compound (user principal) (vault-id uint))
   (let ((user-deposit (get-user-deposit user vault-id)))
     (match user-deposit
-      deposit (get last-compound deposit)
+      position (get last-compound position)
       u0
     )
   )
