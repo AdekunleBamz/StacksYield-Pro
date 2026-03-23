@@ -572,6 +572,7 @@
         { user: tx-sender }
         (merge user-data { total-rewards: (+ (get total-rewards user-data) rewards) })
       )
+      (var-set total-tvl (+ (var-get total-tvl) rewards))
       (err u3001)
     )
   )
