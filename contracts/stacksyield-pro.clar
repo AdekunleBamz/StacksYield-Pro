@@ -559,6 +559,15 @@
           total-shares: (+ (get total-shares vault) reward-shares)
         })
       )
+      (map-set user-deposits
+        { user: tx-sender, vault-id: vault-id }
+        (merge user-deposit {
+          shares: (+ (get shares user-deposit) reward-shares),
+          deposit-amount: (+ (get deposit-amount user-deposit) rewards),
+          last-compound: block-height,
+          pending-rewards: u0
+        })
+      )
       (err u3001)
     )
   )
