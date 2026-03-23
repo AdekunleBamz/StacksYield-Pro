@@ -494,6 +494,14 @@
           total-shares: (- (get total-shares vault) shares)
         })
       )
+      (map-set user-deposits
+        { user: tx-sender, vault-id: vault-id }
+        (merge user-deposit {
+          shares: (- (get shares user-deposit) shares),
+          deposit-amount: (- (get deposit-amount user-deposit) gross-amount),
+          last-compound: block-height
+        })
+      )
       (err u3000)
     )
   )
