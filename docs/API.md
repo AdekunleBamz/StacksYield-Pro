@@ -512,6 +512,15 @@ Get referral code associated with a user.
 
 ---
 
+#### `has-user-referral-code`
+Check whether a user has created a referral code.
+
+**Parameters:**
+- `user`: (principal)
+**Returns:** (bool)
+
+---
+
 ## Error Codes
 
 | Code | Description |
