@@ -218,6 +218,13 @@ Get aggregated protocol metrics.
 
 ---
 
+#### `get-contract-owner`
+Get deployer/owner principal captured by the contract.
+
+**Returns:** (principal)
+
+---
+
 ## Error Codes
 
 | Code | Description |
