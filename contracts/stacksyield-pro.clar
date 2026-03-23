@@ -477,6 +477,7 @@
     (asserts! (> shares u0) ERR-INVALID-SHARES)
     (asserts! (get is-registered user-data) ERR-NOT-REGISTERED)
     (asserts! (>= (get shares user-deposit) shares) ERR-INVALID-SHARES)
+    (asserts! (>= block-height (+ (get deposit-time user-deposit) (get lock-period vault))) ERR-LOCK-PERIOD-ACTIVE)
     (err u3000)
   )
 )
