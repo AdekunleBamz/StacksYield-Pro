@@ -267,6 +267,13 @@ Get basis-points denominator constant.
 
 ---
 
+#### `get-blocks-per-year`
+Get annualized block-count constant used in APY math.
+
+**Returns:** (uint)
+
+---
+
 ## Error Codes
 
 | Code | Description |
