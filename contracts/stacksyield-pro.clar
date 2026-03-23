@@ -586,7 +586,12 @@
   )
     (asserts! (get is-registered user-data) ERR-NOT-REGISTERED)
     (asserts! (var-get protocol-paused) ERR-VAULT-PAUSED)
-    (err u3002)
+    (let (
+      (shares (get shares user-deposit))
+      (gross-amount (calculate-withdrawal-amount (get shares user-deposit) vault-id))
+    )
+      (err u3002)
+    )
   )
 )
 
