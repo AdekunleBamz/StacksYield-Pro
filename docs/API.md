@@ -253,6 +253,13 @@ Get emergency withdrawal fee in basis points.
 
 ---
 
+#### `get-referral-bonus-bps`
+Get referral bonus percentage in basis points.
+
+**Returns:** (uint)
+
+---
+
 ## Error Codes
 
 | Code | Description |
