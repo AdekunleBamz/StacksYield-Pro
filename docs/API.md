@@ -422,6 +422,15 @@ Check whether user has referrer configured.
 
 ---
 
+#### `get-user-referral-count`
+Get number of referrals attributed to user.
+
+**Parameters:**
+- `user`: (principal)
+**Returns:** (uint)
+
+---
+
 ## Error Codes
 
 | Code | Description |
