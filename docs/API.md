@@ -141,6 +141,15 @@ Queue an admin action behind timelock (owner only).
 
 ---
 
+#### `execute-admin-action`
+Execute the scheduled timelocked admin action (owner only).
+
+**Parameters:**
+- none
+**Returns:** (response (string-ascii 50) uint)
+
+---
+
 ### Read-Only Functions
 
 #### `get-vault`
