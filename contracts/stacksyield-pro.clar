@@ -539,7 +539,14 @@
 )
 
 (define-public (compound (vault-id uint))
-  (err u3001)
+  (let (
+    (vault (unwrap! (get-vault vault-id) ERR-VAULT-NOT-FOUND))
+    (user-data (get-user-stats tx-sender))
+    (user-deposit (unwrap! (get-user-deposit tx-sender vault-id) ERR-NO-SHARES))
+  )
+    (asserts! (not (var-get protocol-paused)) ERR-VAULT-PAUSED)
+    (err u3001)
+  )
 )
 
 (define-public (set-protocol-paused (paused bool))
