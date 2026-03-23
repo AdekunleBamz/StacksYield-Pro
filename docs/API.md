@@ -344,6 +344,16 @@ Get admin timelock duration in blocks.
 
 ---
 
+#### `get-user-shares`
+Get user share balance for a vault.
+
+**Parameters:**
+- `user`: (principal)
+- `vault-id`: (uint)
+**Returns:** (uint)
+
+---
+
 ## Error Codes
 
 | Code | Description |
