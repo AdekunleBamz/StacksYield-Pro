@@ -620,6 +620,18 @@
   )
 )
 
+(define-public (set-vault-lock-period (vault-id uint) (new-lock-period uint))
+  (let ((vault (unwrap! (get-vault vault-id) ERR-VAULT-NOT-FOUND)))
+    (asserts! (is-eq tx-sender CONTRACT-OWNER) ERR-NOT-AUTHORIZED)
+    (asserts! (> new-lock-period u0) ERR-INVALID-AMOUNT)
+    (map-set vaults
+      { vault-id: vault-id }
+      (merge vault { lock-period: new-lock-period })
+    )
+    (ok new-lock-period)
+  )
+)
+
 ;; -------------------------
 ;; Admin Timelock Functions
 ;; -------------------------
