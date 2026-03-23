@@ -440,6 +440,15 @@ Get cumulative referral earnings for a user.
 
 ---
 
+#### `get-user-referral-summary`
+Get combined referral metrics for a user.
+
+**Parameters:**
+- `user`: (principal)
+**Returns:** {referrer, referral-count, referral-earnings}
+
+---
+
 ## Error Codes
 
 | Code | Description |
