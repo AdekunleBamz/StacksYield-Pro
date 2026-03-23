@@ -564,6 +564,7 @@
     (asserts! (> min-deposit u0) ERR-INVALID-AMOUNT)
     (asserts! (> apy u0) ERR-INVALID-APY)
     (asserts! (<= apy MAX-APY) ERR-INVALID-APY)
+    (asserts! (> lock-period u0) ERR-INVALID-AMOUNT)
     (map-set vaults
       { vault-id: vault-id }
       {
