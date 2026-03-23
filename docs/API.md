@@ -539,6 +539,15 @@ Get numeric strategy code for vault.
 
 ---
 
+#### `get-vault-created-at`
+Get vault creation block height.
+
+**Parameters:**
+- `vault-id`: (uint)
+**Returns:** (uint)
+
+---
+
 ## Error Codes
 
 | Code | Description |
