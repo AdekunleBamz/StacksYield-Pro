@@ -136,14 +136,3 @@ Calculate pending rewards for a user in a vault.
 | u1009 | Already registered |
 
 ### Read-Only Functions
-
-## Error Codes
-
-| Code | Description |
-|------|-------------|
-| u100 | Vault not found |
-| u101 | Insufficient balance |
-| u102 | Invalid amount |
-| u103 | Unauthorized |
-| u104 | Vault is paused |
-| u105 | Minimum deposit not met |
