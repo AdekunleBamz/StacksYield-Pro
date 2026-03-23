@@ -69,6 +69,15 @@ Toggle protocol pause status (owner only).
 
 ---
 
+#### `set-treasury`
+Update treasury principal (owner only).
+
+**Parameters:**
+- `new-treasury`: (principal)
+**Returns:** (response principal uint)
+
+---
+
 ### Read-Only Functions
 
 #### `get-vault`
