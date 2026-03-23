@@ -364,6 +364,16 @@ Get user tracked deposit amount for a vault.
 
 ---
 
+#### `get-user-last-compound`
+Get last compound block height for a position.
+
+**Parameters:**
+- `user`: (principal)
+- `vault-id`: (uint)
+**Returns:** (uint)
+
+---
+
 ## Error Codes
 
 | Code | Description |
