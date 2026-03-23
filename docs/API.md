@@ -374,6 +374,16 @@ Get last compound block height for a position.
 
 ---
 
+#### `get-user-deposit-time`
+Get initial deposit block height for a position.
+
+**Parameters:**
+- `user`: (principal)
+- `vault-id`: (uint)
+**Returns:** (uint)
+
+---
+
 ## Error Codes
 
 | Code | Description |
