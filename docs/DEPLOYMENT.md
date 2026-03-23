@@ -10,7 +10,7 @@
 
 ### Testnet Deployment
 
-1. Configure your testnet settings in `settings/Testnet.toml`
+1. Create `settings/Testnet.toml` from `settings/Simnet.example.toml`, then update testnet values
 
 2. Deploy using Clarinet:
 ```bash
