@@ -361,6 +361,10 @@
   (is-eq (get-vault-strategy vault-id) STRATEGY-BALANCED)
 )
 
+(define-read-only (is-aggressive-vault (vault-id uint))
+  (is-eq (get-vault-strategy vault-id) STRATEGY-AGGRESSIVE)
+)
+
 (define-read-only (get-vault-created-at (vault-id uint))
   (let ((vault (get-vault vault-id)))
     (match vault
