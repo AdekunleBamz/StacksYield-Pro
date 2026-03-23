@@ -431,6 +431,15 @@ Get number of referrals attributed to user.
 
 ---
 
+#### `get-user-referral-earnings`
+Get cumulative referral earnings for a user.
+
+**Parameters:**
+- `user`: (principal)
+**Returns:** (uint)
+
+---
+
 ## Error Codes
 
 | Code | Description |
