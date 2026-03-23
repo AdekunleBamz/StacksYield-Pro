@@ -566,6 +566,15 @@ Get minimum deposit threshold for vault.
 
 ---
 
+#### `get-vault-lock-period`
+Get lock period (in blocks) for vault.
+
+**Parameters:**
+- `vault-id`: (uint)
+**Returns:** (uint)
+
+---
+
 ## Error Codes
 
 | Code | Description |
