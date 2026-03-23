@@ -560,6 +560,7 @@
 (define-public (create-vault (name (string-ascii 50)) (strategy uint) (apy uint) (min-deposit uint) (lock-period uint))
   (let ((vault-id (var-get next-vault-id)))
     (asserts! (is-eq tx-sender CONTRACT-OWNER) ERR-NOT-AUTHORIZED)
+    (asserts! (or (is-eq strategy STRATEGY-CONSERVATIVE) (is-eq strategy STRATEGY-BALANCED) (is-eq strategy STRATEGY-AGGRESSIVE)) ERR-INVALID-STRATEGY)
     (map-set vaults
       { vault-id: vault-id }
       {
