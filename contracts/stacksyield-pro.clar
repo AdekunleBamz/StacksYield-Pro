@@ -29,6 +29,7 @@
 (define-constant REFERRAL-BONUS u25)     ;; 0.25% referral bonus
 (define-constant BPS-DENOMINATOR u10000)
 (define-constant BLOCKS-PER-YEAR u52560)
+(define-constant MAX-APY u10000)
 
 ;; Strategy types
 (define-constant STRATEGY-CONSERVATIVE u1)
