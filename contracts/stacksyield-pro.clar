@@ -235,6 +235,15 @@
   )
 )
 
+(define-read-only (get-user-last-compound (user principal) (vault-id uint))
+  (let ((user-deposit (get-user-deposit user vault-id)))
+    (match user-deposit
+      deposit (get last-compound deposit)
+      u0
+    )
+  )
+)
+
 ;; -------------------------
 ;; Public functions
 ;; -------------------------
