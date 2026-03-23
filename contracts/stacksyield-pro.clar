@@ -182,6 +182,10 @@
   EMERGENCY-FEE
 )
 
+(define-read-only (get-referral-bonus-bps)
+  REFERRAL-BONUS
+)
+
 (define-read-only (get-protocol-paused)
   (var-get protocol-paused)
 )
