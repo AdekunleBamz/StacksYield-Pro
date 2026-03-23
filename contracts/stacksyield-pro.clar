@@ -303,7 +303,7 @@
       (fee (calculate-deposit-fee amount))
       (net-amount (- amount fee))
       (shares (calculate-shares net-amount vault-id))
-      (referral-bonus-amount (/ (* fee REFERRAL-BONUS) u100))
+      (referral-bonus-amount (calculate-referral-bonus fee))
     )
       ;; Transfer STX to contract
       (try! (stx-transfer? amount tx-sender (as-contract tx-sender)))
