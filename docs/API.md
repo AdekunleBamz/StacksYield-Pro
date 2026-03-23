@@ -137,16 +137,6 @@ Calculate pending rewards for a user in a vault.
 
 ### Read-Only Functions
 
-#### `get-vault-info`
-Get information about a specific vault.
-
-**Parameters:**
-- `vault-id`: (uint) - The ID of the vault
-
-**Returns:** (optional {name, apy, total-staked, min-deposit})
-
----
-
 #### `get-user-balance`
 Get user's balance in a specific vault.
 
