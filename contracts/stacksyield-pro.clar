@@ -256,6 +256,15 @@
   )
 )
 
+(define-read-only (get-vault-total-shares (vault-id uint))
+  (let ((vault (get-vault vault-id)))
+    (match vault
+      data (get total-shares data)
+      u0
+    )
+  )
+)
+
 (define-read-only (get-referral-code-owner (code (string-ascii 20)))
   (map-get? referral-codes { code: code })
 )
