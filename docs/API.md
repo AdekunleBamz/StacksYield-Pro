@@ -201,6 +201,13 @@ Get total fees collected.
 
 ---
 
+#### `get-protocol-paused`
+Check whether protocol operations are paused.
+
+**Returns:** (bool)
+
+---
+
 #### `calculate-pending-rewards`
 Calculate pending rewards for a user in a vault.
 
