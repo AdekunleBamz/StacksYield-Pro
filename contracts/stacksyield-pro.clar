@@ -474,6 +474,7 @@
   )
     (asserts! (not (var-get protocol-paused)) ERR-VAULT-PAUSED)
     (asserts! (get is-active vault) ERR-VAULT-PAUSED)
+    (asserts! (> shares u0) ERR-INVALID-SHARES)
     (err u3000)
   )
 )
