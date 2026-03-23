@@ -190,6 +190,10 @@
   BPS-DENOMINATOR
 )
 
+(define-read-only (get-blocks-per-year)
+  BLOCKS-PER-YEAR
+)
+
 (define-read-only (get-protocol-paused)
   (var-get protocol-paused)
 )
