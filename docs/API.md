@@ -557,6 +557,15 @@ Get APY basis points for vault.
 
 ---
 
+#### `get-vault-min-deposit`
+Get minimum deposit threshold for vault.
+
+**Parameters:**
+- `vault-id`: (uint)
+**Returns:** (uint)
+
+---
+
 ## Error Codes
 
 | Code | Description |
