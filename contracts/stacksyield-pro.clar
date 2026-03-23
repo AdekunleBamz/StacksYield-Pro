@@ -217,6 +217,15 @@
   )
 )
 
+(define-read-only (get-user-shares (user principal) (vault-id uint))
+  (let ((user-deposit (get-user-deposit user vault-id)))
+    (match user-deposit
+      deposit (get shares deposit)
+      u0
+    )
+  )
+)
+
 ;; -------------------------
 ;; Public functions
 ;; -------------------------
