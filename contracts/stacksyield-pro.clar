@@ -194,6 +194,10 @@
   BLOCKS-PER-YEAR
 )
 
+(define-read-only (get-max-apy)
+  MAX-APY
+)
+
 (define-read-only (get-protocol-paused)
   (var-get protocol-paused)
 )
