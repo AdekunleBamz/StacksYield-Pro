@@ -142,6 +142,16 @@
   (get referral-earnings (get-user-stats user))
 )
 
+(define-read-only (get-user-referral-summary (user principal))
+  (let ((stats (get-user-stats user)))
+    {
+      referrer: (get referrer stats),
+      referral-count: (get referral-count stats),
+      referral-earnings: (get referral-earnings stats)
+    }
+  )
+)
+
 (define-read-only (get-user-total-deposited (user principal))
   (get total-deposited (get-user-stats user))
 )
