@@ -608,6 +608,18 @@
   )
 )
 
+(define-public (set-vault-min-deposit (vault-id uint) (new-min-deposit uint))
+  (let ((vault (unwrap! (get-vault vault-id) ERR-VAULT-NOT-FOUND)))
+    (asserts! (is-eq tx-sender CONTRACT-OWNER) ERR-NOT-AUTHORIZED)
+    (asserts! (> new-min-deposit u0) ERR-INVALID-AMOUNT)
+    (map-set vaults
+      { vault-id: vault-id }
+      (merge vault { min-deposit: new-min-deposit })
+    )
+    (ok new-min-deposit)
+  )
+)
+
 ;; -------------------------
 ;; Admin Timelock Functions
 ;; -------------------------
