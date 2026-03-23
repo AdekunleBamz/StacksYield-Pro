@@ -135,16 +135,6 @@ Calculate pending rewards for a user in a vault.
 | u1008 | Self-referral |
 | u1009 | Already registered |
 
-#### `claim-rewards`
-Claim accumulated rewards from a vault.
-
-**Parameters:**
-- `vault-id`: (uint) - The ID of the vault to claim rewards from
-
-**Returns:** (response uint uint)
-
----
-
 ### Read-Only Functions
 
 #### `get-vault-info`
