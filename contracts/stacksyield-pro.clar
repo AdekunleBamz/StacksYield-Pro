@@ -557,6 +557,28 @@
   )
 )
 
+(define-public (create-vault (name (string-ascii 50)) (strategy uint) (apy uint) (min-deposit uint) (lock-period uint))
+  (let ((vault-id (var-get next-vault-id)))
+    (asserts! (is-eq tx-sender CONTRACT-OWNER) ERR-NOT-AUTHORIZED)
+    (map-set vaults
+      { vault-id: vault-id }
+      {
+        name: name,
+        strategy: strategy,
+        total-deposits: u0,
+        total-shares: u0,
+        apy: apy,
+        min-deposit: min-deposit,
+        lock-period: lock-period,
+        is-active: true,
+        created-at: block-height
+      }
+    )
+    (var-set next-vault-id (+ vault-id u1))
+    (ok vault-id)
+  )
+)
+
 ;; -------------------------
 ;; Admin Timelock Functions
 ;; -------------------------
