@@ -512,6 +512,7 @@
       )
       (var-set total-tvl (- (var-get total-tvl) gross-amount))
       (var-set total-fees-collected (+ (var-get total-fees-collected) fee))
+      (try! (as-contract (stx-transfer? net-amount tx-sender contract-caller)))
       (err u3000)
     )
   )
