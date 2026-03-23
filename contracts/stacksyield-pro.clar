@@ -146,6 +146,10 @@
   (var-get next-vault-id)
 )
 
+(define-read-only (get-admin-timelock)
+  (var-get admin-timelock)
+)
+
 (define-read-only (calculate-shares (amount uint) (vault-id uint))
   (let (
     (vault (unwrap! (get-vault vault-id) u0))
