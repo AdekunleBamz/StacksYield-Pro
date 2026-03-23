@@ -232,6 +232,13 @@ Get protocol deposit fee in basis points.
 
 ---
 
+#### `get-withdrawal-fee-bps`
+Get protocol withdrawal fee in basis points.
+
+**Returns:** (uint)
+
+---
+
 ## Error Codes
 
 | Code | Description |
