@@ -137,17 +137,6 @@ Calculate pending rewards for a user in a vault.
 
 ### Read-Only Functions
 
-#### `get-pending-rewards`
-Get user's pending rewards in a specific vault.
-
-**Parameters:**
-- `user`: (principal) - The user's address
-- `vault-id`: (uint) - The ID of the vault
-
-**Returns:** (optional uint)
-
----
-
 ## Error Codes
 
 | Code | Description |
