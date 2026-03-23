@@ -629,6 +629,15 @@ Check if vault strategy is balanced.
 
 ---
 
+#### `is-aggressive-vault`
+Check if vault strategy is aggressive.
+
+**Parameters:**
+- `vault-id`: (uint)
+**Returns:** (bool)
+
+---
+
 ## Error Codes
 
 | Code | Description |
