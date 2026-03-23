@@ -476,6 +476,15 @@ Get lifetime compounded rewards for user.
 
 ---
 
+#### `get-user-summary`
+Get compact user metrics snapshot.
+
+**Parameters:**
+- `user`: (principal)
+**Returns:** {is-registered, total-deposited, total-withdrawn, total-rewards}
+
+---
+
 ## Error Codes
 
 | Code | Description |
