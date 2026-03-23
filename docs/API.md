@@ -224,5 +224,3 @@ Calculate pending rewards for a user in a vault.
 | u1007 | Invalid strategy |
 | u1008 | Self-referral |
 | u1009 | Already registered |
-
-### Read-Only Functions
