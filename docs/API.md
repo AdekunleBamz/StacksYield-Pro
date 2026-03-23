@@ -133,7 +133,9 @@ Calculate pending rewards for a user in a vault.
 | u1006 | Withdrawal locked |
 | u1007 | Invalid strategy |
 | u1008 | Self-referral |
-| u1009 | Already registered |# API Reference
+| u1009 | Already registered |
+
+# API Reference
 
 ## Smart Contract Functions
 
