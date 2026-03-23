@@ -78,6 +78,19 @@ Update treasury principal (owner only).
 
 ---
 
+#### `create-vault`
+Create a new vault configuration (owner only).
+
+**Parameters:**
+- `name`: (string-ascii 50)
+- `strategy`: (uint)
+- `apy`: (uint)
+- `min-deposit`: (uint)
+- `lock-period`: (uint)
+**Returns:** (response uint uint)
+
+---
+
 ### Read-Only Functions
 
 #### `get-vault`
