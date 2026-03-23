@@ -473,6 +473,7 @@
     (user-deposit (unwrap! (get-user-deposit tx-sender vault-id) ERR-NO-SHARES))
   )
     (asserts! (not (var-get protocol-paused)) ERR-VAULT-PAUSED)
+    (asserts! (get is-active vault) ERR-VAULT-PAUSED)
     (err u3000)
   )
 )
