@@ -250,6 +250,13 @@ Check whether any admin action is currently queued.
 
 ---
 
+#### `get-admin-timelock-status`
+Get combined timelock state snapshot.
+
+**Returns:** {has-pending-action, timelock-start, blocks-remaining}
+
+---
+
 #### `calculate-pending-rewards`
 Calculate pending rewards for a user in a vault.
 
