@@ -134,6 +134,10 @@
   (var-get total-fees-collected)
 )
 
+(define-read-only (get-protocol-paused)
+  (var-get protocol-paused)
+)
+
 (define-read-only (calculate-shares (amount uint) (vault-id uint))
   (let (
     (vault (unwrap! (get-vault vault-id) u0))
