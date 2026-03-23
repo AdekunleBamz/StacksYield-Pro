@@ -684,6 +684,16 @@ Convert deposit amount into vault shares.
 
 ---
 
+#### `calculate-withdrawal-amount`
+Convert share amount into underlying withdrawal amount.
+
+**Parameters:**
+- `shares`: (uint)
+- `vault-id`: (uint)
+**Returns:** (uint)
+
+---
+
 ## Error Codes
 
 | Code | Description |
