@@ -602,6 +602,15 @@ Get total deposits tracked by vault.
 
 ---
 
+#### `get-vault-summary`
+Get compact vault state snapshot.
+
+**Parameters:**
+- `vault-id`: (uint)
+**Returns:** {strategy, total-deposits, total-shares, apy, is-active}
+
+---
+
 ## Error Codes
 
 | Code | Description |
