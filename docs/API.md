@@ -485,6 +485,15 @@ Get compact user metrics snapshot.
 
 ---
 
+#### `is-user-registered`
+Check whether user has completed registration.
+
+**Parameters:**
+- `user`: (principal)
+**Returns:** (bool)
+
+---
+
 ## Error Codes
 
 | Code | Description |
