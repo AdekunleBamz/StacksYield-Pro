@@ -222,6 +222,13 @@ Get the next vault ID that will be assigned by `create-vault`.
 
 ---
 
+#### `get-admin-timelock`
+Get block height when the current timelock was scheduled.
+
+**Returns:** (uint)
+
+---
+
 #### `calculate-pending-rewards`
 Calculate pending rewards for a user in a vault.
 
