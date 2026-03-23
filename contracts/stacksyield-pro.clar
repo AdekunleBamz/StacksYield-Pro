@@ -547,7 +547,12 @@
     (asserts! (not (var-get protocol-paused)) ERR-VAULT-PAUSED)
     (asserts! (get is-active vault) ERR-VAULT-PAUSED)
     (asserts! (get is-registered user-data) ERR-NOT-REGISTERED)
-    (err u3001)
+    (let (
+      (rewards (calculate-pending-rewards tx-sender vault-id))
+    )
+      (asserts! (> rewards u0) ERR-NO-REWARDS)
+      (err u3001)
+    )
   )
 )
 
