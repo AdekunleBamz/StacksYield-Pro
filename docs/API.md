@@ -215,6 +215,13 @@ Get treasury principal for fee accounting.
 
 ---
 
+#### `get-next-vault-id`
+Get the next vault ID that will be assigned by `create-vault`.
+
+**Returns:** (uint)
+
+---
+
 #### `calculate-pending-rewards`
 Calculate pending rewards for a user in a vault.
 
