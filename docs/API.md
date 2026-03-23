@@ -665,6 +665,15 @@ Calculate emergency withdrawal fee for an amount.
 
 ---
 
+#### `calculate-referral-bonus`
+Calculate referral bonus from fee amount.
+
+**Parameters:**
+- `fee`: (uint)
+**Returns:** (uint)
+
+---
+
 ## Error Codes
 
 | Code | Description |
