@@ -179,6 +179,10 @@
   (/ (* amount EMERGENCY-FEE) BPS-DENOMINATOR)
 )
 
+(define-read-only (calculate-referral-bonus (fee uint))
+  (/ (* fee REFERRAL-BONUS) u100)
+)
+
 (define-read-only (calculate-withdrawal-amount (shares uint) (vault-id uint))
   (let (
     (vault (unwrap! (get-vault vault-id) u0))
