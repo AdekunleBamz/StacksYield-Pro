@@ -236,6 +236,13 @@ Get currently queued timelock action payload.
 
 ---
 
+#### `get-blocks-until-admin-action`
+Get number of blocks remaining before execution is allowed.
+
+**Returns:** (uint)
+
+---
+
 #### `calculate-pending-rewards`
 Calculate pending rewards for a user in a vault.
 
