@@ -186,6 +186,10 @@
   REFERRAL-BONUS
 )
 
+(define-read-only (get-bps-denominator)
+  BPS-DENOMINATOR
+)
+
 (define-read-only (get-protocol-paused)
   (var-get protocol-paused)
 )
