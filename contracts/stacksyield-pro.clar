@@ -150,6 +150,10 @@
   (get total-rewards (get-user-stats user))
 )
 
+(define-read-only (is-user-registered (user principal))
+  (get is-registered (get-user-stats user))
+)
+
 (define-read-only (get-total-tvl)
   (var-get total-tvl)
 )
