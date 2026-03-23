@@ -208,6 +208,13 @@ Check whether protocol operations are paused.
 
 ---
 
+#### `get-treasury`
+Get treasury principal for fee accounting.
+
+**Returns:** (principal)
+
+---
+
 #### `calculate-pending-rewards`
 Calculate pending rewards for a user in a vault.
 
