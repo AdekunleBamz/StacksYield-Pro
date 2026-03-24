@@ -14,6 +14,10 @@ export const CONTRACT_NAME = 'stacksyield-pro'
 // Initial network settings
 const MAINNET_API = 'https://api.mainnet.hiro.so'
 const TESTNET_API = 'https://api.testnet.hiro.so'
+const DEFAULT_NETWORK =
+  String(import.meta.env.VITE_NETWORK || 'mainnet').trim().toLowerCase() === 'testnet'
+    ? 'testnet'
+    : 'mainnet'
 
 // Create the context
 const WalletContext = createContext(null)
@@ -27,10 +31,11 @@ export const WalletProvider = ({ children }) => {
   const [stxBalance, setStxBalance] = useState(null)
   const [balanceLoading, setBalanceLoading] = useState(false)
   const [wcUri, setWcUri] = useState(null)
-  const [networkType, setNetworkType] = useState('mainnet')
+  const [networkType, setNetworkType] = useState(DEFAULT_NETWORK)
   const [network, setNetwork] = useState(() => {
-    const net = new StacksMainnet()
-    net.coreApiUrl = MAINNET_API
+    const isMain = DEFAULT_NETWORK === 'mainnet'
+    const net = isMain ? new StacksMainnet() : new StacksTestnet()
+    net.coreApiUrl = isMain ? MAINNET_API : TESTNET_API
     return net
   })
 
