@@ -12,7 +12,7 @@ import {
 export const CONTRACT_ADDRESS = 'SP3FKNEZ86RG5RT7SZ5FBRGH85FZNG94ZH1MCGG6N'
 export const CONTRACT_NAME = 'stacksyield-pro'
 // Initial network settings
-const MAINNET_API = 'https://api.mainnet.hiro.so'
+const MAINNET_API = import.meta.env.VITE_MAINNET_API_URL || 'https://api.mainnet.hiro.so'
 const TESTNET_API = 'https://api.testnet.hiro.so'
 
 // Create the context
