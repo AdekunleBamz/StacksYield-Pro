@@ -50,7 +50,7 @@ export const TransactionHistory = ({ transactions = [], isLoading = false }) => 
         
         return (
           <div 
-            key={i} 
+            key={tx.txId || `${tx.timestamp}-${i}`} 
             className="group flex justify-between items-center bg-[#1A1A1C]/50 border border-white/5 p-4 rounded-xl hover:bg-[#1A1A1C] hover:border-stacks-purple/30 hover:translate-x-1 transition-all duration-300 animate-fade-in-up"
             style={{ animationDelay: `${i * 50}ms`, animationFillMode: 'forwards' }}
           >
