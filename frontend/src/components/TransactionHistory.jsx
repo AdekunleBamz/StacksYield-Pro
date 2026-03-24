@@ -66,7 +66,7 @@ export const TransactionHistory = ({ transactions = [], isLoading = false }) => 
                   <span className="text-gray-500 text-[10px] font-medium">{formatDate(tx.timestamp)}</span>
                   <span className="w-1 h-1 rounded-full bg-gray-700" />
                   <a 
-                    href={`https://explorer.stacks.co/txid/${tx.txId}`} 
+                    href={`https://explorer.hiro.so/txid/${tx.txId}?chain=mainnet`} 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="text-gray-500 text-[10px] font-mono opacity-60 hover:text-stacks-purple transition-colors flex items-center gap-1"
