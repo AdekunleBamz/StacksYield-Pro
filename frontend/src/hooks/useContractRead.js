@@ -34,6 +34,9 @@ const useContractRead = (contractAddress, contractName, functionName, functionAr
     }
     if (contractAddress && functionName) {
       fetchData()
+    } else {
+      setData(null)
+      setLoading(false)
     }
   }, [contractAddress, contractName, functionName, JSON.stringify(functionArgs), network])
 
