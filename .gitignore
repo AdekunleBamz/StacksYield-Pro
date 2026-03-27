@@ -22,10 +22,30 @@ dist
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+# Scripts (ignore by default, allow only core utility scripts)
+scripts/*
+!scripts/README.md
+!scripts/build.sh
+!scripts/dev.sh
+!scripts/setup.sh
+
+# Personal/local script outputs and secrets
+scripts/.generated/
+scripts/**/test-wallet*.json
+scripts/**/wallets*.private.json
+scripts/personal/
+scripts/private/
+scripts/local/
+scripts/*.local.*
+scripts/*.private.*
+scripts/*-personal.*
+settings/*.local.toml
+settings/Devnet.toml
 
 # Clarinet
 .clarinet/
 **/settings/Mainnet.toml
+**/settings/mainnet.toml
 **/settings/Testnet.toml
 costs-reports.json
 
