@@ -55,6 +55,12 @@ The easiest way to get started is using our optimized productivity scripts:
 ./scripts/dev.sh      # Launch the development engine
 ```
 
+Equivalent root shortcuts are available:
+```bash
+npm run setup
+npm run dev
+```
+
 ### 🔧 Manual Setup
 ```bash
 git clone https://github.com/AdekunleBamz/StacksYield-Pro.git

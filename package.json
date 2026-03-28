@@ -3,6 +3,9 @@
     "version": "1.0.0",
     "private": true,
     "scripts": {
+        "setup": "bash ./scripts/setup.sh",
+        "dev": "bash ./scripts/dev.sh",
+        "build": "bash ./scripts/build.sh",
         "prepare": "husky install",
         "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
         "format": "prettier --write .",
