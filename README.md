@@ -63,6 +63,11 @@ cd StacksYield-Pro
 ./scripts/dev.sh      # Starts the full Stacks development environment
 ```
 
+Before opening a PR, run:
+```bash
+npm run check
+```
+
 ---
 
 ## 🔌 WalletConnect (Reown)
