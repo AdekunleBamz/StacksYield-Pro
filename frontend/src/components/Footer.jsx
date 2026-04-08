@@ -84,7 +84,7 @@ export const Footer = () => {
               </li>
               <li>
                 <a
-                  href="https://explorer.stacks.co"
+                  href="https://explorer.hiro.so/?chain=mainnet"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-gray-500 hover:text-white transition-colors text-sm font-bold flex items-center gap-1.5"
@@ -123,4 +123,3 @@ export const Footer = () => {
     </footer>
   )
 }
-
