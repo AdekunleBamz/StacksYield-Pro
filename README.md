@@ -77,7 +77,7 @@ StacksYield Pro uses **WalletConnect v2** (via Reown AppKit) to bridge the gap b
 ## 📁 Project Architecture
 
 ```bash
-stacksyield-pro/
+StacksYield-Pro/
 ├── contracts/        # Clarity Smart Contracts
 ├── frontend/         # React + Vite + Tailwind UI
 ├── scripts/          # Automation & Dev Ops scripts
