@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { getTransaction } from '@stacks/transactions'
 import { StacksMainnet, StacksTestnet } from '@stacks/network'
 import { HiExternalLink, HiCheckCircle, HiXCircle, HiClock } from 'react-icons/hi2'
@@ -8,7 +8,10 @@ export const TransactionStatus = ({ txId, network = 'mainnet', onConfirm }) => {
   const [status, setStatus] = useState('pending')
   const [confirmations, setConfirmations] = useState(0)
   
-  const networkObj = network === 'mainnet' ? new StacksMainnet() : new StacksTestnet()
+  const networkObj = useMemo(
+    () => (network === 'mainnet' ? new StacksMainnet() : new StacksTestnet()),
+    [network]
+  )
 
   const statusColors = {
     pending: 'text-yellow-500',
@@ -31,9 +34,10 @@ export const TransactionStatus = ({ txId, network = 'mainnet', onConfirm }) => {
       }
     }
     
+    checkStatus()
     const interval = setInterval(checkStatus, 5000)
     return () => clearInterval(interval)
-  }, [txId])
+  }, [networkObj, onConfirm, txId])
   
   const explorerUrl = `https://explorer.hiro.so/txid/${txId}?chain=${network}`
 
@@ -74,4 +78,3 @@ export const TransactionStatus = ({ txId, network = 'mainnet', onConfirm }) => {
     </div>
   )
 }
-
