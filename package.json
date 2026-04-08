@@ -4,9 +4,18 @@
     "private": true,
     "scripts": {
         "prepare": "husky install",
+        "contracts:check": "clarinet check",
+        "frontend:dev": "npm --prefix frontend run dev",
+        "frontend:build": "npm --prefix frontend run build",
+        "frontend:lint": "npm --prefix frontend run lint",
+        "setup": "npm install && npm --prefix frontend install",
         "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
         "format": "prettier --write .",
-        "commit": "commitlint --edit"
+        "commit": "commitlint --edit",
+        "vault:create": "node scripts/create-mainnet-vault.mjs",
+        "wallets:fund": "node scripts/fund-test-wallets.mjs",
+        "wallets:interact": "node scripts/trigger-wallet-interactions.mjs",
+        "wallets:balances": "node scripts/check-wallet-balances.mjs"
     },
     "devDependencies": {
         "@commitlint/cli": "^20.4.2",
@@ -18,5 +27,10 @@
     },
     "engines": {
         "node": ">=18.0.0"
+    },
+    "dependencies": {
+        "@stacks/network": "6.13.0",
+        "@stacks/transactions": "6.13.0",
+        "@stacks/wallet-sdk": "7.2.0"
     }
 }

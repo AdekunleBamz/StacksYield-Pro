@@ -15,7 +15,7 @@ import {
   HiFunnel,
   HiArrowPath
 } from 'react-icons/hi2'
-import { Skeleton } from './Skeleton'
+import Skeleton from './Skeleton'
 import {
   uintCV,
   PostConditionMode,

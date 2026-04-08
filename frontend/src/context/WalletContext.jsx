@@ -15,6 +15,10 @@ export const CONTRACT_NAME = 'stacksyield-pro'
 const MAINNET_API = 'https://api.mainnet.hiro.so'
 const TESTNET_API = 'https://api.testnet.hiro.so'
 
+// Default network instance for direct imports
+export const network = new StacksMainnet()
+network.coreApiUrl = MAINNET_API
+
 // Create the context
 const WalletContext = createContext(null)
 

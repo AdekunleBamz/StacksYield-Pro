@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const Skeleton = ({ className = '', circle = false }) => (
+const Skeleton = ({ className = '', circle = false }) => (
   <div 
     className={`relative overflow-hidden bg-white/5 ${circle ? 'rounded-full' : 'rounded-2xl'} ${className}`}
     aria-hidden="true"
@@ -9,4 +9,6 @@ export const Skeleton = ({ className = '', circle = false }) => (
     <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent opacity-50" />
   </div>
 )
+
+export default Skeleton
 

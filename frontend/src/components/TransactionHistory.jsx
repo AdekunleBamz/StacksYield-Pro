@@ -2,7 +2,7 @@ import React from 'react'
 import { 
   HiArrowDownRight, 
   HiArrowUpRight, 
-  HiExternalLink,
+  HiOutlineArrowTopRightOnSquare as HiExternalLink,
   HiClock,
   HiCheckCircle,
   HiExclamationCircle
