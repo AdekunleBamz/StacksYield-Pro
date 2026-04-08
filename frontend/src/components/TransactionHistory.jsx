@@ -10,6 +10,11 @@ import {
 import { formatSTX, formatDate } from '../utils/helpers'
 import { EmptyState } from './EmptyState'
 
+const ACTIVE_NETWORK =
+  String(import.meta.env.VITE_NETWORK || 'mainnet').trim().toLowerCase() === 'testnet'
+    ? 'testnet'
+    : 'mainnet'
+
 const statusConfig = {
   success: { color: 'text-vault-conservative', icon: HiCheckCircle, label: 'Success' },
   pending: { color: 'text-vault-balanced', icon: HiClock, label: 'Pending' },
@@ -66,7 +71,7 @@ export const TransactionHistory = ({ transactions = [], isLoading = false }) => 
                   <span className="text-gray-500 text-[10px] font-medium">{formatDate(tx.timestamp)}</span>
                   <span className="w-1 h-1 rounded-full bg-gray-700" />
                   <a 
-                    href={`https://explorer.stacks.co/txid/${tx.txId}`} 
+                    href={`https://explorer.stacks.co/txid/${tx.txId}?chain=${ACTIVE_NETWORK}`} 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="text-gray-500 text-[10px] font-mono opacity-60 hover:text-stacks-purple transition-colors flex items-center gap-1"
