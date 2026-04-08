@@ -64,6 +64,7 @@ Create a `.env` file for production:
 
 ```
 VITE_CONTRACT_ADDRESS=SP...
+VITE_CONTRACT_NAME=stacksyield-pro
 VITE_NETWORK=mainnet
 ```
 
