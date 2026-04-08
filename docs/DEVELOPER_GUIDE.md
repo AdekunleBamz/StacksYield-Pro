@@ -7,7 +7,7 @@ This guide is for developers who want to contribute to or integrate with StacksY
 ## Project Structure
 
 ```
-stacksyield-pro/
+StacksYield-Pro/
 ├── contracts/           # Clarity smart contracts
 ├── frontend/           # React frontend application
 │   ├── src/
