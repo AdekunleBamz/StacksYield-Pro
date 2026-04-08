@@ -65,6 +65,7 @@ Create a `.env` file for production:
 ```
 VITE_CONTRACT_ADDRESS=SP...
 VITE_NETWORK=mainnet
+# VITE_TESTNET_API_URL=https://api.testnet.hiro.so
 ```
 
 ## Post-Deployment Checklist
