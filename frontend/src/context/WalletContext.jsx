@@ -9,7 +9,7 @@ import {
 } from '../utils/walletconnect'
 
 // Contract configuration
-export const CONTRACT_ADDRESS = 'SP3FKNEZ86RG5RT7SZ5FBRGH85FZNG94ZH1MCGG6N'
+export const CONTRACT_ADDRESS = import.meta.env.VITE_CONTRACT_ADDRESS || 'SP3FKNEZ86RG5RT7SZ5FBRGH85FZNG94ZH1MCGG6N'
 export const CONTRACT_NAME = 'stacksyield-pro'
 // Initial network settings
 const MAINNET_API = 'https://api.mainnet.hiro.so'
