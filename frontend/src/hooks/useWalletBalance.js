@@ -11,7 +11,11 @@ const useWalletBalance = (address, network = 'mainnet') => {
 
   useEffect(() => {
     const fetchBalance = async () => {
-      if (!address) return
+      if (!address) {
+        setBalance(null)
+        setLoading(false)
+        return
+      }
       try {
         setLoading(true)
         const bal = await getBalance(address, networkObj)
