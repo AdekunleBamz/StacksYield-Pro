@@ -21,6 +21,8 @@ jobs:
         with:
           version: '2.4.0'
 
+      - name: Prepare Clarinet settings
+        run: cp settings/Simnet.example.toml settings/Devnet.toml
+
       - name: Check contracts
         run: clarinet check
-        working-directory: ./contracts
