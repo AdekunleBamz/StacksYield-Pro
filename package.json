@@ -3,6 +3,7 @@
     "version": "1.0.0",
     "private": true,
     "scripts": {
+        "check": "npm run lint",
         "prepare": "husky install",
         "contracts:check": "clarinet check",
         "frontend:dev": "npm --prefix frontend run dev",
