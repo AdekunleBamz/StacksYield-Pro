@@ -94,7 +94,7 @@ export const Footer = () => {
               </li>
               <li>
                 <a
-                  href="https://github.com/AdekunleBamz/stacksyield-pro"
+                  href="https://github.com/AdekunleBamz/StacksYield-Pro"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-gray-500 hover:text-white transition-colors text-sm font-bold flex items-center gap-1.5"
@@ -123,4 +123,3 @@ export const Footer = () => {
     </footer>
   )
 }
-
