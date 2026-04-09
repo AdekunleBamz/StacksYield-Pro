@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { getBalance } from '@stacks/transactions'
 import { StacksMainnet, StacksTestnet } from '@stacks/network'
 
@@ -7,7 +7,11 @@ const useWalletBalance = (address, network = 'mainnet') => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
-  const networkObj = network === 'mainnet' ? new StacksMainnet() : new StacksTestnet()
+  const normalizedNetwork = String(network || 'mainnet').trim().toLowerCase()
+  const networkObj = useMemo(
+    () => (normalizedNetwork === 'mainnet' ? new StacksMainnet() : new StacksTestnet()),
+    [normalizedNetwork]
+  )
 
   useEffect(() => {
     const fetchBalance = async () => {
@@ -23,7 +27,7 @@ const useWalletBalance = (address, network = 'mainnet') => {
       }
     }
     fetchBalance()
-  }, [address, network])
+  }, [address, networkObj])
 
   return { balance, loading, error }
 }
