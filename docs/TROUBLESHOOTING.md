@@ -25,6 +25,16 @@ Switch your wallet to the correct network (mainnet or testnet) that matches the 
 
 ---
 
+### Setup Script Issues
+
+#### Problem: `Permission denied` when running `./scripts/setup.sh` or `./scripts/dev.sh`
+**Solutions:**
+1. Use the root npm wrappers instead: `npm run setup` and `npm run dev`
+2. Or add execute permissions: `chmod +x ./scripts/setup.sh ./scripts/dev.sh`
+3. Re-run from project root after permissions are fixed
+
+---
+
 ### Transaction Issues
 
 #### Problem: Transaction pending for too long
