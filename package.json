@@ -18,7 +18,7 @@
         "wallets:balances": "node scripts/check-wallet-balances.mjs"
     },
     "devDependencies": {
-        "@commitlint/cli": "^20.4.2",
+        "@commitlint/cli": "^20.5.2",
         "@commitlint/config-conventional": "^20.4.2",
         "eslint": "^10.0.0",
         "eslint-config-prettier": "^10.1.8",
